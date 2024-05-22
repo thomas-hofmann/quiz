@@ -1,0 +1,25 @@
+.question__answer {
+    position: relative;
+}
+
+.answer__label {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+
+    padding-top: 7px;
+
+    &:hover {
+        background: #212529;
+        color: white;
+        cursor: pointer;
+    }
+}
+
+.answer__radio:checked + .answer__label {
+    background: #212529;
+    color: white;
+  }
