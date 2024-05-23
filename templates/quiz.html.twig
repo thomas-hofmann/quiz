@@ -1,0 +1,52 @@
+{% include ('base.html.twig') %}
+<div class="container text-center">
+    <ul class="list-group custom-list mx-auto">
+        <li class="list-group-item">
+            <h1 class="mb-0">{{ quiz.name }}</h1>
+        </li>
+        <li class="list-group-item">
+            <i class="fa-regular fa-share-from-square"></i> {{ quiz.code }}
+        </li>
+        <li class="list-group-item">
+            <i class="fa-regular fa-user"></i> {{ matrikelnummer }}
+        </li>
+        <li class="list-group-item">
+            <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
+        </li>
+    </ul>
+    {% if quiz.questions[index] is defined %}
+        {% set question = quiz.questions[index] %}
+        <div class="question row mt-5">
+            <h2>{{ index + 1 }}. Frage</h2>
+            <div class="col-12 question__text p-2 lead">
+                <strong>{{ question.text }}</strong>
+            </div>
+            <form action="{{ path('quiz-next') }}" method="get">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6 question__answer p-2 border">
+                            <input class="invisible radio answer__radio" type="radio" id="answer1" name="answer" value="1"/>
+                            <label class="answer__label" for="answer1"><strong>A:</strong> {{ question.answerOne }}</label>
+                        </div>
+                        <div class="col-6 question__answer p-2 border-top border-end border-bottom">  
+                            <input class="invisible radio answer__radio" type="radio" id="answer2" name="answer" value="2"/>
+                            <label class="answer__label" for="answer2"><strong>B:</strong> {{ question.answerTwo }}</label>
+                        </div>
+                        <div class="col-6 question__answer p-2 border-end border-bottom border-start">
+                            <input class="invisible radio answer__radio" type="radio" id="answer3" name="answer" value="3"/>
+                             <label class="answer__label" for="answer3"><strong>C:</strong> {{ question.answerThree }}</label>
+                        </div>
+                        <div class="col-6 question__answer p-2 border-bottom border-end">
+                            <input class="invisible radio answer__radio" type="radio" id="answer4" name="answer" value="4"/>
+                            <label class="answer__label" for="answer4"><strong>D:</strong> {{ question.answerFour }}</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="index" value="{{ index }}"/>
+                <input type="hidden" name="code" value="{{ quiz.code }}"/>
+                <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-arrow-right-long"></i> Nächste Frage</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+{% include ('footer.html.twig') %}

@@ -1,0 +1,11 @@
+{% include ('base.html.twig') %}
+<div class="container">
+    <h1>Quiz erstellen</h1>
+    <form action="{{ path('create-quiz') }}" method="get">
+        <div class="form-group custom-list">
+            <input type="text" class="form-control" id="quizname" name="quizname" placeholder="Quizname">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2"><i class="fa-solid fa-plus"></i> Quiz erstellen</button>
+    </form>
+</div>
+{% include ('footer.html.twig') %}

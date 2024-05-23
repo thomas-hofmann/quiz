@@ -1,0 +1,13 @@
+{% include ('base.html.twig') %}
+<div class="container">
+    <h1>Aktive Quizzes</h1>
+    <ul class="list-group custom-list">
+        {% for quiz in quizzes %}
+            <li class="list-group-item">
+                <strong>{{ quiz.name|e }}</strong><br>
+                 <i class="fa-regular fa-share-from-square"></i> {{ quiz.code }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% include ('footer.html.twig') %}
