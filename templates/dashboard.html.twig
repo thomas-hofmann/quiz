@@ -1,0 +1,9 @@
+{% include ('base.html.twig') %}
+<div class="container">
+    <h1 class="mb-4">Dashboard</h1>
+    <div class="d-flex flex-column gap-3">
+        <a class="btn btn-primary" href="{{ path('create-quiz') }}">Quiz anlegen</a>
+        <a class="btn btn-secondary" href="{{ path('list') }}">Aktive Quizzes</a>
+    </div>
+</div>
+{% include ('footer.html.twig') %}
