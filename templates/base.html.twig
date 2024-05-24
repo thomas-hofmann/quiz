@@ -37,7 +37,7 @@
                                 <a class="nav-link" href="{{ path('dashboard') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                                <a class="nav-link" href="{{ path('app_logout') }}" onclick="return confirm('Sind Sie sicher, dass Sie ausloggen wollen?')">Logout</a>
                             </li>
                         {% else %}
                             <li class="nav-item">
