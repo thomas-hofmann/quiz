@@ -22,11 +22,14 @@ class Quiz
     #[ORM\Column(length: 255)]
     private ?string $code = null;
 
-    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz')]
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz', cascade: ['remove'])]
     private Collection $questions;
 
-    #[ORM\OneToMany(targetEntity: LeaderBoardEntry::class, mappedBy: 'quiz')]
+    #[ORM\OneToMany(targetEntity: LeaderBoardEntry::class, mappedBy: 'quiz', cascade: ['remove'])]
     private Collection $leaderBoardEntries;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'quizzes')]
+    private User $user;
 
     public function __construct()
     {
@@ -87,4 +90,15 @@ class Quiz
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

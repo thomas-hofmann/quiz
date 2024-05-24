@@ -1,9 +1,30 @@
 {% include ('base.html.twig') %}
 <div class="container">
-    <h1 class="mb-4">Dashboard</h1>
-    <div class="d-flex flex-column gap-3">
-        <a class="btn btn-primary" href="{{ path('create-quiz') }}">Quiz anlegen</a>
-        <a class="btn btn-secondary" href="{{ path('list') }}">Aktive Quizzes</a>
+    <div class="box">
+        <h1 class="mb-4">Dashboard</h1>
+        <p>Profil: {{ user.getEmail() }}</p>
+        <p>
+            <a class="btn btn-success d-block" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Neues Quiz</a>
+        </p>
+        <h2>Meine Quizze</h2>
+        <ul class="list-group">
+            {% for quiz in quizzes %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <h3>{{ quiz.name|e }}</h3>
+                            <i class="fa-regular fa-share-from-square"></i> {{ quiz.code }}
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary d-block mb-2" href="#">Bearbeiten (WiP)</a>
+                            <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}">Rangliste anzeigen</a>
+                            <a class="btn btn-primary d-block mb-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Rangliste zurücksetzen möchten?')">Rangliste zurücksetzen</a>
+                            <a class="btn btn-danger d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')">Löschen</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% include ('footer.html.twig') %}

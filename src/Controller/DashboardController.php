@@ -9,25 +9,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use App\Entity\Quiz;
-use App\Entity\LeaderBoardEntry;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\LeaderBoardEntry;
 
 #[IsGranted('ROLE_USER')]
 class DashboardController extends AbstractController {
+
     #[Route('/dashboard', name: 'dashboard')]
-    public function dashboardAction(): Response {
-
-        return $this->render('dashboard.html.twig', []);
-    }
-
-    #[Route('/list', name: 'list')]
-    public function listAction(EntityManagerInterface $entityManager): Response {
-
+    public function dashboardAction(EntityManagerInterface $entityManager): Response {
         $quizRepository = $entityManager->getRepository(Quiz::class);
+        /** @var \Symfony\Component\Security\Core\User\UserInterface $user */
+        $user = $this->getUser();
 
-        $quizzes = $quizRepository->findAll();
-        return $this->render('list.html.twig', [
-            'quizzes' => $quizzes
+        $quizzes = [];
+        $quizzes = $quizRepository->findBy(['user' => $user]);
+        return $this->render('dashboard.html.twig', [
+            'quizzes' => $quizzes,
+            'user' => $user,
         ]);
     }
 
@@ -38,6 +36,8 @@ class DashboardController extends AbstractController {
             $quiz->setName($request->get('quizname'));
             $code = uniqid();
             $quiz->setCode($code);
+
+            $quiz->setUser($this->getUser());
             $entityManager->persist($quiz);
             $entityManager->flush();
             return $this->redirectToRoute('create-questions', ['code' => $code]);
@@ -77,5 +77,43 @@ class DashboardController extends AbstractController {
             'code' => $request->get('code'),
             'questions' => $quiz->getQuestions()
         ]);
+    }
+
+    #[Route('/delete-quiz/{id}', name: 'delete_quiz')]
+    public function deleteQuizAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You are not allowed to delete this quiz.');
+        }
+
+        $entityManager->remove($quiz);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('dashboard');
+    }
+
+    #[Route('/leaderboard/{id}', name: 'leaderboard')]
+    public function leaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
+        
+
+        return $this->render('leaderboard.html.twig', [
+            'quiz' => $quiz,
+            'leaderBoardEntries' => $leaderBoardEntries
+        ]);
+    }
+
+    #[Route('/clear-leaderboard/{id}', name: 'clear_leaderboard')]
+    public function clearLeaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz]);
+
+        foreach ($leaderBoardEntries as $entry) {
+            $entityManager->remove($entry);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('dashboard');
     }
 }

@@ -15,9 +15,9 @@ header, main, footer {
     flex-shrink: 0;
 }
 
-.custom-list {
+.box {
     max-width: 50%;
-    @include media-breakpoint-down('md') {
+    @include media-breakpoint-down('lg') {
         max-width: 100%;
     }
 }
