@@ -13,13 +13,13 @@
     padding-top: 7px;
 
     &:hover {
-        background: #212529;
-        color: white;
+        background: white;
+        color: #212529;
         cursor: pointer;
     }
 }
 
 .answer__radio:checked + .answer__label {
-    background: #212529;
-    color: white;
-  }
+    background: white;
+    color: #212529;
+}

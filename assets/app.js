@@ -8,6 +8,7 @@
 // any CSS you import will output into a single css file (app.css in this case)
 const $ = require('jquery');
 
-require('bootstrap');
+import './js/quiz.js';
 
+require('bootstrap');
 import './styles/app.scss';

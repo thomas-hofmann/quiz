@@ -1,6 +1,6 @@
 {% include ('base.html.twig') %}
-<div class="container text-center">
-    <ul class="list-group custom-list mx-auto">
+<div class="container text-center quiz-container">
+    <ul class="list-group mx-auto bg-light">
         <li class="list-group-item">
             <h1 class="mb-0">{{ quiz.name }}</h1>
         </li>
@@ -13,39 +13,59 @@
         <li class="list-group-item">
             <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
         </li>
+        {% if index > 0 %}
+            {% if rightAnswer %}
+                <li class="list-group-item bg-success text-light">
+                    Ihre Antwort war richtig!
+                </li>
+            {% else %}
+                <li class="list-group-item bg-danger text-light">
+                    Ihre Antwort war leider falsch!
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="list-group-item">
+                <strong>Das Quiz beginnt!</strong>
+            </li>
+        {% endif %}
     </ul>
     {% if quiz.questions[index] is defined %}
         {% set question = quiz.questions[index] %}
-        <div class="question row mt-5">
-            <h2>{{ index + 1 }}. Frage</h2>
-            <div class="col-12 question__text p-2 lead">
+        <div class="question row mt-5 bg-dark text-light p-4 rounded">
+            <div class="col-12 fs-1 p-2 lead">
                 <strong>{{ question.text }}</strong>
             </div>
-            <form action="{{ path('quiz-next') }}" method="get">
-                <div class="col-12">
+            <form action="{{ path('quiz') }}" method="post" id="quiz-form">
+                <div class="col-12 mt-4 mb-4">
                     <div class="row">
-                        <div class="col-6 question__answer p-2 border">
+                        <div class="col-6 question__answer p-2 border rounded-top">
                             <input class="invisible radio answer__radio" type="radio" id="answer1" name="answer" value="1"/>
                             <label class="answer__label" for="answer1"><strong>A:</strong> {{ question.answerOne }}</label>
                         </div>
-                        <div class="col-6 question__answer p-2 border-top border-end border-bottom">  
+                        <div class="col-6 question__answer p-2 border-top border-end border-bottom rounded-top">  
                             <input class="invisible radio answer__radio" type="radio" id="answer2" name="answer" value="2"/>
                             <label class="answer__label" for="answer2"><strong>B:</strong> {{ question.answerTwo }}</label>
                         </div>
-                        <div class="col-6 question__answer p-2 border-end border-bottom border-start">
+                        <div class="col-6 question__answer p-2 border-end border-bottom border-start rounded-bottom">
                             <input class="invisible radio answer__radio" type="radio" id="answer3" name="answer" value="3"/>
-                             <label class="answer__label" for="answer3"><strong>C:</strong> {{ question.answerThree }}</label>
+                            <label class="answer__label" for="answer3"><strong>C:</strong> {{ question.answerThree }}</label>
                         </div>
-                        <div class="col-6 question__answer p-2 border-bottom border-end">
+                        <div class="col-6 question__answer p-2 border-bottom border-end rounded-bottom">
                             <input class="invisible radio answer__radio" type="radio" id="answer4" name="answer" value="4"/>
                             <label class="answer__label" for="answer4"><strong>D:</strong> {{ question.answerFour }}</label>
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="index" value="{{ index }}"/>
-                <input type="hidden" name="code" value="{{ quiz.code }}"/>
-                <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-arrow-right-long"></i> Nächste Frage</button>
+                <button type="submit" class="btn btn-success mt-3">Nächste Frage</button>
             </form>
+            {% block javascripts %}
+                {{ encore_entry_script_tags('app') }}
+
+                <!-- Renders app.js & a webpack runtime.js file
+                    <script src="/build/runtime.js" defer></script>
+                    <script src="/build/app.js" defer></script>
+                    See note below about the "defer" attribute -->
+            {% endblock %}
         </div>
     {% endif %}
 </div>

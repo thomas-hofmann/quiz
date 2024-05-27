@@ -12,67 +12,44 @@ use App\Entity\LeaderBoardEntry;
 use Doctrine\ORM\EntityManagerInterface;
 
 class QuizController extends AbstractController {
+
+    #[Route('/quiz-initial', name: 'quiz-initial')]
+    public function quizInitialAction(Request $request, EntityManagerInterface $entityManager): Response {
+        $session = $request->getSession();
+
+        $session->set('matrikelnummer', $request->get('matrikelnummer'));
+        $session->set('code',$request->get('code'));
+        $session->set('rightIndex', 0);
+        $session->set('rightAnswer', false);
+        $session->set('index', 0);
+
+        return $this->redirectToRoute('quiz');
+    }
+
     #[Route('/quiz', name: 'quiz')]
     public function quizAction(Request $request, EntityManagerInterface $entityManager): Response {
         $session = $request->getSession();
-
         $quizRepository = $entityManager->getRepository(Quiz::class);
-        $quiz = $quizRepository->findOneBy(['code' => $request->get('code')]);
-        $matrikelnummer = null;
 
-        if (!$request->get('matrikelnummer')) {
-            $matrikelnummer = $session->get('matrikelnummer');
-        } else {
-            $matrikelnummer = $request->get('matrikelnummer');
-        }
-
-        if (!$quiz || !$matrikelnummer) {
-            return $this->render('error.html.twig', [
-            ]);
-        }
-
-        $rightIndex = 0;
-
-        $session->set('matrikelnummer', $matrikelnummer);
-        $session->set('rightIndex', $rightIndex);
-        
-        $index = 0;
-
-        return $this->render('quiz.html.twig', [
-            'quiz' => $quiz,
-            'matrikelnummer' => $matrikelnummer,
-            'index' => $index,
-            'rightIndex' => $rightIndex,
-        ]);
-    }
-
-    #[Route('/quiz-next', name: 'quiz-next')]
-    public function quizNextAction(Request $request, EntityManagerInterface $entityManager): Response {
-        $session = $request->getSession();
-
-        $quizRepository = $entityManager->getRepository(Quiz::class);
-        $quiz = $quizRepository->findOneBy(['code' => $request->get('code')]);
-
-        if (!$quiz || !$session->get('matrikelnummer')) {
-            return $this->render('error.html.twig', [
-            ]);
-        }
-
+        $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);  
+        $index = $session->get('index');
+        $rightIndex = $session->get('rightIndex');
         $matrikelnummer = $session->get('matrikelnummer');
 
-        $index = $request->get('index');
-        $rightIndex = $session->get('rightIndex');
-
-        if ($request->get('answer') && isset($quiz->getQuestions()[$index]) && $quiz->getQuestions()[$index]->getAnswerRight() == $request->get('answer')) {
+        $rightAnswer = false;
+        
+        if (isset($quiz->getQuestions()[$index]) && $quiz->getQuestions()[$index]->getAnswerRight() == $request->get('answer')) {
+            $rightAnswer = true;
+            $session->set('rightAnswer', $rightAnswer);
             $rightIndex = $rightIndex + 1;
             $session->set('rightIndex', $rightIndex);
-            return $this->redirectToRoute('quiz-next', ['code' => $quiz->getCode(), 'matrikelnummer' => $matrikelnummer, 'index' => $index, 'rightIndex' => $rightIndex]);
+        }
+        
+        if ($request->get('answer')) {
+            $index = $index + 1;
+            $session->set('index', $index);
         }
 
-        $index = $index + 1;
-
-        $rightIndex = $session->get('rightIndex');
-    
         if (!isset($quiz->getQuestions()[$index])) {
             $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
             if (!$leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer])) {
@@ -86,14 +63,22 @@ class QuizController extends AbstractController {
                 $entityManager->flush();
             }
 
-            return $this->redirectToRoute('quiz-finished', ['code' => $quiz->getCode()]);
+            return $this->redirectToRoute('quiz-finished');
+        }
+
+        $session->set('rightAnswer', $rightAnswer);
+
+        if (!$quiz || !$matrikelnummer) {
+            return $this->render('error.html.twig', [
+            ]);
         }
 
         return $this->render('quiz.html.twig', [
             'quiz' => $quiz,
             'matrikelnummer' => $matrikelnummer,
             'index' => $index,
-            'rightIndex' => $rightIndex
+            'rightIndex' => $rightIndex,
+            'rightAnswer'=> $rightAnswer,
         ]);
     }
 
@@ -102,7 +87,7 @@ class QuizController extends AbstractController {
         $session = $request->getSession();
 
         $quizRepository = $entityManager->getRepository(Quiz::class);
-        $quiz = $quizRepository->findOneBy(['code' => $request->get('code')]);
+        $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
 
         if (!$quiz) {
             return $this->render('error.html.twig', [
@@ -124,6 +109,7 @@ class QuizController extends AbstractController {
             'quiz' => $quiz,
             'matrikelnummer' => $matrikelnummer,
             'rightIndex' => $rightIndex,
+            'rightAnswer' => $session->get('rightAnswer'),
             'leaderBoardEntries' => $leaderBoardEntries
         ]);
     }
