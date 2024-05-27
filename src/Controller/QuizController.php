@@ -18,10 +18,15 @@ class QuizController extends AbstractController {
         $session = $request->getSession();
 
         $session->set('matrikelnummer', $request->get('matrikelnummer'));
-        $session->set('code',$request->get('code'));
+        $session->set('code', $request->get('code'));
         $session->set('rightIndex', 0);
         $session->set('rightAnswer', false);
         $session->set('index', 0);
+
+        if (!$request->get('code') || !$request->get('matrikelnummer')) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
 
         return $this->redirectToRoute('quiz');
     }
@@ -35,6 +40,11 @@ class QuizController extends AbstractController {
         $index = $session->get('index');
         $rightIndex = $session->get('rightIndex');
         $matrikelnummer = $session->get('matrikelnummer');
+
+        if (!$quiz || !$matrikelnummer) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
 
         $rightAnswer = false;
         
@@ -67,11 +77,6 @@ class QuizController extends AbstractController {
         }
 
         $session->set('rightAnswer', $rightAnswer);
-
-        if (!$quiz || !$matrikelnummer) {
-            return $this->render('error.html.twig', [
-            ]);
-        }
 
         return $this->render('quiz.html.twig', [
             'quiz' => $quiz,
