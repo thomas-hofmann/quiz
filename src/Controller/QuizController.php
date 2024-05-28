@@ -69,10 +69,15 @@ class QuizController extends AbstractController {
                 $leaderBoardEntry->setMatrikelnumber($matrikelnummer);
                 $leaderBoardEntry->setQuiz($quiz);
                 $leaderBoardEntry->setScore($rightIndex);
-        
-                $entityManager->persist($leaderBoardEntry);
-                $entityManager->flush();
+            } else {
+                $leaderBoardEntry = $leaderBoardEntryRepository->findOneBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]);
+                if ($leaderBoardEntry->getScore() < $rightIndex) {
+                    $leaderBoardEntry->setScore($rightIndex);
+                }
             }
+
+            $entityManager->persist($leaderBoardEntry);
+            $entityManager->flush();
 
             return $this->redirectToRoute('quiz-finished');
         }
