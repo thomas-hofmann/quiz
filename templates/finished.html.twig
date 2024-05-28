@@ -5,12 +5,7 @@
             <h1 class="mb-0">{{ quiz.name }}</h1>
         </li>
         <li class="list-group-item">
-            <i class="fa-regular fa-share-from-square"></i> {{ quiz.code }}
-        </li>
-        <li class="list-group-item">
-            <i class="fa-regular fa-user"></i> {{ matrikelnummer }}
-        </li>
-        <li class="list-group-item">
+            <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
             <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
         </li>
         {% if rightAnswer %}

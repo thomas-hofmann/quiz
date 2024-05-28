@@ -18,4 +18,9 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.answer__radio').on('click', function() {
+        // Enable the submit button
+        $('#submit-btn').prop('disabled', false);
+    });
 });

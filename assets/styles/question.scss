@@ -1,25 +1,39 @@
-.question__answer {
-    position: relative;
-}
-
 .answer__label {
     width: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-
-    padding-top: 7px;
+    padding: 10px;
+    position: relative;
 
     &:hover {
         background: white;
         color: #212529;
         cursor: pointer;
     }
+
+    input[type="radio"]:checked + & {
+        background: #6c757d;
+        color: white; // Matching border color
+    }
 }
 
-.answer__radio:checked + .answer__label {
-    background: white;
-    color: #212529;
+.question__letter {
+    position: absolute;
+    left: 10px;
+    top: 2px;
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.rounded-top-left {
+    border-top-left-radius: 0.25rem; /* or any radius value */
+}
+
+.rounded-top-right {
+    border-top-right-radius: 0.25rem; /* or any radius value */
+}
+
+.rounded-bottom-right {
+        border-bottom-right-radius: 0.25rem; /* Adjust the radius as needed */
+}
+.rounded-bottom-left {
+border-bottom-left-radius: 0.25rem; /* Adjust the radius as needed */
 }
