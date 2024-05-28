@@ -1,13 +1,15 @@
 {% include ('base.html.twig') %}
 <div class="container text-center">
-    <img src="{{ asset('images/logo.png') }}" class="logo">
-    <h1><strong>Quiz</strong></h1>
-    <form action="{{ path('quiz-initial') }}" method="post" class="box mx-auto">
-        <div class="form-group mt-4">
-            <input type="text" class="form-control mb-4 text-center" name="code" placeholder="Beitrittscode" required>
-            <input type="number" class="form-control mb-4 text-center" name="matrikelnummer" placeholder="Matrikelnummer" required>
-        </div>
-        <button type="submit" class="btn btn-success mt-2"><i class="fa-regular fa-circle-play"></i> Quiz starten</button>
-    </form>
+    <div class="box border rounded shadow p-3 mx-auto">
+        <img src="{{ asset('images/logo.png') }}" class="logo">
+        <h1><strong>Quiz</strong></h1>
+        <form action="{{ path('quiz-initial') }}" method="post" class="box mx-auto">
+            <div class="form-group mt-4">
+                <input type="text" class="form-control mb-4 text-center" name="code" placeholder="Beitrittscode" required>
+                <input type="number" class="form-control mb-4 text-center" name="matrikelnummer" placeholder="Matrikelnummer" required>
+            </div>
+            <button type="submit" class="btn btn-success mt-2"><i class="fa-regular fa-circle-play"></i> Quiz starten</button>
+        </form>
+    </div>
 </div>
 {% include ('footer.html.twig') %}
