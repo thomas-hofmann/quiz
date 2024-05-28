@@ -1,73 +1,70 @@
 {% include ('base.html.twig') %}
 <div class="container text-center quiz-container">
-    <ul class="list-group mx-auto bg-light shadow">
-        <li class="list-group-item">
-            <h1 class="mb-0">{{ quiz.name }}</h1>
-        </li>
-        <li class="list-group-item">
-            <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
-            <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
-        </li>
-        {% if index > 0 %}
-            {% if rightAnswer %}
-                <li class="list-group-item bg-success text-light">
-                    Ihre Antwort war richtig!
-                </li>
+    <div class="box shadow mx-auto">
+        <ul class="list-group rounded">
+            <li class="list-group-item">
+                <h1 class="mb-0">{{ quiz.name }}</h1>
+            </li>
+            <li class="list-group-item">
+                <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
+                <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
+            </li>
+            {% if index > 0 %}
+                {% if rightAnswer %}
+                    <li class="list-group-item bg-success text-light">
+                        Ihre Antwort war richtig!
+                    </li>
+                {% else %}
+                    <li class="list-group-item bg-danger text-light">
+                        Ihre Antwort war leider falsch!
+                    </li>
+                {% endif %}
             {% else %}
-                <li class="list-group-item bg-danger text-light">
-                    Ihre Antwort war leider falsch!
+                <li class="list-group-item">
+                    Das Quiz beginnt. Viel Erfolg!
                 </li>
             {% endif %}
-        {% else %}
-            <li class="list-group-item">
-                <strong>Das Quiz beginnt!</strong>
-            </li>
-        {% endif %}
-    </ul>
+        </ul>
+    </div>
     {% if quiz.questions[index] is defined %}
         {% set question = quiz.questions[index] %}
-        <div class="question row mt-5 bg-dark text-light p-4 rounded shadow">
-            <div class="col-12 fs-1 p-2 lead">
-                <strong>{{ question.text }}</strong>
+        <div class="question row mt-5 p-4 border rounded shadow">
+            <div class="col-12 fs-1 lead question__text">
+                {{ question.text }}
             </div>
             <form action="{{ path('quiz') }}" method="post" id="quiz-form">
                 <div class="col-12 mt-4 mb-4">
                     <div class="row">
-                        <div class="col-6 p-0 border-2 border-white border rounded-top-left" >
+                        <div class="col-6 p-0" >
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer1" name="answer" value="1" required/>
-                            <label class="answer__label fs-3" for="answer1">
+                            <label class="answer__label fs-3 border rounded-top-left" for="answer1">
                                 <span class="question__letter">A</span> {{ question.answerOne }}
                             </label>
                         </div>
-                        <div class="col-6 p-0 border-2 border-white border-top border-end border-bottom rounded-top-right">  
+                        <div class="col-6 p-0">  
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer2" name="answer" value="2"/>
-                            <label class="answer__label fs-3" for="answer2">
+                            <label class="answer__label fs-3 border-top border-end border-bottom rounded-top-right" for="answer2">
                                 <span class="question__letter">B</span> {{ question.answerTwo }}
                             </label>
                         </div>
-                        <div class="col-6 p-0 border-2 border-white border-end border-bottom border-start rounded-bottom-left">
+                        <div class="col-6 p-0">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer3" name="answer" value="3"/>
-                            <label class="answer__label fs-3" for="answer3">
+                            <label class="answer__label fs-3 border-end border-bottom border-start rounded-bottom-left" for="answer3">
                                 <span class="question__letter">C</span> {{ question.answerThree }}
                             </label>
                         </div>
-                        <div class="col-6 p-0 border-2 border-white border-bottom border-end rounded-bottom-right">
+                        <div class="col-6 p-0">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer4" name="answer" value="4"/>
-                            <label class="answer__label fs-3" for="answer4">
+                            <label class="answer__label fs-3 border-bottom border-end rounded-bottom-right" for="answer4">
                                 <span class="question__letter">D</span> {{ question.answerFour }}
                             </label>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-secondary mt-3" disabled="disabled" id="submit-btn">Nächste Frage</button>
+                <button type="submit" class="btn btn-primary btn-lg" disabled="disabled" id="submit-btn"><i class="fa-solid fa-share"></i> Nächste Frage</button>
             </form>
             {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}
-
-                <!-- Renders app.js & a webpack runtime.js file
-                    <script src="/build/runtime.js" defer></script>
-                    <script src="/build/app.js" defer></script>
-                    See note below about the "defer" attribute -->
             {% endblock %}
         </div>
     {% endif %}

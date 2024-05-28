@@ -4,13 +4,14 @@
     position: relative;
 
     &:hover {
-        background: white;
-        color: #212529;
+        background: #dee2e6;
+        border-color: #dee2e6;
         cursor: pointer;
     }
 
     input[type="radio"]:checked + & {
-        background: #6c757d;
+        background: #212529;
+        border-color: #212529 !important;
         color: white; // Matching border color
     }
 }
@@ -20,6 +21,10 @@
     left: 10px;
     top: 2px;
     font-size: 23px;
+    font-weight: 600;
+}
+
+.question__text {
     font-weight: 600;
 }
 

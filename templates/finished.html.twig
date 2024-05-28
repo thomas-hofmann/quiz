@@ -1,31 +1,33 @@
 {% include ('base.html.twig') %}
 <div class="container text-center quiz-container">
-    <ul class="list-group mx-auto bg-light shadow">
-        <li class="list-group-item">
-            <h1 class="mb-0">{{ quiz.name }}</h1>
-        </li>
-        <li class="list-group-item">
-            <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
-            <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
-        </li>
-        {% if rightAnswer %}
-            <li class="list-group-item bg-success text-light">
-                Ihre Antwort war richtig!
+    <div class="box shadow mx-auto">
+        <ul class="list-group rounded">
+            <li class="list-group-item">
+                <h1 class="mb-0">{{ quiz.name }}</h1>
             </li>
-        {% else %}
-            <li class="list-group-item bg-danger text-light">
-                Ihre Antwort war leider falsch!
+            <li class="list-group-item">
+                <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
+                <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
             </li>
-        {% endif %}
-    </ul>
-    <div class="mx-auto shadow border rounded mt-5 mb-5">
-        <h1 class="mt-5">Quiz fertig</h1>
-        <p class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}">Sie haben {{ rightIndex }} Fragen richtig beantwortet!<p>
-        <a href="/" type="button" class="btn btn-primary mt-2">Zurück zur Startseite</a>
+            {% if rightAnswer %}
+                <li class="list-group-item bg-success text-light">
+                    Ihre Antwort war richtig!
+                </li>
+            {% else %}
+                <li class="list-group-item bg-danger text-light">
+                    Ihre Antwort war leider falsch!
+                </li>
+            {% endif %}
+        </ul>
     </div>
-    <div class="mx-auto shadow border rounded pt-2">
+    <div class="mx-auto shadow border rounded mt-5 mb-5">
+        <h2 class="mt-5">Quiz fertig</h2>
+        <p class="lead {% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}">Sie haben {{ rightIndex }} Fragen richtig beantwortet!<p>
+        <a href="/" type="button" class="btn btn-primary mt-2 btn-lg">Zurück zur Startseite</a>
+    </div>
+    <div class="box mx-auto shadow border rounded pt-2">
         <h2>Rangliste</h2>
-        <table class="table table-striped table-dark">
+        <table class="table table-striped table-dark mb-4">
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -37,7 +39,7 @@
                 {% for entry in leaderBoardEntries %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{% if loop.index == 1 %}<i class="fa-solid fa-crown"></i>{% endif %} {{ entry.matrikelnumber }} {% if loop.index == 1 %}<i class="fa-solid fa-crown"></i>{% endif %}</td>
+                        <td >{% if loop.index == 1 %}<span style="color: #ffd700"><i class="fa-solid fa-crown"></i>{% endif %} {{ entry.matrikelnumber }} {% if loop.index == 1 %}<i class="fa-solid fa-crown"></i>{% endif %}</span></td>
                         <td>{{ entry.score }}</td>
                     </tr>
                 {% endfor %}

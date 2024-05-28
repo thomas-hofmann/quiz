@@ -6,9 +6,9 @@
         <form action="{{ path('quiz-initial') }}" method="post" class="box mx-auto">
             <div class="form-group mt-4">
                 <input type="text" class="form-control mb-4 text-center" name="code" placeholder="Beitrittscode" required>
-                <input type="number" class="form-control mb-4 text-center" name="matrikelnummer" placeholder="Matrikelnummer" required>
+                <input type="number" class="form-control mb-4 text-center" name="matrikelnummer" placeholder="Matrikelnummer" min="-9999999999" max="9999999999" required>
             </div>
-            <button type="submit" class="btn btn-success mt-2"><i class="fa-regular fa-circle-play"></i> Quiz starten</button>
+            <button type="submit" class="btn btn-success btn-lg mt-2 mb-3 w-100"><i class="fa-regular fa-circle-play"></i> Quiz starten</button>
         </form>
     </div>
 </div>

@@ -2,3 +2,16 @@
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+.animated-icon {
+    animation: pulse 3s infinite;
+}
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+}

@@ -1,41 +1,44 @@
 {% include ('base.html.twig') %}
 <div class="container">
-    {% if questions|length %}
-        <h2>Quizfragen</h2>
-        <ul class="list-group mb-2 custom-list">
-            {% for question in questions %}
-                <li class="list-group-item">
-                    {{ loop.index }}. Frage: {{ question.text}}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% if questions|length %}
-        <h3>Weitere Frage erstellen</h3>
-    {% else %}
-        <h3>Frage erstellen</h3>
-    {% endif %}
-    
-    <form action="{{ path('create-questions') }}" method="get">
-        <div class="form-group custom-list">
-            <input type="hidden" name="code" value="{{ code }}">
-            <label for="question">Frage</label>
-            <input type="text" class="form-control" id="question" name="question" placeholder="..." required>
-            <label for="answer1" class="mt-2">Antwortmöglichkeit: A</label>
-            <input type="text" class="form-control" id="answer1" name="answer1" placeholder="..." required>
-            <label for="answer2" class="mt-2">Antwortmöglichkeit: B</label>
-            <input type="text" class="form-control" id="answer2" name="answer2" placeholder="..." required>
-            <label for="answer3" class="mt-2">Antwortmöglichkeit: C</label>
-            <input type="text" class="form-control" id="answer3" name="answer3" placeholder="..." required>
-            <label for="answer4" class="mt-2">Antwortmöglichkeit: D</label>
-            <input type="text" class="form-control" id="answer4" name="answer4" placeholder="..." required>
-            <label for="rightAnswer" class="mt-2">Richtige Antwort (Eine Nummer zwischen 1 - 4)</label>
-            <input type="number" min="1" max="4" class="form-control" id="rightAnswer" name="rightAnswer" placeholder="..." required>
-        </div>
-        <p class="mt-3">
-            <button type="submit" class="btn btn-primary "><i class="fa-solid fa-plus"></i> Frage zufügen</button>
-            <a href="{{ path('dashboard')}}" class="btn btn-primary"><i class="fa-regular fa-circle-check"></i> Quiz fertig</a>
-        </p>
-    </form>
+    <div class="box border rounded shadow p-3 mx-auto">
+        {% if questions|length %}
+            <h2>Quizfragen</h2>
+            <ul class="list-group mb-2 custom-list">
+                {% for question in questions %}
+                    <li class="list-group-item">
+                        {{ loop.index }}. Frage: {{ question.text}}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if questions|length %}
+            <h3>Weitere Frage erstellen</h3>
+        {% else %}
+            <h3>Frage erstellen</h3>
+        {% endif %}
+        
+        <form action="{{ path('create-questions') }}" method="get">
+            <div class="form-group custom-list">
+                <input type="hidden" name="code" value="{{ code }}">
+                <label for="question">Frage</label>
+                <input type="text" class="form-control" id="question" name="question" required>
+                <label for="answer1" class="mt-2">Antwortmöglichkeit: 1</label>
+                <input type="text" class="form-control" id="answer1" name="answer1" required>
+                <label for="answer2" class="mt-2">Antwortmöglichkeit: 2</label>
+                <input type="text" class="form-control" id="answer2" name="answer2" required>
+                <label for="answer3" class="mt-2">Antwortmöglichkeit: 3</label>
+                <input type="text" class="form-control" id="answer3" name="answer3" required>
+                <label for="answer4" class="mt-2">Antwortmöglichkeit: 4</label>
+                <input type="text" class="form-control" id="answer4" name="answer4" required>
+                <label for="rightAnswer" class="mt-2">Richtige Antwort (Eine Nummer zwischen 1 - 4)</label>
+                <input type="number" min="1" max="4" class="form-control" id="rightAnswer" name="rightAnswer" required>
+            </div>
+            <p class="mt-3">
+                <button type="submit" class="btn btn-success mt-2"><i class="fa-solid fa-plus"></i> Diese Frage hinzufügen</button>
+                <a href="{{ path('dashboard')}}" class="btn btn-primary mt-2"><i class="fa-regular fa-floppy-disk"></i> Quiz speichern</a>
+                <a href="/dashboard" type="button" class="btn btn-secondary mt-2" onclick="return confirm('Sind Sie sicher, Quiz wird nicht gespeichert?')">Zurück zum Dashboard</a>
+            </p>
+        </form>
+    </div>
 </div>
 {% include ('footer.html.twig') %}
