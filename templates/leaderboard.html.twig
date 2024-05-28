@@ -2,12 +2,12 @@
 <div class="container">
     <div class="box border rounded shadow p-3 mx-auto">
         <h2>Rangliste</h2>
-        <table class="table table-striped table-dark text-center">
+        <table class="table table-striped table-dark">
             <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Matrikelnummer</th>
-                <th scope="col">Richtige Antworten</th>
+                <th scope="col">Platz</th>
+                <th scope="col" class="text-start">Matrikelnummer</th>
+                <th scope="col" >Richtige Antworten</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,7 +22,18 @@
                     {% endif %}
                     <tr>
                         <td>{{ place }}</td>
-                        <td>{% if place == 1 %}<span style="color: #ffd700"><i class="fa-solid fa-crown"></i>{% endif %} {{ entry.matrikelnumber }} {% if place == 1 %}<i class="fa-solid fa-crown"></i>{% endif %}</span></td>
+                        <td class="text-start">
+                            {% if place == 1 %}
+                                <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
+                            {% endif %}
+                            {% if place == 2 %}
+                                <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
+                            {% endif %}
+                            {% if place == 3 %}
+                                <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
+                            {% endif %}
+                            {{ entry.matrikelnumber }}
+                        </td>
                         <td>{{ entry.score }}</td>
                     </tr>
                 {% endfor %}
