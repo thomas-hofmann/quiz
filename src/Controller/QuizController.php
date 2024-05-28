@@ -50,10 +50,11 @@ class QuizController extends AbstractController {
         
         if (isset($quiz->getQuestions()[$index]) && $quiz->getQuestions()[$index]->getAnswerRight() == $request->get('answer')) {
             $rightAnswer = true;
-            $session->set('rightAnswer', $rightAnswer);
             $rightIndex = $rightIndex + 1;
             $session->set('rightIndex', $rightIndex);
         }
+
+        $session->set('rightAnswer', $rightAnswer);
         
         if ($request->get('answer')) {
             $index = $index + 1;
@@ -75,8 +76,6 @@ class QuizController extends AbstractController {
 
             return $this->redirectToRoute('quiz-finished');
         }
-
-        $session->set('rightAnswer', $rightAnswer);
 
         return $this->render('quiz.html.twig', [
             'quiz' => $quiz,
