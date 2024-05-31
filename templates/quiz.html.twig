@@ -35,25 +35,25 @@
             <form action="{{ path('quiz') }}" method="post" id="quiz-form">
                 <div class="col-12 mt-4 mb-4">
                     <div class="row">
-                        <div class="col-6 p-0 d-flex" >
+                        <div class="col-12 col-lg-6 p-0 d-flex" >
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer1" name="answer" value="1" required/>
                             <label class="answer__label fs-3 border rounded-top-left" for="answer1">
                                 <span class="question__letter">A</span> {{ question.answerOne }}
                             </label>
                         </div>
-                        <div class="col-6 p-0 d-flex">  
+                        <div class="col-12 col-lg-6 p-0 d-flex">  
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer2" name="answer" value="2"/>
                             <label class="answer__label fs-3 border-top border-end border-bottom rounded-top-right" for="answer2">
                                 <span class="question__letter">B</span> {{ question.answerTwo }}
                             </label>
                         </div>
-                        <div class="col-6 p-0 d-flex">
+                        <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer3" name="answer" value="3"/>
                             <label class="answer__label fs-3 border-end border-bottom border-start rounded-bottom-left" for="answer3">
                                 <span class="question__letter">C</span> {{ question.answerThree }}
                             </label>
                         </div>
-                        <div class="col-6 p-0 d-flex">
+                        <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer4" name="answer" value="4"/>
                             <label class="answer__label fs-3 border-bottom border-end rounded-bottom-right" for="answer4">
                                 <span class="question__letter">D</span> {{ question.answerFour }}
