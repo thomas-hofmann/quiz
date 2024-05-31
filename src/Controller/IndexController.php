@@ -2,13 +2,19 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IndexController extends AbstractController {
-	#[Route('/')]
-	public function indexAction(): Response {
+	#[Route('/', name: 'home')]
+	public function indexAction(Request $request): Response {
+		$parameter = null;
+		if ($request->get('quizcode')) {
+			$parameter = $request->get('quizcode');
+		}
 		return $this->render('index/index.html.twig', [
+			'parameter' => $parameter,
 		]);
 	}
 

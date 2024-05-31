@@ -30,4 +30,21 @@ $(function() {
         // Enable the submit button
         $('#submit-btn').prop('disabled', false);
     });
+
+    const $codeBoolSelf = $('#codeBoolSelf');
+    const $quizcode = $('#quizcode');
+
+    // Add an event listener to the radio button
+    $('.code__bool').on('change', function() {
+        // Check if the radio button is checked
+        if ($codeBoolSelf.is(':checked')) {
+            // Enable the input field
+            $quizcode.prop('disabled', false);
+            $quizcode.prop('required', true);
+        } else {
+            // Disable the input field (in case of multiple radio buttons affecting this field)
+            $quizcode.prop('disabled', true);
+            $quizcode.prop('required', false);
+        }
+    });
 });

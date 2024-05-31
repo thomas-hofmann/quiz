@@ -2,12 +2,30 @@
 <div class="container">
     <div class="box border rounded shadow p-3 mx-auto">
         <h1>Quiz erstellen</h1>
-        <form action="{{ path('create-quiz') }}" method="get">
-            <div class="form-group custom-list">
-                <input type="text" class="form-control" id="quizname" name="quizname" placeholder="Quizname" required>
+        <form action="{{ path('create-quiz') }}" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control mb-2" id="quizname" name="quizname" placeholder="Quizname" required>
+                <div class="form-check mb-2">
+                    <input class="form-check-input code__bool" type="radio" name="codeBool" id="codeBoolGenerate" value="generate" required checked>
+                    <label class="form-check-label" for="codeBoolGenerate">
+                        Beitrittscode generieren lassen
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input code__bool" type="radio" name="codeBool" value="self" id="codeBoolSelf">
+                    <label class="form-check-label" for="codeBoolSelf">
+                        Beitrittscode selbst erstellen. (Achtung muss eindeutig sein)
+                    </label>
+                </div>
+                <input type="text" class="form-control mb-2 {% if error %}is-invalid{% endif %}" id="quizcode" name="quizcode" placeholder="Beitrittscode(Muss eindeutig)" disabled>
+                {% if error %}
+                    <div id="quizcode" class="invalid-feedback">
+                        Achtung Code wird bereits verwendet. Nutzen Sie einen anderen
+                    </div>
+                {% endif %}
             </div>
-            <button type="submit" class="btn btn-success mt-2"><i class="fa-solid fa-plus"></i> Fragen hinzufügen</button>
-            <a href="/dashboard" type="button" class="btn btn-primary mt-2">Zurück zum Dashboard</a>
+            <button type="submit" class="btn btn-primary mt-2"><i class="fa-solid fa-plus"></i> Fragen hinzufügen</button>
+            <a href="/dashboard" type="button" class="btn btn-secondary mt-2">Zurück zum Dashboard</a>
         </form>
     </div>
 </div>

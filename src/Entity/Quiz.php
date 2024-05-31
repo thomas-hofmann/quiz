@@ -80,6 +80,10 @@ class Quiz
         return $this;
     }
 
+    public function getLeaderBoardEntries() {
+        return $this->leaderBoardEntries;
+    }
+
     public function addLeaderBoardEntry(Question $leaderBoardEntries): self
     {
         if (!$this->leaderBoardEntries->contains($leaderBoardEntries)) {

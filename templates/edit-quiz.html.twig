@@ -44,8 +44,10 @@
                 {% if questions|length %}
                     <a href="{{ path('dashboard')}}" class="btn btn-success mt-2"><i class="fa-regular fa-floppy-disk"></i> Quiz fertig</a>
                 {% else %}
+                    <a href="{{ path('dashboard')}}" class="btn btn-secondary mt-2">Zurück zum Dashboard</a>
                     <p class="text-danger">Achtung: Das Quiz brauch mindestens eine Frage</p>
                 {% endif %}
+                
             </p>
         </form>
     </div>

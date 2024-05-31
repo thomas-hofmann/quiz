@@ -34,8 +34,20 @@ class DashboardController extends AbstractController {
         if($request->get('quizname')) {
             $quiz = new Quiz();
             $quiz->setName($request->get('quizname'));
-            $code = uniqid();
-            $quiz->setCode($code);
+
+            if($request->get('codeBool') == 'self' && $request->get('quizcode')) {
+                $quizRepository = $entityManager->getRepository(Quiz::class);
+                if ($quizRepository->findBy(['code' => $request->get('quizcode')])) {
+                    return $this->render('create-quiz.html.twig', [
+                        'error' => true,
+                    ]);
+                }
+                $code = $request->get('quizcode');
+                $quiz->setCode($request->get('quizcode'));
+            } else {
+                $code = uniqid();
+                $quiz->setCode($code);
+            }
 
             $quiz->setUser($this->getUser());
             $entityManager->persist($quiz);
@@ -44,6 +56,7 @@ class DashboardController extends AbstractController {
         }
 
         return $this->render('create-quiz.html.twig', [
+            'error' => false,
         ]);
     }
 
@@ -89,6 +102,23 @@ class DashboardController extends AbstractController {
         $entityManager->flush();
 
         return $this->redirectToRoute('dashboard');
+    }
+
+    #[Route('/delete-question/{id}', name: 'delete_question')]
+    public function deleteQuestionAction(Question $question, EntityManagerInterface $entityManager): Response {
+        $entityManager->remove($question);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('edit_quiz', ['id' => $question->getQuiz()->getId()]);
+    }
+
+    #[Route('/edit-quiz/{id}', name: 'edit_quiz')]
+    public function editQuizAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+
+        return $this->render('edit-quiz.html.twig', [
+            'code' => $quiz->getCode(),
+            'questions' => $quiz->getQuestions()
+        ]);
     }
 
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
