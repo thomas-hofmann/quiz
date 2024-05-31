@@ -1,7 +1,8 @@
 .answer__label {
     width: 100%;
     padding: 10px;
-    position: relative;
+    padding-left: 25px;
+    position: relative; 
 
     &:hover {
         background: #dee2e6;
@@ -18,8 +19,15 @@
 
 .question__letter {
     position: absolute;
-    left: 10px;
-    top: 2px;
+    left: 0;
+    top: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: #212529;
+    color: white;
+
+    border-bottom-right-radius: 0.25rem;
+    
     font-size: 23px;
     font-weight: 600;
 }
@@ -41,5 +49,5 @@
         border-bottom-right-radius: 0.25rem; /* Adjust the radius as needed */
 }
 .rounded-bottom-left {
-border-bottom-left-radius: 0.25rem; /* Adjust the radius as needed */
+    border-bottom-left-radius: 0.25rem; /* Adjust the radius as needed */
 }
