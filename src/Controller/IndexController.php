@@ -10,7 +10,7 @@ class IndexController extends AbstractController {
 	#[Route('/', name: 'home')]
 	public function indexAction(Request $request): Response {
 		if ($request->get('quizcode')) {
-			return $this->redirectToRoute('quiz-start', ['code' => $request->get('quizcode')]);
+			return $this->redirectToRoute('quiz-initial', ['code' => $request->get('quizcode')]);
 		}
 		return $this->render('index/index.html.twig', [
 		]);
