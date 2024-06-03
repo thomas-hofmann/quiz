@@ -1,0 +1,23 @@
+{% include ('base.html.twig') %}
+<div class="container text-center">
+    <div class="box border rounded shadow p-3 mx-auto">
+        <img src="{{ asset('images/logo.png') }}" class="logo">
+        <h1>Willkommen zum Quiz</h1>
+        <ul class="list-group rounded">
+            <li class="list-group-item">
+                Name:
+                <h3>{{ quiz.name }}</h3>
+            </li>
+            <li class="list-group-item">
+               Anzahl an Fragen:
+               <h3>{{ quiz.getQuestions|length }}</h3>
+            </li>
+            <li class="list-group-item">
+              Dein Nickname für die Rangliste lautet:
+              <h2>{{ matrikelnummer }}</h2>
+            </li>
+        </ul>
+        <a href="{{ path('quiz') }}" class="btn btn-success btn-lg mt-3 mb-3 w-100"><i class="fa-solid fa-share"></i> Erste Frage</a>
+    </div>
+</div>
+{% include ('footer.html.twig') %}

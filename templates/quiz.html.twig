@@ -6,8 +6,8 @@
                 <h1 class="mb-0">{{ quiz.name }}</h1>
             </li>
             <li class="list-group-item">
-                <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
-                <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
+                <strong><i class="fa-regular fa-user"></i> {{ matrikelnummer }}</strong>
+                | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
             </li>
             {% if index > 0 %}
                 {% if rightAnswer %}
@@ -16,7 +16,8 @@
                     </li>
                 {% else %}
                     <li class="list-group-item bg-danger text-light">
-                        Ihre Antwort war leider falsch!
+                        <p class="mb-2">Ihre Antwort war leider falsch! Richtig wäre gewesen:</p>
+                        {{ rightAnswerText }}
                     </li>
                 {% endif %}
             {% else %}
@@ -29,6 +30,7 @@
     {% if quiz.questions[index] is defined %}
         {% set question = quiz.questions[index] %}
         <div class="question row mt-5 p-4 border rounded shadow">
+            <p class="text-center mb-2">{{ index + 1 }} von {{ quiz.getQuestions|length }}</p>
             <div class="col-12 fs-1 lead question__text">
                 {{ question.text }}
             </div>

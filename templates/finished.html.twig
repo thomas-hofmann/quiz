@@ -15,7 +15,8 @@
                 </li>
             {% else %}
                 <li class="list-group-item bg-danger text-light">
-                    Ihre Antwort war leider falsch!
+                    <p class="mb-2">Ihre Antwort war leider falsch! Richtig wäre gewesen:</p>
+                    {{ rightAnswerText }}
                 </li>
             {% endif %}
         </ul>
@@ -48,19 +49,21 @@
                     <tr>
                         <td>{{ place }}</td>
                         <td class="text-start">
-                            {% if place == 1 %}
-                                <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
-                            {% endif %}
-                            {% if place == 2 %}
-                                <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
-                            {% endif %}
-                            {% if place == 3 %}
-                                <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
-                            {% endif %}
-                            {{ entry.matrikelnumber }}
-                            {% if entry.matrikelnumber == matrikelnummer %}
-                                <i class="fa-regular fa-user text-info"></i>
-                            {% endif %}
+                            <div {% if entry.matrikelnumber == matrikelnummer %}class="d-inline-block fs-5 animated-icon"{% endif %}>
+                                {% if place == 1 %}
+                                    <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
+                                {% endif %}
+                                {% if place == 2 %}
+                                    <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
+                                {% endif %}
+                                {% if place == 3 %}
+                                    <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
+                                {% endif %}
+                                {{ entry.matrikelnumber }}
+                                {% if entry.matrikelnumber == matrikelnummer %}
+                                    <i class="fa-regular fa-user text-info"></i>
+                                {% endif %}
+                            </div>
                         </td>
                         <td>{{ entry.score }}</td>
                     </tr>

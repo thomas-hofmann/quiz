@@ -9,12 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class IndexController extends AbstractController {
 	#[Route('/', name: 'home')]
 	public function indexAction(Request $request): Response {
-		$parameter = null;
 		if ($request->get('quizcode')) {
-			$parameter = $request->get('quizcode');
+			return $this->redirectToRoute('quiz-start', ['code' => $request->get('quizcode')]);
 		}
 		return $this->render('index/index.html.twig', [
-			'parameter' => $parameter,
 		]);
 	}
 
