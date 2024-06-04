@@ -15,7 +15,9 @@
             <li class="list-group-item">
                 Dein Spielername lautet:
                 <h2 id="matrikelnummerChange">{{ matrikelnummer }}</h2>
-                <a id="newName" href="{{ path('update_name') }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrows-rotate"></i> Anderer Name</a>
+                {% if app.session.get('finished') is null %}
+                    <a id="newName" href="{{ path('update_name') }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrows-rotate"></i> Anderer Name</a>
+                {% endif %}
             </li>
         </ul>
         <a href="{{ path('quiz') }}" class="btn btn-success btn-lg mt-3 mb-3 w-100"><i class="fa-solid fa-share"></i> Erste Frage</a>

@@ -184,6 +184,7 @@ class QuizController extends AbstractController {
 
         if (!isset($quiz->getQuestions()[$index])) {
             $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
+            $session->set('finished', true);
             if (!$leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer])) {
                 $leaderBoardEntry = new LeaderBoardEntry();
 
