@@ -23,8 +23,13 @@
     </div>
     <div class="mx-auto shadow border rounded mt-5 mb-5">
         <h2 class="mt-5">Das Quiz ist fertig</h2>
-        <p class="lead {% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}">Sie haben insgesamt {{ rightIndex }} Fragen richtig beantwortet!<p>
-        <a href="/" type="button" class="btn btn-primary mt-2 btn-lg">Zurück zur Startseite</a>
+        {% if rightIndex > 0 %}
+            <p class="lead mt-3 text-success">Glückwunsch {{ app.session.get('matrikelnummer') }}, du hast insgesamt {{ rightIndex }} Fragen richtig beantwortet!<p>
+        {% else %}
+            <p class="lead mt-3 text-danger">Schade {{ app.session.get('matrikelnummer') }}, du hast leider keine Frage richtig beantwortet!<p>
+        {% endif %}
+        <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="btn btn-primary mt-2 btn-lg">Quiz wiederholen</a>
+        <a href="{{ path('home') }}" type="button" class="btn btn-secondary mt-2 btn-lg">Zurück zur Startseite</a>
     </div>
     <div class="box mx-auto shadow border rounded pt-2">
         <h2>Rangliste</h2>
@@ -32,7 +37,7 @@
             <thead>
                 <tr>
                 <th scope="col">Platz</th>
-                <th scope="col" class="text-start">Matrikelnummer</th>
+                <th scope="col" class="text-start">Spielername</th>
                 <th scope="col" >Richtige Antworten</th>
                 </tr>
             </thead>

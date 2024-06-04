@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Quiz;
 use App\Entity\LeaderBoardEntry;
@@ -14,39 +15,74 @@ use Doctrine\ORM\EntityManagerInterface;
 class QuizController extends AbstractController {
     
     public function getRandomMatrikelnumber(Quiz $quiz, EntityManagerInterface $entityManager): string {
-        $colors = [
-            "Blue", "Red", "Green", "Yellow", "Purple", "Orange",
-            "Pink", "Cyan", "Magenta", "Lime", "Indigo", "Violet", 
-            "Gray", "Teal", "Turquoise", "Maroon", "Lavender", "Beige",
-            "Mint", "Coral", "Navy", "Sky", "Peach", "Olive", "Aqua",
-            "Silver", "Gold", "Crimson", "Chartreuse", "Ivory", "Salmon",
-            "Plum", "Orchid", "Khaki", "Sapphire", "Amber", "Cerulean",
-            "Fuchsia", "Periwinkle", "Amber", "Emerald", "Azure", "Rose",
-            "Mint", "Mauve", "Tan", "Mustard", "Burgundy", "Lilac", "Denim"
-        ];
-
-        $items = [
-            "Fox", "Eagle", "Lion", "Tiger", "Wolf", "Bear", "Giraffe", "Zebra", "Kangaroo",
-            "Panda", "Dolphin", "Penguin", "Leopard", "Owl", "Frog", "Rabbit", "Deer", "Horse",
-            "Parrot", "Squirrel", "Turtle", "Cat", "Peacock", "Butterfly", "Koala", "Cheetah",
-            "Seal", "Otter", "Beaver", "Octopus", "Seahorse", "Chameleon", "Llama", "Alpaca",
-            "Platypus", "Porcupine", "Hedgehog", "Bat", "Salamander", "Starfish", "Walrus", "Swan",
-            "Pelican", "Flamingo", "Hummingbird", "Woodpecker", "Jellyfish", "Stingray", "Manatee", "Crab",
-            "Moose", "Raccoon", "Armadillo", "Gazelle", "Mongoose", "Iguana", "Gecko", "Ferret",
-            "Skunk", "Meerkat", "Bison", "Buffalo", "Lynx", "Marmot", "Capybara", "Wallaby",
-            "Hyena", "Jackal", "Weasel", "Mink", "Badger", "Wolverine", "Caribou", "Elk",
-            "Reindeer", "Coyote", "Jaguar", "Cougar", "Bobcat", "Ocelot", "Serval", "Caracal",
-            "Kookaburra", "Emu", "Cassowary", "Aardvark", "Anteater", "Tapir", "Pangolin", "Okapi",
-            "Quokka", "Numbat", "Bilby", "Bandicoot", "Kinkajou", "Coati"
-        ];
+        $prefixes = array(
+            "Shadow", "Dragon", "Mystic", "Silent", "Fire",
+            "Dark", "Thunder", "Frost", "Storm", "Blade",
+            "Night", "Bright", "Crystal", "Ghost", "Steel",
+            "Phantom", "Doom", "Light", "Wolf", "Viper",
+            "Iron", "Chaos", "Titan", "Wraith", "Mega",
+            "Moon", "Soul", "Sun", "Earth", "Flame",
+            "Spirit", "Ice", "Wind", "War", "Sky",
+            "Void", "Abyss", "Savage", "Sky", "Star",
+            "Ocean", "Super", "Blue", "Blood", "Dread",
+            "Nightmare", "Lunar", "Solar", "Radiant", "Grim",
+            "Tempest", "Blaze", "Inferno", "Nebula", "Galactic",
+            "Ironclad", "Thunderbolt", "Rising", "Serpent", "Lion",
+            "Lava", "Water", "Mighty", "Bane", "Red",
+            "Vortex", "Zephyr", "Rift", "Blight", "Eclipse",
+            "Titanium", "Cobalt", "Onyx", "Emerald", "Ruby"
+        );
+        
+        $suffixes = array(
+            "Witch", "Slayer", "Mage", "Assassin", "Wizard",
+            "Knight", "Warrior", "Sorcerer", "Bringer", "Master",
+            "Stalker", "Raven", "Archer", "Rider", "Fist",
+            "Striker", "Lord", "Fury", "Guardian", "Venom",
+            "Priest", "Seeker", "Walker", "Caller", "Dancer",
+            "Shaman", "Priest", "Warrior", "Knight", "King",
+            "Sentinel", "Champ", "Defender", "Guard", "Ward",
+            "Hunter", "Destroyer", "Commander", "Ranger", "Scout",
+            "Invoker", "Conqueror", "Ravager", "Protector", "Avenger",
+            "Sorcerer", "Templar", "Paladin", "Barbarian", "Swordsman",
+            "Battlemage", "Marksman", "Necromancer", "Alchemist", "Rogue",
+            "Warlord", "Berserker", "Enchanter", "Chieftain", "Juggernaut",
+            "Bringer", "Rouge", "Oracle", "Revenant", "Vanguard",
+            "Champion", "Crusader", "Monk", "Brawler", "Battler",
+            "Assailant", "Strider", "Dreadnought", "Phalanx", "Reaper",
+            "Nomad", "Wanderer", "Survivor", "Pathfinder", "Demon",
+            "Lizard", "Herald", "Emissary", "Farmer", "Oracle",
+            "Berserker", "Prodigy", "Adept", "Savant", "Virtuoso",
+            "Whisperer", "Warden", "Shepherd", "Druid", "Sylvan",
+            "Thorn", "Ember", "Gale", "Torrent", "Stonekin",
+            "Valkyrie", "Seraph", "Phoenix", "Leviathan", "Kraken",
+            "Minotaur", "Sphinx", "Siren", "Enigma", "Specter",
+            "Harbinger", "Paradox", "Maelstrom", "Catalyst", "Anomaly",
+            "Wraith", "Scourge", "Reaper", "Desolation", "Havoc",
+            "Malice", "Carnage", "Warlock", "Witcher"
+        );
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
 
         do {
-            $matrikelnummer = $colors[array_rand($colors)] . $items[array_rand($items)] . rand(10, 99);
+            $matrikelnummer = $prefixes[array_rand($prefixes)] . $suffixes[array_rand($suffixes)] . rand(10, 99);
         } while ($leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]));
 
         return $matrikelnummer;
+    }
+
+    #[Route('/quiz-update-name', name: 'update_name', format: 'json')]
+    public function quizNewNameAction(Request $request, EntityManagerInterface $entityManager): JsonResponse {
+        $session = $request->getSession();
+        if ($session->get('code')) {
+            $quizRepository = $entityManager->getRepository(Quiz::class);
+            $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
+
+            $matrikelnummer = $this->getRandomMatrikelnumber($quiz, $entityManager);
+
+            $session->set('matrikelnummer', $matrikelnummer);
+
+            return $this->json(['matrikelnummer' => $matrikelnummer]);
+        }
     }
 
     #[Route('/quiz-initial', name: 'quiz-initial')]
@@ -65,7 +101,11 @@ class QuizController extends AbstractController {
             ]);
         }
 
-        $matrikelnummer = $this->getRandomMatrikelnumber($quiz, $entityManager);
+        if (!$session->get('matrikelnummer')) {
+            $matrikelnummer = $this->getRandomMatrikelnumber($quiz, $entityManager);
+        } else {
+            $matrikelnummer = $session->get('matrikelnummer');
+        }
 
         $session->set('matrikelnummer', $matrikelnummer);
         $session->set('code', $request->get('code'));
@@ -80,6 +120,11 @@ class QuizController extends AbstractController {
     #[Route('/quiz-start', name: 'quiz-start')]
     public function quizStartAction(Request $request, EntityManagerInterface $entityManager): Response {
         $session = $request->getSession();
+
+        if (!$session->get('matrikelnummer') || !$session->get('code')) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
 
         $quizRepository = $entityManager->getRepository(Quiz::class);
         $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
@@ -96,12 +141,17 @@ class QuizController extends AbstractController {
         $session = $request->getSession();
         $quizRepository = $entityManager->getRepository(Quiz::class);
 
+        if (!$session->get('matrikelnummer') || !$session->get('code')) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
+
         $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
         $index = $session->get('index');
         $rightIndex = $session->get('rightIndex');
         $matrikelnummer = $session->get('matrikelnummer');
 
-        if (!$quiz || !$matrikelnummer) {
+        if (!$quiz) {
             return $this->render('error.html.twig', [
             ]);
         }
@@ -113,7 +163,7 @@ class QuizController extends AbstractController {
             $session->set('rightAnswer', true);
             $rightIndex = $rightIndex + 1;
             $session->set('rightIndex', $rightIndex);
-        } else if (isset($quiz->getQuestions()[$index - 1]) && $request->get('answer')) {
+        } else if (isset($quiz->getQuestions()[$index]) && $request->get('answer')) {
             $session->set('rightAnswer', false);
             if ($quiz->getQuestions()[$index]->getAnswerRight() == 1) {
                 $session->set('rightAnswerText', $rightAnswerText = $quiz->getQuestions()[$index]->getAnswerOne());
@@ -142,9 +192,7 @@ class QuizController extends AbstractController {
                 $leaderBoardEntry->setScore($rightIndex);
             } else {
                 $leaderBoardEntry = $leaderBoardEntryRepository->findOneBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]);
-                if ($leaderBoardEntry->getScore() < $rightIndex) {
-                    $leaderBoardEntry->setScore($rightIndex);
-                }
+                $leaderBoardEntry->setScore($rightIndex);
             }
 
             $entityManager->persist($leaderBoardEntry);
@@ -167,17 +215,18 @@ class QuizController extends AbstractController {
     public function quizFinishedAction(Request $request, EntityManagerInterface $entityManager): Response {
         $session = $request->getSession();
 
-        $quizRepository = $entityManager->getRepository(Quiz::class);
-        $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
-
-        if (!$quiz) {
+        if (!$session->get('matrikelnummer') || !$session->get('code')) {
             return $this->render('error.html.twig', [
             ]);
         }
 
-        $matrikelnummer = null;
-        if($session->get('matrikelnummer')) {
-            $matrikelnummer = $session->get('matrikelnummer');
+        $quizRepository = $entityManager->getRepository(Quiz::class);
+        $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
+        $matrikelnummer = $session->get('matrikelnummer');
+
+        if (!$quiz) {
+            return $this->render('error.html.twig', [
+            ]);
         }
 
         $rightIndex = $session->get('rightIndex');
