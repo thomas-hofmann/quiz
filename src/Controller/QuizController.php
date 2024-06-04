@@ -239,8 +239,6 @@ class QuizController extends AbstractController {
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
         $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
-
-        $session->remove('code');
         
         return $this->render('finished.html.twig', [
             'quiz' => $quiz,
