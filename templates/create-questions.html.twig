@@ -25,7 +25,7 @@
         
         <form action="{{ path('create-questions') }}" method="get">
             <div class="form-group custom-list">
-                <input type="hidden" name="code" value="{{ code }}">
+                <input type="hidden" name="quizId" value="{{ quiz.id }}">
                 <label for="question">Frage</label>
                 <input type="text" class="form-control" id="question" name="question" required>
                 <label for="answer1" class="mt-2">Antwortmöglichkeit: 1</label>

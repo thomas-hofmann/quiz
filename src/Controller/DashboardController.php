@@ -52,7 +52,7 @@ class DashboardController extends AbstractController {
             $quiz->setUser($this->getUser());
             $entityManager->persist($quiz);
             $entityManager->flush();
-            return $this->redirectToRoute('create-questions', ['code' => $code]);
+            return $this->redirectToRoute('create-questions', ['quizId' => $quiz->getId()]);
         }
 
         return $this->render('create-quiz.html.twig', [
@@ -62,9 +62,9 @@ class DashboardController extends AbstractController {
 
     #[Route('/create-questions', name: 'create-questions')]
     public function createQuestionsAction(Request $request, EntityManagerInterface $entityManager): Response {
-        if($request->get('code')) {
+        if($request->get('quizId')) {
             $quizRepository = $entityManager->getRepository(Quiz::class);
-            $quiz = $quizRepository->findOneBy(['code' => $request->get('code')]);
+            $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
         }
 
         if($quiz && $request->get('question')) {
@@ -83,13 +83,40 @@ class DashboardController extends AbstractController {
             $entityManager->persist($question);
             $entityManager->flush();
 
-            return $this->redirectToRoute('create-questions', ['code' => $quiz->getCode()]);
+            return $this->redirectToRoute('create-questions', ['quizId' => $quiz->getId()]);
         }
 
         return $this->render('create-questions.html.twig', [
-            'code' => $request->get('code'),
-            'questions' => $quiz->getQuestions()
+            'questions' => $quiz->getQuestions(),
+            'quiz' => $quiz,
         ]);
+    }
+
+    #[Route('/update-questions', name: 'update_questions')]
+    public function updateQuestionsAction(Request $request, EntityManagerInterface $entityManager): Response {
+        if($request->get('quizId')) {
+            $quizRepository = $entityManager->getRepository(Quiz::class);
+            $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
+        }
+
+        if($quiz && $request->get('question')) {
+            $question = new Question();
+            $question->setText($request->get('question'));
+
+            $question->setAnswerOne($request->get('answer1'));
+            $question->setAnswerTwo($request->get('answer2'));
+            $question->setAnswerThree($request->get('answer3'));
+            $question->setAnswerFour($request->get('answer4'));
+
+            $question->setAnswerRight($request->get('rightAnswer'));
+
+            $question->setQuiz($quiz);
+
+            $entityManager->persist($question);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
+        }
     }
 
     #[Route('/delete-quiz/{id}', name: 'delete_quiz')]
@@ -143,9 +170,24 @@ class DashboardController extends AbstractController {
     public function editQuizAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
 
         return $this->render('edit-quiz.html.twig', [
-            'code' => $quiz->getCode(),
-            'questions' => $quiz->getQuestions()
+            'questions' => $quiz->getQuestions(),
+            'quiz' => $quiz
         ]);
+    }
+
+    #[Route('/update-quiz', name: 'update_quiz')]
+    public function updateQuizAction(Request $request, EntityManagerInterface $entityManager): Response {
+        if($request->get('quizId')) {
+            $quizRepository = $entityManager->getRepository(Quiz::class);
+            $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
+            $quiz->setName($request->get('quizName'));
+
+            $quiz->setCode($request->get('quizCode'));
+
+            $entityManager->persist($quiz);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
     }
 
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
