@@ -19,7 +19,7 @@ class Quiz
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $code = null;
 
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz', cascade: ['remove'])]

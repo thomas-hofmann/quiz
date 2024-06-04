@@ -6,12 +6,12 @@
             <ul class="list-group mb-2">
                 {% for question in questions %}
                     <li class="list-group-item">
-                        <p>
+                        <p class="mb-2">
                             {{ loop.index }}. Frage: {{ question.text}}
                         </p>
                         <p>
-                            <a href="" class="btn btn-sm btn-primary"><i class="fa-regular fa-pen-to-square"></i> Frage bearbeiten</a>
-                            <a href="{{ path('delete_question', { 'id': question.id }) }}" class="btn btn-sm btn-danger" onclick="return confirm('Sind Sie sicher, dass Sie diese Frage löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Frage löschen</a>
+                            <a href="{{ path('edit_question', { 'id': question.id }) }}" class="btn btn-sm btn-primary mt-2"><i class="fa-regular fa-pen-to-square"></i> Frage bearbeiten</a>
+                            <a href="{{ path('delete_question', { 'id': question.id }) }}" class="btn btn-sm btn-danger mt-2" onclick="return confirm('Sind Sie sicher, dass Sie diese Frage löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Frage löschen</a>
                         </p>
                     </li>
                 {% endfor %}

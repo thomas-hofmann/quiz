@@ -168,10 +168,10 @@ class DashboardController extends AbstractController {
 
     #[Route('/edit-quiz/{id}', name: 'edit_quiz')]
     public function editQuizAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
-
         return $this->render('edit-quiz.html.twig', [
             'questions' => $quiz->getQuestions(),
-            'quiz' => $quiz
+            'quiz' => $quiz,
+            'error'=> false,
         ]);
     }
 
@@ -182,7 +182,15 @@ class DashboardController extends AbstractController {
             $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
             $quiz->setName($request->get('quizName'));
 
-            $quiz->setCode($request->get('quizCode'));
+            if (!$quizRepository->findOneBy(['code' => $request->get('quizCode')])) {
+                $quiz->setCode($request->get('quizCode'));
+            } else if ($quiz->getCode() !== $request->get('quizCode')){
+                return $this->render('edit-quiz.html.twig', [
+                    'questions' => $quiz->getQuestions(),
+                    'quiz' => $quiz,
+                    'error'=> true,
+                ]);
+            }
 
             $entityManager->persist($quiz);
             $entityManager->flush();
