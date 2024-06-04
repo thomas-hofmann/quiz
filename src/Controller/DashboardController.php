@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Question;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use App\Entity\Quiz;
+use App\Entity\Question;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\LeaderBoardEntry;
 
@@ -110,6 +110,33 @@ class DashboardController extends AbstractController {
         $entityManager->flush();
 
         return $this->redirectToRoute('edit_quiz', ['id' => $question->getQuiz()->getId()]);
+    }
+
+    #[Route('/edit-question/{id}', name: 'edit_question')]
+    public function editQuestionAction(Question $question, EntityManagerInterface $entityManager): Response {
+        return $this->render('edit-question.html.twig', [
+            'question' => $question
+        ]);
+    }
+
+    #[Route('/update-question', name: 'update_question')]
+    public function updateQuestionAction(Request $request, EntityManagerInterface $entityManager): Response {
+        if($request->get('questionId')) {
+            $questionRepository = $entityManager->getRepository(Question::class);
+            $question = $questionRepository->findOneBy(['id' => $request->get('questionId')]);
+            $question->setText($request->get('question'));
+
+            $question->setAnswerOne($request->get('answer1'));
+            $question->setAnswerTwo($request->get('answer2'));
+            $question->setAnswerThree($request->get('answer3'));
+            $question->setAnswerFour($request->get('answer4'));
+
+            $question->setAnswerRight($request->get('rightAnswer'));
+
+            $entityManager->persist($question);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('edit_question', ['id' => $question->getId()]);
     }
 
     #[Route('/edit-quiz/{id}', name: 'edit_quiz')]

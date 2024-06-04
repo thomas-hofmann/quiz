@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Question;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,14 +22,18 @@ class QuizController extends AbstractController {
             "Iron", "Chaos", "Titan", "Wraith", "Mega",
             "Moon", "Soul", "Sun", "Earth", "Flame",
             "Spirit", "Ice", "Wind", "War", "Sky",
-            "Void", "Abyss", "Savage", "Sky", "Star",
+            "Void", "Abyss", "Savage", "Star",
             "Ocean", "Super", "Blue", "Blood", "Dread",
             "Nightmare", "Lunar", "Solar", "Radiant", "Grim",
             "Tempest", "Blaze", "Inferno", "Nebula", "Galactic",
             "Ironclad", "Thunderbolt", "Rising", "Serpent", "Lion",
             "Lava", "Water", "Mighty", "Bane", "Red",
             "Vortex", "Zephyr", "Rift", "Blight", "Eclipse",
-            "Titanium", "Cobalt", "Onyx", "Emerald", "Ruby"
+            "Titanium", "Cobalt", "Onyx", "Emerald", "Ruby",
+            "Cosmic", "Mystical", "Astral", "Nebulous", "Celestial",
+            "Venomous", "Ethereal", "Voidborn", "Prime", "Solaris",
+            "Twilight", "Eternal", "Obsidian", "Golden", "Radiance",
+            "Feral", "Runic", "Spectral", "Quantum", "Arcane"
         );
         
         $suffixes = array(
@@ -39,32 +42,34 @@ class QuizController extends AbstractController {
             "Stalker", "Raven", "Archer", "Rider", "Fist",
             "Striker", "Lord", "Fury", "Guardian", "Venom",
             "Priest", "Seeker", "Walker", "Caller", "Dancer",
-            "Shaman", "Priest", "Warrior", "Knight", "King",
-            "Sentinel", "Champ", "Defender", "Guard", "Ward",
-            "Hunter", "Destroyer", "Commander", "Ranger", "Scout",
-            "Invoker", "Conqueror", "Ravager", "Protector", "Avenger",
-            "Sorcerer", "Templar", "Paladin", "Barbarian", "Swordsman",
-            "Battlemage", "Marksman", "Necromancer", "Alchemist", "Rogue",
-            "Warlord", "Berserker", "Enchanter", "Chieftain", "Juggernaut",
-            "Bringer", "Rouge", "Oracle", "Revenant", "Vanguard",
-            "Champion", "Crusader", "Monk", "Brawler", "Battler",
-            "Assailant", "Strider", "Dreadnought", "Phalanx", "Reaper",
-            "Nomad", "Wanderer", "Survivor", "Pathfinder", "Demon",
-            "Lizard", "Herald", "Emissary", "Farmer", "Oracle",
-            "Berserker", "Prodigy", "Adept", "Savant", "Virtuoso",
+            "Shaman", "King", "Sentinel", "Champ", "Defender",
+            "Guard", "Ward", "Hunter", "Destroyer", "Commander",
+            "Ranger", "Scout", "Invoker", "Conqueror", "Ravager",
+            "Protector", "Avenger", "Templar", "Paladin", "Barbarian",
+            "Swordsman", "Battlemage", "Marksman", "Necromancer", "Alchemist",
+            "Rogue", "Warlord", "Enchanter", "Chieftain", "Juggernaut",
+            "Revenant", "Vanguard", "Champion", "Crusader",
+            "Monk", "Brawler", "Battler", "Assailant", "Strider",
+            "Dreadnought", "Phalanx", "Nomad", "Wanderer", "Survivor",
+            "Pathfinder", "Demon", "Lizard", "Herald", "Emissary",
+            "Farmer", "Prodigy", "Adept", "Savant", "Virtuoso",
             "Whisperer", "Warden", "Shepherd", "Druid", "Sylvan",
             "Thorn", "Ember", "Gale", "Torrent", "Stonekin",
             "Valkyrie", "Seraph", "Phoenix", "Leviathan", "Kraken",
             "Minotaur", "Sphinx", "Siren", "Enigma", "Specter",
             "Harbinger", "Paradox", "Maelstrom", "Catalyst", "Anomaly",
-            "Wraith", "Scourge", "Reaper", "Desolation", "Havoc",
-            "Malice", "Carnage", "Warlock", "Witcher"
+            "Scourge", "Desolation", "Havoc", "Malice", "Carnage",
+            "Warlock", "Witcher", "Invoker", "Astronomer", "Miner",
+            "Lich", "Chronomancer", "Illusionist", "Nethermancer",
+            "Runemaster", "Elementalist", "Geomancer", "Psychic", "Hexblade",
+            "Beastmaster", "Spiritwalker", "Weaver",
         );
+        
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
 
         do {
-            $matrikelnummer = $prefixes[array_rand($prefixes)] . $suffixes[array_rand($suffixes)] . rand(10, 99);
+            $matrikelnummer = $prefixes[random_int(0, count($prefixes) - 1)] . $suffixes[random_int(0, count($suffixes) - 1)] . random_int(10, 99);
         } while ($leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]));
 
         return $matrikelnummer;
@@ -97,7 +102,7 @@ class QuizController extends AbstractController {
         $quiz = $quizRepository->findOneBy(['code' => $request->get('code')]);
 
         if (!$quiz) {
-            return $this->render('error.html.twig', [
+            return $this->render('error-code.html.twig', [
             ]);
         }
 
@@ -234,8 +239,9 @@ class QuizController extends AbstractController {
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
         $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
-        
 
+        $session->remove('code');
+        
         return $this->render('finished.html.twig', [
             'quiz' => $quiz,
             'matrikelnummer' => $matrikelnummer,

@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class IndexController extends AbstractController {
 	#[Route('/', name: 'home')]
 	public function indexAction(Request $request): Response {
+		$session = $request->getSession();
+		$session->remove('code');
+
 		if ($request->get('quizcode')) {
 			return $this->redirectToRoute('quiz-initial', ['code' => $request->get('quizcode')]);
 		}
