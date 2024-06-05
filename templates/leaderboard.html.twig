@@ -1,13 +1,13 @@
 {% include ('base.html.twig') %}
-<div class="container">
+<div class="container text-center">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h2>Rangliste</h2>
         <table class="table table-striped table-dark">
             <thead>
                 <tr>
-                <th scope="col">Platz</th>
+                <th scope="col"><i class="fa-solid fa-ranking-star"></i></th>
                 <th scope="col" class="text-start">Spielername</th>
-                <th scope="col" >Richtige Antworten</th>
+                <th scope="col" ><i class="fa-regular fa-circle-check"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a href="/dashboard" type="button" class="btn btn-primary mt-2">Zurück zum Dashboard</a>
+        <a href="/dashboard" type="button" class="btn btn-dark mt-2">Zurück zum Dashboard</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}

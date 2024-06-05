@@ -1,0 +1,8 @@
+.dashboard__button {
+    display: block;
+    width: 50%;
+
+    @include media-breakpoint-down(lg) {
+        width: 100%;
+    }
+}

@@ -10,7 +10,7 @@
                             {{ loop.index }}. Frage: {{ question.text}}
                         </p>
                         <p>
-                            <a href="{{ path('edit_question', { 'id': question.id }) }}" class="btn btn-sm btn-primary mt-2"><i class="fa-regular fa-pen-to-square"></i> Frage bearbeiten</a>
+                            <a href="{{ path('edit_question', { 'id': question.id }) }}" class="btn btn-sm btn-dark mt-2"><i class="fa-regular fa-pen-to-square"></i> Frage bearbeiten</a>
                             <a href="{{ path('delete_question', { 'id': question.id }) }}" class="btn btn-sm btn-danger mt-2" onclick="return confirm('Sind Sie sicher, dass Sie diese Frage löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Frage löschen</a>
                         </p>
                     </li>
@@ -40,7 +40,7 @@
                 <input type="number" min="1" max="4" class="form-control" id="rightAnswer" name="rightAnswer" required>
             </div>
             <p class="mt-3">
-                <button type="submit" class="btn btn-primary mt-2"><i class="fa-solid fa-plus"></i> Diese Frage hinzufügen</button>
+                <button type="submit" class="btn btn-dark mt-2"><i class="fa-solid fa-plus"></i> Diese Frage hinzufügen</button>
                 {% if questions|length %}
                     <a href="{{ path('dashboard')}}" class="btn btn-success mt-2"><i class="fa-regular fa-floppy-disk"></i> Quiz fertig</a>
                 {% else %}

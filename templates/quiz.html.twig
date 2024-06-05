@@ -12,12 +12,16 @@
             {% if index > 0 %}
                 {% if rightAnswer %}
                     <li class="list-group-item bg-success text-light">
-                        Ihre Antwort war richtig!
+                        <i class="fa-regular fa-circle-check answer__logo"></i>
+                        <i class="fa-regular fa-circle-check answer__logo--right"></i>
+                        Richtige Antwort!
                     </li>
                 {% else %}
                     <li class="list-group-item bg-danger text-light">
-                        <p class="mb-2">Ihre Antwort war leider falsch! Richtig wäre gewesen:</p>
-                        {{ rightAnswerText }}
+                        <i class="fa-regular fa-circle-xmark answer__logo"></i>
+                        <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
+                        <p class="mb-1 fw-bold"><small>Leider falsch! Richtig wäre:</small></p>
+                        <p class="m-0">{{ rightAnswerText }}</p>
                     </li>
                 {% endif %}
             {% else %}
@@ -39,31 +43,31 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 p-0 d-flex" >
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer1" name="answer" value="1" required/>
-                            <label class="answer__label fs-3 border rounded-top-left" for="answer1">
+                            <label class="answer__label fs-3 question__answer-1" for="answer1">
                                 <span class="question__letter">A</span> {{ question.answerOne }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">  
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer2" name="answer" value="2"/>
-                            <label class="answer__label fs-3 border-top border-end border-bottom rounded-top-right" for="answer2">
+                            <label class="answer__label fs-3 question__answer-2" for="answer2">
                                 <span class="question__letter">B</span> {{ question.answerTwo }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer3" name="answer" value="3"/>
-                            <label class="answer__label fs-3 border-end border-bottom border-start rounded-bottom-left" for="answer3">
+                            <label class="answer__label fs-3 question__answer-3" for="answer3">
                                 <span class="question__letter">C</span> {{ question.answerThree }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer4" name="answer" value="4"/>
-                            <label class="answer__label fs-3 border-bottom border-end rounded-bottom-right" for="answer4">
+                            <label class="answer__label fs-3 question__answer-4" for="answer4">
                                 <span class="question__letter">D</span> {{ question.answerFour }}
                             </label>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg" disabled="disabled" id="submit-btn"><i class="fa-solid fa-share"></i> Nächste Frage</button>
+                <button type="submit" class="btn btn-success btn-lg quiz__button" disabled="disabled" id="submit-btn"><i class="fa-solid fa-share"></i> Nächste Frage</button>
             </form>
             {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}

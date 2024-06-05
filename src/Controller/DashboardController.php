@@ -22,7 +22,7 @@ class DashboardController extends AbstractController {
         $user = $this->getUser();
 
         $quizzes = [];
-        $quizzes = $quizRepository->findBy(['user' => $user]);
+        $quizzes = $quizRepository->findBy(['user' => $user], ['id' => 'DESC']);
         return $this->render('dashboard.html.twig', [
             'quizzes' => $quizzes,
             'user' => $user,

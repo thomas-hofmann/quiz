@@ -16,7 +16,7 @@
                 Dein Spielername lautet:
                 <h2 id="matrikelnummerChange">{{ matrikelnummer }}</h2>
                 {% if app.session.get('finished') is null %}
-                    <a id="newName" href="{{ path('update_name') }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrows-rotate"></i> Anderer Name</a>
+                    <a id="newName" href="{{ path('update_name') }}" class="btn btn-dark btn-sm"><i class="fa-solid fa-arrows-rotate"></i> Anderer Name</a>
                 {% endif %}
             </li>
         </ul>
