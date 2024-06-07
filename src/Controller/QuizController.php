@@ -249,4 +249,20 @@ class QuizController extends AbstractController {
             'leaderBoardEntries' => $leaderBoardEntries,
         ]);
     }
+
+    #[Route('/quiz-leaderboard/{id}', name: 'quiz-leaderboard')]
+    public function quizLeaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        if (!$quiz) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
+
+        $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
+        
+        return $this->render('leaderboard.html.twig', [
+            'leaderBoardEntries' => $leaderBoardEntries,
+            'quiz' => $quiz,
+        ]);
+    }
 }

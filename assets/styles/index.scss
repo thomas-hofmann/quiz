@@ -2,19 +2,3 @@
     margin-top: 30px;
     margin-bottom: 30px;
 }
-
-.animated-icon {
-  animation: wobble 3s infinite;
-}
-
-@keyframes wobble {
-  0%, 100% {
-      transform: rotate(0deg);
-  }
-  25% {
-      transform: rotate(-3deg);
-  }
-  75% {
-      transform: rotate(3deg);
-  }
-}

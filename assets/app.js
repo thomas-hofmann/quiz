@@ -9,6 +9,7 @@
 const $ = require('jquery');
 
 import './js/quiz.js';
+import './js/leaderboard.js';
 
 require('bootstrap');
 import './styles/app.scss';
