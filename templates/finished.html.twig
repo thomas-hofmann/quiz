@@ -88,5 +88,8 @@
             </tbody>
         </table>
     </div>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 </div>
 {% include ('footer.html.twig') %}

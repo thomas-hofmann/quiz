@@ -30,7 +30,7 @@
                  <link rel="stylesheet" href="/build/app.css"> -->
         {% endblock %}
 
-        {% if app.request.attributes.get('_route') != 'quiz' %}
+        {% if (app.request.attributes.get('_route') != 'quiz') and (app.request.attributes.get('_route') != 'quiz-finished') %}
             {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}
                 <!-- Renders app.js & a webpack runtime.js file -->
