@@ -200,13 +200,30 @@ class DashboardController extends AbstractController {
 
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
     public function leaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
-        $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
-        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
-        
+        if (!$quiz) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
 
+        $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC', 'id' => 'ASC']);
+
+        $totalScore = 0;
+        $numEntries = count($leaderBoardEntries);
+
+        foreach ($leaderBoardEntries as $entry) {
+            $totalScore += $entry->getScore();
+        }
+
+        $averageScore = 0;
+        if ($numEntries > 0) {
+            $averageScore = round($totalScore / $numEntries, 2);
+        }
+        
         return $this->render('leaderboard.html.twig', [
+            'leaderBoardEntries' => $leaderBoardEntries,
             'quiz' => $quiz,
-            'leaderBoardEntries' => $leaderBoardEntries
+            'averageScore' => $averageScore
         ]);
     }
 

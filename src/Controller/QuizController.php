@@ -207,8 +207,32 @@ class QuizController extends AbstractController {
             return $this->redirectToRoute('quiz-finished');
         }
 
+        $questions = $quiz->getQuestions();
+
+
+
+        $questions = $quiz->getQuestions();
+        $shuffledQuestions = [];
+
+        foreach ($questions as $question) {
+            $answers = [
+                ['index' => 1, 'text' => $question->getAnswerOne()],
+                ['index' => 2, 'text' => $question->getAnswerTwo()],
+                ['index' => 3, 'text' => $question->getAnswerThree()],
+                ['index' => 4, 'text' => $question->getAnswerFour()],
+            ];
+
+            shuffle($answers);
+
+            $shuffledQuestions[] = [
+                'question' => $question,
+                'answers' => $answers
+            ];
+        }
+
         return $this->render('quiz.html.twig', [
             'quiz' => $quiz,
+            'shuffledQuestions' => $shuffledQuestions,
             'matrikelnummer' => $matrikelnummer,
             'index' => $index,
             'rightIndex' => $rightIndex,
@@ -238,11 +262,24 @@ class QuizController extends AbstractController {
         $rightIndex = $session->get('rightIndex');
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
-        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC', 'id' => 'ASC']);
+
+        $totalScore = 0;
+        $numEntries = count($leaderBoardEntries);
+
+        foreach ($leaderBoardEntries as $entry) {
+            $totalScore += $entry->getScore();
+        }
+
+        $averageScore = 0;
+        if ($numEntries > 0) {
+            $averageScore = round($totalScore / $numEntries, 2);
+        }
         
         return $this->render('finished.html.twig', [
             'quiz' => $quiz,
             'matrikelnummer' => $matrikelnummer,
+            'averageScore' => $averageScore,
             'rightIndex' => $rightIndex,
             'rightAnswer' => $session->get('rightAnswer'),
             'rightAnswerText' => $session->get('rightAnswerText'),
@@ -258,11 +295,24 @@ class QuizController extends AbstractController {
         }
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
-        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC']);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz], ['score' => 'DESC', 'id' => 'ASC']);
+
+        $totalScore = 0;
+        $numEntries = count($leaderBoardEntries);
+
+        foreach ($leaderBoardEntries as $entry) {
+            $totalScore += $entry->getScore();
+        }
+
+        $averageScore = 0;
+        if ($numEntries > 0) {
+            $averageScore = round($totalScore / $numEntries, 2);
+        }
         
         return $this->render('leaderboard.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
             'quiz' => $quiz,
+            'averageScore' => $averageScore
         ]);
     }
 }

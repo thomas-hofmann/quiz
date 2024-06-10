@@ -31,38 +31,38 @@
             {% endif %}
         </ul>
     </div>
-    {% if quiz.questions[index] is defined %}
-        {% set question = quiz.questions[index] %}
+    {% if shuffledQuestions[index] is defined %}
+        {% set question = shuffledQuestions[index] %}
         <div class="question row mt-5 p-4 border rounded shadow">
-            <p class="text-center mb-2">{{ index + 1 }} von {{ quiz.getQuestions|length }}</p>
+            <p class="text-center mb-2">{{ index + 1 }} von {{ shuffledQuestions|length }}</p>
             <div class="col-12 fs-1 lead question__text">
-                {{ question.text }}
+                {{ question.question.text }}
             </div>
             <form action="{{ path('quiz') }}" method="post" id="quiz-form">
                 <div class="col-12 mt-4 mb-4">
                     <div class="row">
                         <div class="col-12 col-lg-6 p-0 d-flex" >
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer1" name="answer" value="1" required/>
-                            <label class="answer__label fs-3 question__answer-1" for="answer1">
-                                <span class="question__letter">A</span> {{ question.answerOne }}
+                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[0].index }}" name="answer" value="{{ question.answers[0].index }}" required/>
+                            <label class="answer__label fs-3 question__answer-1" for="answer{{ question.answers[0].index }}">
+                                <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">  
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer2" name="answer" value="2"/>
-                            <label class="answer__label fs-3 question__answer-2" for="answer2">
-                                <span class="question__letter">B</span> {{ question.answerTwo }}
+                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[1].index }}" name="answer" value="{{ question.answers[1].index }}"/>
+                            <label class="answer__label fs-3 question__answer-2" for="answer{{ question.answers[1].index }}">
+                                <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer3" name="answer" value="3"/>
-                            <label class="answer__label fs-3 question__answer-3" for="answer3">
-                                <span class="question__letter">C</span> {{ question.answerThree }}
+                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[2].index }}" name="answer" value="{{ question.answers[2].index }}"/>
+                            <label class="answer__label fs-3 question__answer-3" for="answer{{ question.answers[2].index }}">
+                                <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer4" name="answer" value="4"/>
-                            <label class="answer__label fs-3 question__answer-4" for="answer4">
-                                <span class="question__letter">D</span> {{ question.answerFour }}
+                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[3].index }}" name="answer" value="{{ question.answers[3].index }}"/>
+                            <label class="answer__label fs-3 question__answer-4" for="answer{{ question.answers[3].index }}">
+                                <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].text }}
                             </label>
                         </div>
                     </div>

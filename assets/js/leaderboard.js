@@ -5,8 +5,8 @@ $(function() {
             url: `/quiz-leaderboard/${quizId}`,
             method: 'GET',
             success: function(data) {
-                const newTable = $(data).find('#leaderboard-body').html();
-                $('#leaderboard-body').html(newTable);
+                const newContent = $(data).find('#container-stats').html();
+                $('#container-stats').html(newContent);
             },
             error: function() {
                 console.error('Error updating leaderboard');
