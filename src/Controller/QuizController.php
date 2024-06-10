@@ -311,7 +311,7 @@ class QuizController extends AbstractController {
         $averageScorePercentage = 0;
         if ($numEntries > 0) {
             $averageScore = round($totalScore / $numEntries, 2);
-            $averageScorePercentage = ($averageScore / count($quiz->getQuestions())) * 100;
+            $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }   
         
         return $this->render('leaderboard.html.twig', [
