@@ -275,10 +275,13 @@ class QuizController extends AbstractController {
         if ($numEntries > 0) {
             $averageScore = round($totalScore / $numEntries, 2);
         }
+
+        $averageScorePercentage = ($averageScore / count($quiz->getQuestions())) * 100;
         
         return $this->render('finished.html.twig', [
             'quiz' => $quiz,
             'matrikelnummer' => $matrikelnummer,
+            'averageScorePercentage' => $averageScorePercentage,
             'averageScore' => $averageScore,
             'rightIndex' => $rightIndex,
             'rightAnswer' => $session->get('rightAnswer'),
@@ -308,11 +311,14 @@ class QuizController extends AbstractController {
         if ($numEntries > 0) {
             $averageScore = round($totalScore / $numEntries, 2);
         }
+
+        $averageScorePercentage = ($averageScore / count($quiz->getQuestions())) * 100;
         
         return $this->render('leaderboard.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
             'quiz' => $quiz,
-            'averageScore' => $averageScore
+            'averageScore' => $averageScore,
+            'averageScorePercentage' => $averageScorePercentage
         ]);
     }
 }

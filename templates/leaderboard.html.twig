@@ -6,14 +6,26 @@
         <div id="container-stats">
             <ul class="list-group rounded mb-2">
                 <li class="list-group-item">
-                    Fragen: <strong>{{ quiz.getQuestions|length }}</strong>
+                    Fragenanzahl: <strong>{{ quiz.getQuestions|length }}</strong>
                 </li>
             
                 <li class="list-group-item">
-                    Spieler: <strong>{{ leaderBoardEntries|length }}</strong>
+                    Spieleranzahl: <strong>{{ leaderBoardEntries|length }}</strong>
                 </li>
                 <li class="list-group-item">
                     Punkteschnitt: <strong>{{ averageScore }}</strong>
+                    
+                </li>
+                 <li class="list-group-item
+                    {% if averageScorePercentage >= 70 %}
+                        bg-success text-light
+                    {% elseif averageScorePercentage >= 40 %}
+                        bg-warning 
+                    {% else %}
+                        bg-danger text-light
+                    {% endif %}
+                ">
+                    Kursnote: <strong>{{ averageScorePercentage }}%</strong>
                 </li>
             </ul>
             <h2>Rangliste</h2>
