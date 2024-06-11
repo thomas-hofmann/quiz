@@ -18,12 +18,12 @@ $(function() {
                 // Ersetzt den HTML-Code mit der neuen Frage
                 let newContent = $(response).find('.quiz-container').html();
                 // Fade out the current content
-                $('.quiz-container').fadeOut(250, function() {
+                $('.quiz-container').fadeOut(200, function() {
                     // Replace the HTML content
                     $(this).html(newContent);
                     loadingSpan.html(originalContent);
                     // Fade in the new content
-                    $(this).fadeIn(250);
+                    $(this).fadeIn(200);
                 });
             },
             error: function(status, error) {
