@@ -36,6 +36,11 @@ class Question
     #[ORM\ManyToOne(targetEntity: Quiz::class, inversedBy: 'questions')]
     private Quiz $quiz;
 
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $position;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +126,19 @@ class Question
     public function setQuiz(?Quiz $quiz): self
     {
         $this->quiz = $quiz;
+
+        return $this;
+    }
+
+    // Getter und Setter für position
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

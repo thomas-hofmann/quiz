@@ -16,14 +16,15 @@
                 {% endif %}
             </div>
             <p class="mt-3">
-                <button type="submit" class="btn btn-dark mt-2"><i class="fa-solid fa-arrows-rotate"></i> Quiz aktualisieren</button>
+                <button type="submit" class="btn btn-dark mt-2"><i class="fa-regular fa-floppy-disk"></i> Werte speichern</button>
             </p>
         </form>
         {% if questions|length %}
             <h2>Fragen bearbeiten</h2>
-            <ul class="list-group mb-2">
+            <p><i class="fa-solid fa-circle-info"></i> Reihenfolge kann durch drag and drop geändert werden.</p>
+            <ul class="list-group mb-2" id="sortable">
                 {% for question in questions %}
-                    <li class="list-group-item">
+                    <li class="list-group-item edit-question-list-item" data-id="{{ question.id }}">
                         <p class="mb-2">
                             {{ loop.index }}. Frage: {{ question.text}}
                         </p>
@@ -34,6 +35,9 @@
                     </li>
                 {% endfor %}
             </ul>
+            <p>
+                <button class="btn btn-dark mt-2" id="save-order"><i class="fa-regular fa-floppy-disk"></i> Sortierung speichern</button>
+            </p>
         {% endif %}
         {% if questions|length %}
             <h3>Weitere Frage erstellen</h3>

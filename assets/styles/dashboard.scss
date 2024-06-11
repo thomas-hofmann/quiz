@@ -6,3 +6,11 @@
         width: 100%;
     }
 }
+
+.edit-question-list-item {
+    cursor: grab;
+
+    &:hover {
+        box-shadow: inset 4px 4px 15px 0px rgba(0, 0, 0, 0.25);
+    }
+}

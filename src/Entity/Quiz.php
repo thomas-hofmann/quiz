@@ -67,7 +67,26 @@ class Quiz
     }
 
     public function getQuestions() {
-        return $this->questions;
+        // Erstellen Sie ein leeres Array für die sortierten Fragen
+        $sortedQuestions = [];
+
+        // Iterieren Sie über die Fragen und fügen Sie sie dem sortierten Array hinzu, wenn die Position nicht null ist
+        foreach ($this->questions as $question) {
+            if ($question->getPosition() !== null) {
+                $sortedQuestions[] = $question;
+            } else {
+                $sortedQuestions = $this->questions;
+                return $sortedQuestions;
+            }
+        }
+
+        // Sortieren Sie das sortierte Array nach der Position
+        usort($sortedQuestions, function ($a, $b) {
+            return $a->getPosition() - $b->getPosition();
+        });
+
+        // Rückgabe der sortierten Fragen
+        return $sortedQuestions;
     }
 
     public function addQuestions(Question $question): self

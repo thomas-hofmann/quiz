@@ -10,6 +10,7 @@ const $ = require('jquery');
 
 import './js/quiz.js';
 import './js/leaderboard.js';
+import './js/dashboard.js';
 
 require('bootstrap');
 import './styles/app.scss';
