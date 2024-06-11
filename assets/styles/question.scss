@@ -6,10 +6,12 @@
 
     box-shadow: $box-shadow-inset;
 
-    &:hover {
-        background: #dee2e6;
-        border-color: #dee2e6;
-        cursor: pointer;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: #dee2e6;
+            border-color: #dee2e6;
+            cursor: pointer;
+        }
     }
 
     input[type="radio"]:checked + & {

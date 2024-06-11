@@ -243,4 +243,22 @@ class DashboardController extends AbstractController {
 
         return $this->redirectToRoute('dashboard');
     }
+
+    #[Route('/question-sort', name: 'question-sort')]
+    public function sort(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $positions = $request->get('positions');
+
+        foreach ($positions as $id => $position) {
+            $question = $entityManager->getRepository(Question::class)->find($id);
+            if ($question) {
+                $question->setPosition($position);
+                $entityManager->persist($question);
+            }
+        }
+
+        $entityManager->flush();
+
+        return new Response('Sortierung erfolgreich gespeichert.');
+    }
 }

@@ -25,14 +25,19 @@
                             </p>
                             {% if quiz.getLeaderBoardEntries|length %}
                                 <p class="mb-2">
-                                    <b>Statistik:</b>
+                                    <b>Spieleranzahl:</b>
                                     <br>
-                                    {{ quiz.getLeaderBoardEntries|length }} Einträge gefunden
+                                    {{ quiz.getLeaderBoardEntries|length }} in der Rangliste
                                 </p>
                             {% endif %}
                             
                             {% if quiz.getQuestions is empty %}
                                 <p class="text-danger mb-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
+                            {% else %}
+                                <p class="mb-2">
+                                    <b>Fragenanzahl:</b><br>
+                                     {{ quiz.getQuestions|length }}
+                                </p>
                             {% endif %}
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">

@@ -35,7 +35,7 @@
             <p class="mb-3 fs-5">Du hast leider keine Frage richtig beantwortet.</p>
         {% endif %}
         <p>
-            <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="quiz__button btn btn-dark mt-2 btn-lg">Quiz wiederholen</a>
+            <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="quiz__button btn btn-dark mt-2 btn-lg"><i class="fa-solid fa-rotate-right"></i> Quiz wiederholen</a>
             <a href="{{ path('home') }}" type="button" class="btn btn-secondary quiz__button mt-2 btn-lg">Zurück zur Startseite</a>
         </p>
     </div>

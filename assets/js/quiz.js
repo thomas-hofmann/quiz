@@ -5,6 +5,11 @@ $(function() {
         let form = $('#quiz-form');
         let url = form.attr('action');
 
+        let loadingSpan = $('#loading');
+        let originalContent = loadingSpan.html();
+
+        loadingSpan.html('<i class="fa-solid fa-spinner fa-spin"></i>');
+
         $.ajax({
             type: form.attr('method'),
             url: url,
@@ -16,12 +21,14 @@ $(function() {
                 $('.quiz-container').fadeOut(250, function() {
                     // Replace the HTML content
                     $(this).html(newContent);
+                    loadingSpan.html(originalContent);
                     // Fade in the new content
                     $(this).fadeIn(250);
                 });
             },
             error: function(status, error) {
                 console.error('AJAX Error:', status, error);
+                loadingSpan.html(originalContent);
             }
         });
     });
