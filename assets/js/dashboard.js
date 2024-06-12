@@ -29,4 +29,36 @@ $(function() {
             });
         });
     }
+    if ($(".toggle-quiz").length) {
+        $('.toggle-quiz').on('change', function() {
+            const url = $(this).data('url');
+            const isEnabled = $(this).is(':checked');
+            const label = $(this).next('label');
+        
+            $.ajax({
+                url: url,
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token("toggle_quiz") }}'
+                },
+                data: JSON.stringify({ isEnabled: isEnabled }),
+                success: function(data) {
+                    if (data.success) {
+                        // Ändere den Text des Labels basierend auf dem isEnabled-Wert
+                        if (isEnabled) {
+                            label.text('Quiz ist aktiviert');
+                        } else {
+                            label.text('Quiz ist deaktiviert');
+                        }
+                    } else {
+                        alert('Fehler beim Aktualisieren des Quiz-Status.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Fehler:', error);
+                }
+            });
+        });
+    }
 });

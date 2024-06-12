@@ -36,10 +36,8 @@ class Question
     #[ORM\ManyToOne(targetEntity: Quiz::class, inversedBy: 'questions')]
     private Quiz $quiz;
 
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private ?int $position;
-
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $position = null;
 
     public function getId(): ?int
     {

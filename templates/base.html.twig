@@ -59,9 +59,9 @@
                             </li>
                         {% endif %}
                     </ul>
-                    {% if app.user.email is defined %}
+                    {% if app.user.username is defined %}
                         <span class="navbar-text text-info">
-                            <i class="fa-regular fa-user"></i> {{ app.user.email }}
+                            <i class="fa-regular fa-user"></i> {{ app.user.username }}
                             {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
                             <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                             {% endif %}

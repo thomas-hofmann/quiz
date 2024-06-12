@@ -37,7 +37,7 @@ class CreateUserCommand extends Command
     {
         $this
             ->setDescription('Creates a new user.')
-            ->addArgument('email', InputArgument::REQUIRED, 'The email of the user.')
+            ->addArgument('username', InputArgument::REQUIRED, 'The username of the user.')
             ->addArgument('password', InputArgument::REQUIRED, 'The password of the user.')
             ->addArgument('roles', InputArgument::IS_ARRAY, 'The roles of the user (separate multiple roles with a space).');
     }
@@ -46,19 +46,19 @@ class CreateUserCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $email = $input->getArgument('email');
+        $username = $input->getArgument('username');
         $password = $input->getArgument('password');
         $roles = $input->getArgument('roles');
 
         $user = new User();
-        $user->setEmail($email);
+        $user->setUsername($username);
         $user->setPassword($this->passwordHasher->hashPassword($user, $password));
         $user->setRoles($roles);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $io->success(sprintf('User %s was successfully created.', $email));
+        $io->success(sprintf('User %s was successfully created.', $username));
 
         return Command::SUCCESS;
     }

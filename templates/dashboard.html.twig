@@ -2,20 +2,26 @@
 <div class="container">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1 class="mb-4">Dashboard</h1>
-        <p><span class="fw-bold">Profil:</span> {{ user.getEmail() }}</p>
-        <hr>
+        <p><b>Hallo, {{ user.username }}!</b><br> Hier kannst du neue Quizze erstellen oder vorhandene bearbeiten sowie die Statistik einsehen.</p>
         <p>
             <a class="btn btn-success dashboard__button" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Neues Quiz erstellen</a>
         </p>
         <h2>Meine Quizze</h2>
-        <p class="mb-1"><i class="fa-solid fa-circle-info"></i> Unter "Statistik anzeigen" können Sie in Echtzeit die Statistik vom Quiz angucken.</p>
-        <p><i class="fa-solid fa-circle-info"></i> Bitte halten Sie Ihre Quizze sauber und löschen Sie diejenigen, die nicht mehr benötigt werden. Vielen Dank!</p>
+        <p><i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!</p>
         <ul class="list-group">
             {% for quiz in quizzes %}
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-8">
                             <h3>{{ quiz.name|e }}</h3>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input toggle-quiz" type="checkbox" id="quizToggle{{ quiz.id }}" 
+                                    {% if quiz.isEnabled %} checked {% endif %} 
+                                    data-url="{{ path('toggle_quiz', {id: quiz.id}) }}">
+                                <label class="form-check-label toggle-quiz-label" for="quizToggle{{ quiz.id }}">
+                                     {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
+                                </label>
+                            </div>
                             <p class="mb-2 mt-2">
                                 <b>Beitrittscode:</b><br>{{ quiz.code }}
                             </p>
@@ -41,11 +47,11 @@
                             {% endif %}
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
-                            <a class="btn btn-dark d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
                             <a class="btn btn-dark d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Statistik anzeigen</a>
                             {% if quiz.getLeaderBoardEntries|length %}
                                 <a class="btn btn-dark d-block mb-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
                             {% endif %}
+                            <a class="btn btn-dark d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
                             <a class="btn btn-danger d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
                         </div>
                     </div>

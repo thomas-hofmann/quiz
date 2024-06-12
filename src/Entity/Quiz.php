@@ -31,6 +31,9 @@ class Quiz
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'quizzes')]
     private User $user;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isEnabled = true;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -121,6 +124,18 @@ class Quiz
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setEnabled(bool $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

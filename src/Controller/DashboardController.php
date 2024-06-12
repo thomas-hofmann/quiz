@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Quiz;
 use App\Entity\Question;
@@ -260,5 +261,21 @@ class DashboardController extends AbstractController {
         $entityManager->flush();
 
         return new Response('Sortierung erfolgreich gespeichert.');
+    }
+
+    #[Route('/toggle_quiz/{id}', name: 'toggle_quiz', methods: ['POST'])]
+    public function toggleQuiz(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (isset($data['isEnabled'])) {
+            $quiz->setEnabled((bool) $data['isEnabled']);
+            $entityManager->persist($quiz);
+            $entityManager->flush();
+
+            return new JsonResponse(['success' => true]);
+        }
+
+        return new JsonResponse(['success' => false]);
     }
 }

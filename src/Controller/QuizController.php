@@ -14,62 +14,154 @@ use Doctrine\ORM\EntityManagerInterface;
 class QuizController extends AbstractController {
     
     public function getRandomMatrikelnumber(Quiz $quiz, EntityManagerInterface $entityManager): string {
-        $prefixes = array(
-            "Shadow", "Dragon", "Mystic", "Silent", "Fire",
-            "Dark", "Thunder", "Frost", "Storm", "Blade",
-            "Night", "Bright", "Crystal", "Ghost", "Steel",
-            "Phantom", "Doom", "Light", "Wolf", "Viper",
-            "Iron", "Chaos", "Titan", "Wraith", "Mega",
-            "Moon", "Soul", "Sun", "Earth", "Flame",
-            "Spirit", "Ice", "Wind", "War", "Sky",
-            "Void", "Abyss", "Savage", "Star",
-            "Ocean", "Super", "Blue", "Blood", "Dread",
-            "Nightmare", "Lunar", "Solar", "Radiant", "Grim",
-            "Tempest", "Blaze", "Inferno", "Nebula", "Galactic",
-            "Ironclad", "Thunderbolt", "Rising", "Serpent", "Lion",
-            "Lava", "Water", "Mighty", "Bane", "Red",
-            "Vortex", "Zephyr", "Rift", "Blight", "Eclipse",
-            "Titanium", "Cobalt", "Onyx", "Emerald", "Ruby",
-            "Cosmic", "Mystical", "Astral", "Nebulous", "Celestial",
-            "Venomous", "Ethereal", "Voidborn", "Prime", "Solaris",
-            "Twilight", "Eternal", "Obsidian", "Golden", "Radiance",
-            "Feral", "Runic", "Spectral", "Quantum", "Arcane"
-        );
+        // vll mache ich nochmal was damit
+        // $prefixes = array(
+        //     "Shadow", "Dragon", "Mystic", "Silent", "Fire",
+        //     "Dark", "Thunder", "Frost", "Storm", "Blade",
+        //     "Night", "Bright", "Crystal", "Ghost", "Steel",
+        //     "Phantom", "Doom", "Light", "Wolf", "Viper",
+        //     "Iron", "Chaos", "Titan", "Wraith", "Mega",
+        //     "Moon", "Soul", "Sun", "Earth", "Flame",
+        //     "Spirit", "Ice", "Wind", "War", "Sky",
+        //     "Void", "Abyss", "Savage", "Star",
+        //     "Ocean", "Super", "Blue", "Blood", "Dread",
+        //     "Nightmare", "Lunar", "Solar", "Radiant", "Grim",
+        //     "Tempest", "Blaze", "Inferno", "Nebula", "Galactic",
+        //     "Ironclad", "Thunderbolt", "Rising", "Serpent", "Lion",
+        //     "Lava", "Water", "Mighty", "Bane", "Red",
+        //     "Vortex", "Zephyr", "Rift", "Blight", "Eclipse",
+        //     "Titanium", "Cobalt", "Onyx", "Emerald", "Ruby",
+        //     "Cosmic", "Mystical", "Astral", "Nebulous", "Celestial",
+        //     "Venomous", "Ethereal", "Voidborn", "Prime", "Solaris",
+        //     "Twilight", "Eternal", "Obsidian", "Golden", "Radiance",
+        //     "Feral", "Runic", "Spectral", "Quantum", "Arcane"
+        // );
         
-        $suffixes = array(
-            "Witch", "Slayer", "Mage", "Assassin", "Wizard",
-            "Knight", "Warrior", "Sorcerer", "Bringer", "Master",
-            "Stalker", "Raven", "Archer", "Rider", "Fist",
-            "Striker", "Lord", "Fury", "Guardian", "Venom",
-            "Priest", "Seeker", "Walker", "Caller", "Dancer",
-            "Shaman", "King", "Sentinel", "Champ", "Defender",
-            "Guard", "Ward", "Hunter", "Destroyer", "Commander",
-            "Ranger", "Scout", "Invoker", "Conqueror", "Ravager",
-            "Protector", "Avenger", "Templar", "Paladin", "Barbarian",
-            "Swordsman", "Battlemage", "Marksman", "Necromancer", "Alchemist",
-            "Rogue", "Warlord", "Enchanter", "Chieftain", "Juggernaut",
-            "Revenant", "Vanguard", "Champion", "Crusader",
-            "Monk", "Brawler", "Battler", "Assailant", "Strider",
-            "Dreadnought", "Phalanx", "Nomad", "Wanderer", "Survivor",
-            "Pathfinder", "Demon", "Lizard", "Herald", "Emissary",
-            "Farmer", "Prodigy", "Adept", "Savant", "Virtuoso",
-            "Whisperer", "Warden", "Shepherd", "Druid", "Sylvan",
-            "Thorn", "Ember", "Gale", "Torrent", "Stonekin",
-            "Valkyrie", "Seraph", "Phoenix", "Leviathan", "Kraken",
-            "Minotaur", "Sphinx", "Siren", "Enigma", "Specter",
-            "Harbinger", "Paradox", "Maelstrom", "Catalyst", "Anomaly",
-            "Scourge", "Desolation", "Havoc", "Malice", "Carnage",
-            "Warlock", "Witcher", "Invoker", "Astronomer", "Miner",
-            "Lich", "Chronomancer", "Illusionist", "Nethermancer",
-            "Runemaster", "Elementalist", "Geomancer", "Psychic", "Hexblade",
-            "Beastmaster", "Spiritwalker", "Weaver",
-        );
-        
+        // $suffixes = array(
+        //     "Witch", "Slayer", "Mage", "Assassin", "Wizard",
+        //     "Knight", "Warrior", "Sorcerer", "Bringer", "Master",
+        //     "Stalker", "Raven", "Archer", "Rider", "Fist",
+        //     "Striker", "Lord", "Fury", "Guardian", "Venom",
+        //     "Priest", "Seeker", "Walker", "Caller", "Dancer",
+        //     "Shaman", "King", "Sentinel", "Champ", "Defender",
+        //     "Guard", "Ward", "Hunter", "Destroyer", "Commander",
+        //     "Ranger", "Scout", "Invoker", "Conqueror", "Ravager",
+        //     "Protector", "Avenger", "Templar", "Paladin", "Barbarian",
+        //     "Swordsman", "Battlemage", "Marksman", "Necromancer", "Alchemist",
+        //     "Rogue", "Warlord", "Enchanter", "Chieftain", "Juggernaut",
+        //     "Revenant", "Vanguard", "Champion", "Crusader",
+        //     "Monk", "Brawler", "Battler", "Assailant", "Strider",
+        //     "Dreadnought", "Phalanx", "Nomad", "Wanderer", "Survivor",
+        //     "Pathfinder", "Demon", "Lizard", "Herald", "Emissary",
+        //     "Farmer", "Prodigy", "Adept", "Savant", "Virtuoso",
+        //     "Whisperer", "Warden", "Shepherd", "Druid", "Sylvan",
+        //     "Thorn", "Ember", "Gale", "Torrent", "Stonekin",
+        //     "Valkyrie", "Seraph", "Phoenix", "Leviathan", "Kraken",
+        //     "Minotaur", "Sphinx", "Siren", "Enigma", "Specter",
+        //     "Harbinger", "Paradox", "Maelstrom", "Catalyst", "Anomaly",
+        //     "Scourge", "Desolation", "Havoc", "Malice", "Carnage",
+        //     "Warlock", "Witcher", "Invoker", "Astronomer", "Miner",
+        //     "Lich", "Chronomancer", "Illusionist", "Nethermancer",
+        //     "Runemaster", "Elementalist", "Geomancer", "Psychic", "Hexblade",
+        //     "Beastmaster", "Spiritwalker", "Weaver",
+        // );
 
+        $firstNames = array(
+            "Maximilian", "Alexander", "Leon", "Paul", "Finn",
+            "Lukas", "Elias", "Luca", "Liam", "Jonas",
+            "Niklas", "Tim", "Ben", "Felix", "Emil",
+            "Moritz", "David", "Jan", "Jakob", "Fabian",
+            "Simon", "Julian", "Noah", "Tom", "Anton",
+            "Philipp", "Oskar", "Theo", "Mats", "Dominik",
+            "Julius", "Johannes", "Samuel", "Vincent", "Tobias",
+            "Henrik", "Nico", "Jannis", "Louis", "Benedikt",
+            "Mika", "Adrian", "Marvin", "Markus", "Till",
+            "Lennard", "Christian", "Leonard", "Nils", "Daniel",
+            "Erik", "Jonathan", "Raphael", "Bastian", "Jona",
+            "Marlon", "Leander", "Robin", "Malte", "Yannick",
+            "Pascal", "Benjamin", "William", "James", "John",
+            "Michael", "Richard", "Joseph", "Charles", "Thomas",
+            "Matthew", "Christopher", "Andrew", "Edward", "Joshua",
+            "Anthony", "Robert", "Peter", "Brian", "Steven",
+            "Kevin", "Mark", "Jason", "Jeffrey", "Ryan",
+            "Gary", "Timothy", "Jose", "Larry", "Kenneth",
+            "Ronald", "Scott", "Justin", "Eric", "Stephen",
+            "Brandon", "Gregory", "Jack", "Dennis", "Jerry",
+            "Walter", "Billy", "Austin", "Bruce", "Eugene",
+            "Alan", "Howard", "Sophia", "Emma", "Mia",
+            "Hannah", "Emilia", "Lina", "Marie", "Mila",
+            "Lea", "Anna", "Lena", "Laura", "Amelie",
+            "Luisa", "Clara", "Julia", "Sophie", "Alina",
+            "Frieda", "Ella", "Eva", "Charlotte", "Paula",
+            "Maja", "Johanna", "Leni", "Maria", "Melina",
+            "Sarah", "Victoria", "Emily", "Ida", "Isabella",
+            "Fiona", "Lucy", "Lisa", "Magdalena", "Anni",
+            "Nora", "Leona", "Leonie", "Lara", "Mira",
+            "Mara", "Nele", "Amalia", "Helena", "Jana",
+            "Carolin", "Tessa", "Esther", "Romy", "Rosa",
+            "Selina", "Valentina", "Carla", "Ronja", "Pia",
+            "Elena", "Antonia", "Elisa", "Zoe", "Liv",
+            "Sara", "Katharina", "Anna-Lena", "Miriam", "Helen",
+            "Alessia", "Mina", "Pauline", "Eleni", "Amira",
+            "Diana", "Sofie", "Klara", "Emilie", "Lotta",
+            "Marlene", "Fenja", "Franziska", "Nina", "Jule",
+            "Lucia", "Greta", "Ava", "Lilly", "Milena",
+            "Aurelia", "Carlotta", "Martha", "Raphaela", "Lydia",
+            "Olivia", "Amelia", "Evelyn", "Harper", "Camila",
+            "Gianna", "Abigail", "Luna", "Scarlett", "Aria",
+            "Aaliyah", "Eleanor", "Stella", "Savannah", "Nova",
+            "Hazel", "Aurora", "Grace", "Lily", "Zoey",
+            "Riley", "Paisley", "Penelope", "Everly", "Layla",
+            "Madelyn", "Natalie", "Lillian", "Kinsley", "Naomi",
+            "Leah", "Audrey", "Ariana", "Sofia", "Alexa",
+            "Bailey", "Jasmine", "Nevaeh", "Adeline", "Alyssa",
+            "Claire", "Violet", "Skylar", "Bella", "Sadie",
+            "Rylee", "Kennedy", "Peyton", "Serenity", "Taylor",
+            "Alexandra", "Melanie", "Allison", "Lauren", "Samantha",
+            "Mackenzie", "Gabriella", "Caroline", "Madelyn", "Genesis",
+        );
+        
+        $lastNames = array(
+            "Müller", "Schmidt", "Schneider", "Fischer", "Weber",
+            "Meyer", "Wagner", "Becker", "Schulz", "Hoffmann",
+            "Schäfer", "Koch", "Bauer", "Richter", "Klein",
+            "Wolf", "Schröder", "Neumann", "Schwarz", "Zimmermann",
+            "Braun", "Krüger", "Hofmann", "Hartmann", "Lange",
+            "Schmitt", "Werner", "Schmitz", "Krause", "Meier",
+            "Lehmann", "Schmid", "Schulze", "Maier", "Köhler",
+            "Herrmann", "König", "Mayer", "Huber", "Kaiser",
+            "Fuchs", "Peters", "Lang", "Scholz", "Möller",
+            "Weiß", "Jung", "Hahn", "Vogel", "Schubert",
+            "Roth", "Beck", "Bergmann", "Lorenz", "Kraus",
+            "Sauer", "Sommer", "Schuster", "Brandt", "Eckert",
+            "Kuhn", "Franke", "Winter", "Voigt", "Haas",
+            "Heinrich", "Graf", "Schreiber", "Friedrich", "Günther",
+            "Conrad", "Herzog", "Reuter", "Seidel", "Kraft",
+            "Böhm", "Thomason", "Ziegler", "Kramer", "Jäger",
+            "Voß", "Stein", "Otto", "Ritter", "Rieger",
+            "Adam", "Maurer", "Smith", "Johnson", "Williams",
+            "Brown", "Jones", "Garcia", "Miller", "Davis",
+            "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez",
+            "Wilson", "Anderson", "Taylor", "Moore", "Jackson",
+            "Martin", "Lee", "Perez", "Thompson", "White",
+            "Harris", "Sanchez", "Clark", "Ramirez", "Lewis",
+            "Robinson", "Walker", "Young", "Allen", "King",
+            "Wright", "Scott", "Torres", "Nguyen", "Hill",
+            "Flores", "Green", "Adams", "Nelson", "Baker",
+            "Hall", "Rivera", "Campbell", "Mitchell", "Carter",
+            "Roberts", "Gomez", "Phillips", "Evans", "Turner",
+            "Diaz", "Parker", "Cruz", "Edwards", "Collins",
+            "Reyes", "Adler", "Bach", "Friedrichs", "Geiger",
+            "Ivanov", "Jansen", "Keller", "Larsen", "Müller",
+            "Nikitin", "Olsen", "Petersen", "Quist", "Russo",
+            "Svensson", "Taylor", "Unger", "Vasquez", "Wang",
+            "Xu", "Yilmaz", "Zhang", "Hansen",
+        );
+        
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
 
         do {
-            $matrikelnummer = $prefixes[random_int(0, count($prefixes) - 1)] . $suffixes[random_int(0, count($suffixes) - 1)] . random_int(10, 99);
+            $matrikelnummer = $firstNames[random_int(0, count($firstNames) - 1)] . $lastNames[random_int(0, count($lastNames) - 1)] . random_int(10, 99);
         } while ($leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]));
 
         return $matrikelnummer;
@@ -103,6 +195,11 @@ class QuizController extends AbstractController {
 
         if (!$quiz) {
             return $this->render('error-code.html.twig', [
+            ]);
+        }
+
+        if (!$quiz->isEnabled()) {
+            return $this->render('error-disabled.html.twig', [
             ]);
         }
 
@@ -205,11 +302,7 @@ class QuizController extends AbstractController {
             $entityManager->flush();
 
             return $this->redirectToRoute('quiz-finished');
-        }
-
-        $questions = $quiz->getQuestions();
-
-
+        };
 
         $questions = $quiz->getQuestions();
         $shuffledQuestions = [];
