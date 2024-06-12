@@ -6,8 +6,8 @@
         <p>
             <a class="btn btn-success dashboard__button" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Neues Quiz erstellen</a>
         </p>
-        <h2>Meine Quizze</h2>
         {% if quizzes|length %}
+            <h2>Meine Quizze</h2>
             <p><i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!</p>
             <ul class="list-group">
                 {% for quiz in quizzes %}
