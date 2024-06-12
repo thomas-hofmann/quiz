@@ -21,7 +21,7 @@
         </form>
         {% if questions|length %}
             <h2>Fragen bearbeiten</h2>
-            <p><i class="fa-solid fa-circle-info"></i> Reihenfolge kann durch drag and drop geändert werden.</p>
+            <p><i class="fa-solid fa-circle-info"></i> Die Reihenfolge der Fragen kann durch Drag-and-Drop geändert werden.</p>
             <ul class="list-group mb-2" id="sortable">
                 {% for question in questions %}
                     <li class="list-group-item edit-question-list-item" data-id="{{ question.id }}">
