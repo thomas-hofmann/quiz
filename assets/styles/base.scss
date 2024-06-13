@@ -41,3 +41,19 @@ header, main, footer {
 
     max-width: 250px;
 }
+
+.animated__icon {
+    &:not(:disabled) {
+        i {
+            animation: horizontal-moving 1s linear infinite;
+        }
+    }
+}
+
+@keyframes horizontal-moving {
+    0% { transform: translateX(0) }
+    25% { transform: translateX(-5px) }
+    50% { transform: translateX(-7px) }
+    75% { transform: translateX(-5px) }
+    100% { transform: translateX(0) }
+}

@@ -6,11 +6,18 @@
 
     box-shadow: $box-shadow-inset;
 
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, text-shadow 0.25s ease;
+
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            background: #dee2e6;
-            border-color: #dee2e6;
+            box-shadow: inset 0 .5rem 1rem rgba($black, .15);
+            text-shadow: 0 .125rem .25rem rgba($black, .075);
             cursor: pointer;
+
+            .question__letter {
+                box-shadow: 0 .125rem .25rem rgba($black, .075);
+            }
+
         }
     }
 
@@ -52,6 +59,8 @@
     
     font-size: 23px;
     font-weight: 600;
+
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, text-shadow 0.25s ease;
 }
 
 .quiz__button {
@@ -61,6 +70,12 @@
 
     @include media-breakpoint-down(lg) {
         width: 100%;
+    }
+
+    &:not(:disabled) {
+        .next-icon {
+            animation: horizontal-moving 1s linear infinite;
+        }
     }
 }
 

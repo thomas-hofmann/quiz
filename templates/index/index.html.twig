@@ -5,9 +5,9 @@
         <h1><strong>Quiz</strong></h1>
         <form action="{{ path('quiz-initial') }}" method="post" class="box mx-auto">
             <div class="form-group mt-4">
-                <input type="text" class="form-control mb-4 text-center" name="code" placeholder="Beitrittscode" required>
+                <input type="text" class="form-control mb-4 text-center" id="codeInput" name="code" placeholder="Beitrittscode" required>
             </div>
-            <button type="submit" class="btn btn-success btn-lg mt-2 mb-3 w-100"><i class="fa-regular fa-circle-play"></i> Quiz starten</button>
+            <button type="submit" id="startQuizBtn" class="btn btn-success btn-lg mt-2 mb-3 w-100 index__button animated__icon" disabled><i class="fa-regular fa-circle-play"></i> Quiz starten</button>
         </form>
     </div>
 </div>
