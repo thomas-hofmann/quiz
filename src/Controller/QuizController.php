@@ -14,58 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 class QuizController extends AbstractController {
     
     public function getRandomMatrikelnumber(Quiz $quiz, EntityManagerInterface $entityManager): string {
-        // vll mache ich nochmal was damit
-        // $prefixes = array(
-        //     "Shadow", "Dragon", "Mystic", "Silent", "Fire",
-        //     "Dark", "Thunder", "Frost", "Storm", "Blade",
-        //     "Night", "Bright", "Crystal", "Ghost", "Steel",
-        //     "Phantom", "Doom", "Light", "Wolf", "Viper",
-        //     "Iron", "Chaos", "Titan", "Wraith", "Mega",
-        //     "Moon", "Soul", "Sun", "Earth", "Flame",
-        //     "Spirit", "Ice", "Wind", "War", "Sky",
-        //     "Void", "Abyss", "Savage", "Star",
-        //     "Ocean", "Super", "Blue", "Blood", "Dread",
-        //     "Nightmare", "Lunar", "Solar", "Radiant", "Grim",
-        //     "Tempest", "Blaze", "Inferno", "Nebula", "Galactic",
-        //     "Ironclad", "Thunderbolt", "Rising", "Serpent", "Lion",
-        //     "Lava", "Water", "Mighty", "Bane", "Red",
-        //     "Vortex", "Zephyr", "Rift", "Blight", "Eclipse",
-        //     "Titanium", "Cobalt", "Onyx", "Emerald", "Ruby",
-        //     "Cosmic", "Mystical", "Astral", "Nebulous", "Celestial",
-        //     "Venomous", "Ethereal", "Voidborn", "Prime", "Solaris",
-        //     "Twilight", "Eternal", "Obsidian", "Golden", "Radiance",
-        //     "Feral", "Runic", "Spectral", "Quantum", "Arcane"
-        // );
-        
-        // $suffixes = array(
-        //     "Witch", "Slayer", "Mage", "Assassin", "Wizard",
-        //     "Knight", "Warrior", "Sorcerer", "Bringer", "Master",
-        //     "Stalker", "Raven", "Archer", "Rider", "Fist",
-        //     "Striker", "Lord", "Fury", "Guardian", "Venom",
-        //     "Priest", "Seeker", "Walker", "Caller", "Dancer",
-        //     "Shaman", "King", "Sentinel", "Champ", "Defender",
-        //     "Guard", "Ward", "Hunter", "Destroyer", "Commander",
-        //     "Ranger", "Scout", "Invoker", "Conqueror", "Ravager",
-        //     "Protector", "Avenger", "Templar", "Paladin", "Barbarian",
-        //     "Swordsman", "Battlemage", "Marksman", "Necromancer", "Alchemist",
-        //     "Rogue", "Warlord", "Enchanter", "Chieftain", "Juggernaut",
-        //     "Revenant", "Vanguard", "Champion", "Crusader",
-        //     "Monk", "Brawler", "Battler", "Assailant", "Strider",
-        //     "Dreadnought", "Phalanx", "Nomad", "Wanderer", "Survivor",
-        //     "Pathfinder", "Demon", "Lizard", "Herald", "Emissary",
-        //     "Farmer", "Prodigy", "Adept", "Savant", "Virtuoso",
-        //     "Whisperer", "Warden", "Shepherd", "Druid", "Sylvan",
-        //     "Thorn", "Ember", "Gale", "Torrent", "Stonekin",
-        //     "Valkyrie", "Seraph", "Phoenix", "Leviathan", "Kraken",
-        //     "Minotaur", "Sphinx", "Siren", "Enigma", "Specter",
-        //     "Harbinger", "Paradox", "Maelstrom", "Catalyst", "Anomaly",
-        //     "Scourge", "Desolation", "Havoc", "Malice", "Carnage",
-        //     "Warlock", "Witcher", "Invoker", "Astronomer", "Miner",
-        //     "Lich", "Chronomancer", "Illusionist", "Nethermancer",
-        //     "Runemaster", "Elementalist", "Geomancer", "Psychic", "Hexblade",
-        //     "Beastmaster", "Spiritwalker", "Weaver",
-        // );
-
         $firstNames = array(
             "Maximilian", "Alexander", "Leon", "Paul", "Finn",
             "Lukas", "Elias", "Luca", "Liam", "Jonas",
@@ -118,7 +66,7 @@ class QuizController extends AbstractController {
             "Claire", "Violet", "Skylar", "Bella", "Sadie",
             "Rylee", "Kennedy", "Peyton", "Serenity", "Taylor",
             "Alexandra", "Melanie", "Allison", "Lauren", "Samantha",
-            "Mackenzie", "Gabriella", "Caroline", "Madelyn", "Genesis",
+            "Mackenzie", "Gabriella", "Caroline", "Inga", "Genesis",
         );
         
         $lastNames = array(
@@ -152,11 +100,31 @@ class QuizController extends AbstractController {
             "Roberts", "Gomez", "Phillips", "Evans", "Turner",
             "Diaz", "Parker", "Cruz", "Edwards", "Collins",
             "Reyes", "Adler", "Bach", "Friedrichs", "Geiger",
-            "Ivanov", "Jansen", "Keller", "Larsen", "Müller",
+            "Ivanov", "Jansen", "Keller", "Larsen",
             "Nikitin", "Olsen", "Petersen", "Quist", "Russo",
-            "Svensson", "Taylor", "Unger", "Vasquez", "Wang",
-            "Xu", "Yilmaz", "Zhang", "Hansen",
+            "Svensson", "Unger", "Vasquez", "Wang",
+            "Xu", "Yilmaz", "Zhang", "Hansen", 'Maximus',
+            "Morgan", "Bell", "Murphy", "Bennett", "Wood",
+            "Barnes", "Ross", "Henderson", "Coleman", "Jenkins",
+            "Perry", "Powell", "Long", "Patterson", "Hughes",
+            "Washington", "Butler", "Simmons", "Foster",
+            "Gonzales", "Bryant", "Alexander", "Russell", "Griffin",
+            "Hayes", "Myers", "Ford", "Hamilton",
+            "Graham", "Sullivan", "Wallace", "Woods", "Cole",
+            "West", "Jordan", "Owens", "Reynolds", "Fisher",
+            "Ellis", "Harrison", "Gibson", "McDonald",
+            "Marshall", "Ortiz", "Murray", "Freeman",
+            "Wells", "Webb", "Simpson", "Stevens", "Tucker",
+            "Porter", "Hunter", "Hicks", "Crawford", "Henry",
+            "Boyd", "Mason", "Morales", "Kennedy",
+            "Warren", "Dixon", "Ramos", "Burns",
+            "Gordon", "Shaw", "Holmes", "Rice", "Robertson",
+            "Hunt", "Black", "Daniels", "Palmer", "Mills",
+            "Nichols", "Grant", "Knight", "Ferguson", "Rose",
         );
+
+        shuffle($firstNames);
+        shuffle($lastNames);
         
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
 
@@ -208,7 +176,7 @@ class QuizController extends AbstractController {
         } else {
             $matrikelnummer = $session->get('matrikelnummer');
         }
-
+        
         $session->set('matrikelnummer', $matrikelnummer);
         $session->set('code', $request->get('code'));
         $session->set('rightIndex', 0);
