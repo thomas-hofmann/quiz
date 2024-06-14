@@ -6,6 +6,7 @@
         "bootstrap": "^5.3.3",
         "core-js": "^3.23.0",
         "jquery": "^3.7.1",
+        "jquery-ui": "^1.13.3",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.77.2",
         "sass-loader": "^13.3.3",
@@ -20,8 +21,5 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
-    },
-    "dependencies": {
-        "jquery-ui": "^1.13.3"
     }
 }

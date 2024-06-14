@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        <!-- ... -->
+        <title>HDA Quiz</title>
         <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Quiz der Hochschule Darmstadt">
 		<meta name="author" content="Thomas Hofmann">
-        <title>HDA Quiz</title>
+
 
         <meta property="og:url" content="https://quiz.hofmann-thomas.de">
 		<meta property="og:type" content="website">
@@ -15,25 +15,20 @@
 		<meta property="og:description" content="Quiz der Hochschule Darmstadt">
 		<meta property="og:image" content="{{ asset('images/logo.png') }}">
 
-        <script src="https://kit.fontawesome.com/bb7ebab3a0.js" crossorigin="anonymous"></script>
-
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon_io/apple-touch-icon.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon_io/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon_io/favicon-16x16.png') }}">
         <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
-        {% block stylesheets %}
-            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
-            {{ encore_entry_link_tags('app') }}
+        <script src="https://kit.fontawesome.com/bb7ebab3a0.js" crossorigin="anonymous"></script>
 
-            <!-- Renders a link tag (if your module requires any CSS)
-                 <link rel="stylesheet" href="/build/app.css"> -->
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% if (app.request.attributes.get('_route') != 'quiz') and (app.request.attributes.get('_route') != 'quiz-finished') %}
             {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}
-                <!-- Renders app.js & a webpack runtime.js file -->
             {% endblock %}
         {% endif %}
     </head>
