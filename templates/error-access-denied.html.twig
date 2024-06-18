@@ -1,0 +1,9 @@
+{% include ('base.html.twig') %}
+<div class="container">
+    <div class="box box--70 border rounded shadow p-3 mx-auto">
+        <h1>Zugriff verweigert</h1>
+        <p>Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.</p>
+        <a href="{{ path('home') }}" type="button" class="btn btn-dark mt-2"><i class="fa-solid fa-arrow-left-long"></i> Zurück zur Startseite</a>
+    </div>
+</div>
+{% include ('footer.html.twig') %}
