@@ -101,6 +101,10 @@ class DashboardController extends AbstractController {
         }
 
         if($quiz && $request->get('question')) {
+            if ($quiz->getUser() !== $this->getUser()) {
+                throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+            }
+
             $question = new Question();
             $question->setText($request->get('question'));
 
@@ -123,7 +127,7 @@ class DashboardController extends AbstractController {
     #[Route('/delete-quiz/{id}', name: 'delete_quiz')]
     public function deleteQuizAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
         if ($quiz->getUser() !== $this->getUser()) {
-            throw $this->createAccessDeniedException('You are not allowed to delete this quiz.');
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
 
         $entityManager->remove($quiz);
@@ -134,6 +138,10 @@ class DashboardController extends AbstractController {
 
     #[Route('/delete-question/{id}', name: 'delete_question')]
     public function deleteQuestionAction(Question $question, EntityManagerInterface $entityManager): Response {
+        if ($question->getQuiz()->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
+
         $entityManager->remove($question);
         $entityManager->flush();
 
@@ -142,6 +150,9 @@ class DashboardController extends AbstractController {
 
     #[Route('/edit-question/{id}', name: 'edit_question')]
     public function editQuestionAction(Question $question, EntityManagerInterface $entityManager): Response {
+        if ($question->getQuiz()->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
         return $this->render('edit-question.html.twig', [
             'question' => $question
         ]);
@@ -152,6 +163,9 @@ class DashboardController extends AbstractController {
         if($request->get('questionId')) {
             $questionRepository = $entityManager->getRepository(Question::class);
             $question = $questionRepository->findOneBy(['id' => $request->get('questionId')]);
+            if ($question->getQuiz()->getUser() !== $this->getUser()) {
+                throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+            }
             $question->setText($request->get('question'));
 
             $question->setAnswerOne($request->get('answer1'));
@@ -169,6 +183,10 @@ class DashboardController extends AbstractController {
 
     #[Route('/edit-quiz/{id}', name: 'edit_quiz')]
     public function editQuizAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
+
         return $this->render('edit-quiz.html.twig', [
             'questions' => $quiz->getQuestions(),
             'quiz' => $quiz,
@@ -181,6 +199,9 @@ class DashboardController extends AbstractController {
         if($request->get('quizId')) {
             $quizRepository = $entityManager->getRepository(Quiz::class);
             $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
+            if ($quiz->getUser() !== $this->getUser()) {
+                throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+            }
             $quiz->setName($request->get('quizName'));
 
             if (!$quizRepository->findOneBy(['code' => $request->get('quizCode')])) {
@@ -204,6 +225,10 @@ class DashboardController extends AbstractController {
         if (!$quiz) {
             return $this->render('error.html.twig', [
             ]);
+        }
+
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
 
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
@@ -233,6 +258,9 @@ class DashboardController extends AbstractController {
 
     #[Route('/clear-leaderboard/{id}', name: 'clear_leaderboard')]
     public function clearLeaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
         $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz]);
 
@@ -267,6 +295,10 @@ class DashboardController extends AbstractController {
     public function toggleQuiz(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
 
         if (isset($data['isEnabled'])) {
             $quiz->setEnabled((bool) $data['isEnabled']);
