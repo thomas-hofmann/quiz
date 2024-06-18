@@ -14,3 +14,11 @@
         box-shadow: inset 4px 4px 15px 0px rgba(0, 0, 0, 0.25);
     }
 }
+
+.accordion-button:not(.collapsed) {
+    background-color: inherit !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}

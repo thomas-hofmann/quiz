@@ -223,7 +223,7 @@ class DashboardController extends AbstractController {
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }   
         
-        return $this->render('leaderboard.html.twig', [
+        return $this->render('statistics.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
             'averageScorePercentage' => $averageScorePercentage,
             'quiz' => $quiz,
