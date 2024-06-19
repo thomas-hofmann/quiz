@@ -183,6 +183,7 @@ class QuizController extends AbstractController {
         $session->set('rightAnswer', false);
         $session->set('rightAnswerText', '');
         $session->set('index', 0);
+        $session->set('allAnswers', []);
 
         return $this->redirectToRoute('quiz-start');
     }
@@ -231,10 +232,20 @@ class QuizController extends AbstractController {
 
         if (isset($quiz->getQuestions()[$index]) && $quiz->getQuestions()[$index]->getAnswerRight() == $request->get('answer')) {
             $session->set('rightAnswer', true);
+
+            $allAnswers = $session->get('allAnswers');
+            $allAnswers[] = ['questionId' => $quiz->getQuestions()[$index]->getId(), 'answer' => $request->get('answer')];
+            $session->set('allAnswers', $allAnswers);
+
             $rightIndex = $rightIndex + 1;
             $session->set('rightIndex', $rightIndex);
         } else if (isset($quiz->getQuestions()[$index]) && $request->get('answer')) {
             $session->set('rightAnswer', false);
+
+            $allAnswers = $session->get('allAnswers');
+            $allAnswers[] = ['questionId' => $quiz->getQuestions()[$index]->getId(), 'answer' => $request->get('answer')];
+            $session->set('allAnswers', $allAnswers);
+
             if ($quiz->getQuestions()[$index]->getAnswerRight() == 1) {
                 $session->set('rightAnswerText', $rightAnswerText = $quiz->getQuestions()[$index]->getAnswerOne());
             } else if ($quiz->getQuestions()[$index]->getAnswerRight() == 2) {
@@ -261,9 +272,13 @@ class QuizController extends AbstractController {
                 $leaderBoardEntry->setMatrikelnumber($matrikelnummer);
                 $leaderBoardEntry->setQuiz($quiz);
                 $leaderBoardEntry->setScore($rightIndex);
+
+                $leaderBoardEntry->setAllAnswers($session->get('allAnswers'));
             } else {
                 $leaderBoardEntry = $leaderBoardEntryRepository->findOneBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]);
                 $leaderBoardEntry->setScore($rightIndex);
+
+                $leaderBoardEntry->setAllAnswers($session->get('allAnswers'));
             }
 
             $entityManager->persist($leaderBoardEntry);
@@ -305,7 +320,6 @@ class QuizController extends AbstractController {
     #[Route('/quiz-finished', name: 'quiz-finished')]
     public function quizFinishedAction(Request $request, EntityManagerInterface $entityManager): Response {
         $session = $request->getSession();
-
         if (!$session->get('matrikelnummer') || !$session->get('code')) {
             return $this->render('error.html.twig', [
             ]);

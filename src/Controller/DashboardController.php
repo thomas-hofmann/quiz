@@ -310,4 +310,51 @@ class DashboardController extends AbstractController {
 
         return new JsonResponse(['success' => false]);
     }
+
+    #[Route('/answer-stats/{id}', name: 'answer-stats')]
+    public function answerStatsAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        if (!$quiz) {
+            return $this->render('error.html.twig', [
+            ]);
+        }
+
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
+
+        $sortedEntries = [];
+        foreach ($quiz->getQuestions() as $index => $question) {
+            $sortedEntries[$index]['question'] = $question;
+            $sortedEntries[$index]['answerOne'] = 0;
+            $sortedEntries[$index]['answerTwo'] = 0;
+            $sortedEntries[$index]['answerThree'] = 0;
+            $sortedEntries[$index]['answerFour'] = 0;
+            $sortedEntries[$index]['count'] = 0;
+            foreach ($quiz->getLeaderBoardEntries() as $entry) {
+                if ($entry->getAllAnswers()) {
+                    foreach ($entry->getAllAnswers() as $answer) {
+                        if ($question->getId() == $answer['questionId']) {
+                            if ($answer['answer'] == 1) {
+                                $sortedEntries[$index]['answerOne']++;
+                            }
+                            if ($answer['answer'] == 2) {
+                                $sortedEntries[$index]['answerTwo']++;
+                            }
+                            if ($answer['answer'] == 3) {
+                                $sortedEntries[$index]['answerThree']++;
+                            }
+                            if ($answer['answer'] == 4) {
+                                $sortedEntries[$index]['answerFour']++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $this->render('answer-stats.html.twig', [
+            'sortedEntries' => $sortedEntries,
+            'quiz' => $quiz,
+        ]);
+    }
 }

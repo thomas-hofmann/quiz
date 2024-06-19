@@ -19,6 +19,9 @@ class LeaderBoardEntry
     #[ORM\Column(length: 255)]
     private ?string $score = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $allAnswers = null;
+
     #[ORM\ManyToOne(targetEntity: Quiz::class, inversedBy: 'leaderBoardEntries')]
     private Quiz $quiz;
 
@@ -47,6 +50,18 @@ class LeaderBoardEntry
     public function setScore(string $score): static
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    public function getAllAnswers(): ?array
+    {
+        return $this->allAnswers;
+    }
+
+    public function setAllAnswers(?array $allAnswers): static
+    {
+        $this->allAnswers = $allAnswers;
 
         return $this;
     }

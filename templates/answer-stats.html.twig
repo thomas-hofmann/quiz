@@ -1,0 +1,27 @@
+{% include ('base.html.twig') %}
+
+<div id="answer-stats-container">
+    {% for entry in sortedEntries %}
+        <h3 class="mb-3">{{ entry.question.text}}</h3>
+        <ul class="list-group mb-3">
+            <li class="list-group-item position-relative question-stats-li {% if entry.question.answerRight == 1 %}bg-success text-light{% endif %}">
+                A: {{ entry.question.answerOne}}
+                <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerOne}}</span>
+            </li>
+            <li class="list-group-item position-relative question-stats-li {% if entry.question.answerRight == 2 %}bg-success text-light{% endif %}">
+                B: {{ entry.question.answerTwo}}
+                <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerTwo}}</span>
+            </li>
+            <li class="list-group-item position-relative question-stats-li {% if entry.question.answerRight == 3 %}bg-success text-light{% endif %}">
+                C: {{ entry.question.answerThree}}
+                <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerThree}}</span>
+            </li>
+            <li class="list-group-item position-relative question-stats-li {% if entry.question.answerRight == 4 %}bg-success text-light{% endif %}">
+                D: {{ entry.question.answerFour}}
+                <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerFour}}</span>
+            </li>
+        </ul>
+    {% endfor %}
+</div>
+                      
+{% include ('footer.html.twig') %}

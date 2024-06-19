@@ -48,7 +48,7 @@
                                 {% endif %}
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
-                                <a class="btn btn-dark d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Statistik anzeigen</a>
+                                <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Statistik anzeigen</a>
                                 {% if quiz.getLeaderBoardEntries|length %}
                                     <a class="btn btn-dark d-block mb-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
                                 {% endif %}
