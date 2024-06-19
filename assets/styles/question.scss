@@ -63,6 +63,10 @@
     transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, text-shadow 0.25s ease;
 }
 
+.question__letter--statistics {
+    font-size: 18px;
+}
+
 .quiz__button {
     margin: auto;
     display: block;

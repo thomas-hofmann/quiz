@@ -15,16 +15,26 @@
     }
 }
 
+.accordion-button {
+    box-shadow: $box-shadow-inset;
+}
+
 .accordion-button:not(.collapsed) {
     background-color: inherit !important;
     color:inherit !important;
+    box-shadow: inherit;
 }
 
 .accordion-button:focus {
-    box-shadow: none;
+    box-shadow: inherit;
+}
+
+.accordion-button:hover {
+    box-shadow: inset 0 .5rem 1rem rgba($black, .15);
 }
 
 .question-stats-li {
     padding-right: 60px;
     padding-left: 60px;
+    box-shadow: $box-shadow-inset;
 }
