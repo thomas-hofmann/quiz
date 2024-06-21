@@ -2,6 +2,9 @@
 <div class="container">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Quiz bearbeiten</h1>
+         {% if questions|length == 0 %}
+            <p class="text-danger fw-bold">Das Quiz hat noch keine Fragen.</p>
+        {% endif %}
         <form action="{{ path('update_quiz') }}" method="get">
             <div class="form-group">
                 <input type="hidden" name="quizId" value="{{ quiz.id }}">
@@ -65,12 +68,7 @@
             </p>
         </form>
         <hr>
-        {% if questions|length %}
-            <a href="{{ path('dashboard')}}" class="btn btn-secondary mt-2">Zurück zum Dashboard</a>
-        {% else %}
-            <a href="{{ path('dashboard')}}" class="btn btn-secondary mt-2">Zurück zum Dashboard</a>
-            <p class="text-danger">Achtung: Das Quiz brauch mindestens eine Frage</p>
-        {% endif %}
+        <a href="{{ path('dashboard')}}" class="btn btn-secondary mt-2">Zurück zum Dashboard</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}
