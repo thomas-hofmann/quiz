@@ -61,4 +61,52 @@ $(function() {
             });
         });
     }
+    if ($("#show-answers-button").length) {
+        $('#show-answers-button').on('click', function(event) {
+            event.preventDefault();  // Verhindert das Standardverhalten des Links
+            var url = $(this).attr('data-href');  // Holt die URL aus dem href-Attribut des Links
+            $('#show-answers-button').html('<i class="fa-solid fa-spinner fa-spin"></i></i> Ergebnisse aktualisieren');
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(data) {
+                    const newContent = $(data).find('#answer-stats-container').html();
+                    $('#answer-stats-container').html(newContent);
+                    $('#show-answers-button .fa-solid').fadeOut(300, function() {
+                        $('#show-answers-button').html('<i class="fa-solid fa-arrows-rotate"></i> Ergebnisse aktualisieren');
+                        $(this).fadeIn(300);
+                    });
+                    
+                }
+            });
+        });
+    }
+    if ($('.code__bool').length) {
+        const $codeBoolSelf = $('#codeBoolSelf');
+        const $quizcode = $('#quizcode');
+        $('.code__bool').on('change', function() {
+            // Check if the radio button is checked
+            if ($codeBoolSelf.is(':checked')) {
+                // Enable the input field
+                $quizcode.prop('disabled', false);
+                $quizcode.prop('required', true);
+            } else {
+                // Disable the input field (in case of multiple radio buttons affecting this field)
+                $quizcode.prop('disabled', true);
+                $quizcode.prop('required', false);
+            }
+        });
+    }
+    if ($('#codeInput').length) {
+        $('#codeInput').on('change', function() {
+            // Den Wert des Eingabefelds überprüfen
+            if ($(this).val().trim() !== '') {
+                // Wenn das Feld nicht leer ist, aktivieren Sie den Button
+                $('#startQuizBtn').prop('disabled', false);
+            } else {
+                // Andernfalls deaktivieren Sie den Button
+                $('#startQuizBtn').prop('disabled', true);
+            }
+        });
+    }
 });

@@ -8,9 +8,9 @@
 // any CSS you import will output into a single css file (app.css in this case)
 const $ = require('jquery');
 
+require('bootstrap');
+import './styles/app.scss';
+
 import './js/quiz.js';
 import './js/leaderboard.js';
 import './js/dashboard.js';
-
-require('bootstrap');
-import './styles/app.scss';
