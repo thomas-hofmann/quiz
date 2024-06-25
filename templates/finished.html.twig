@@ -35,12 +35,51 @@
             <p class="mb-3 fs-5">Du hast leider keine Frage richtig beantwortet.</p>
         {% endif %}
         <p>
+            <div class="accordion" id="accordionExample">
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header" id="headingOne">
+                    <button id="accordion-toggle" class="quiz__button btn btn-primary mt-2 btn-lg collapsed finished__accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="fa-regular fa-eye"></i><i class="fa-regular fa-eye-slash"></i> Mein Ergebnis
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body pe-0 ps-0">
+                        {% for question in quiz.getQuestions %}
+                            {% set index = loop.index0 %}
+                            <h3 class="mb-3">{{ question.text }}</h3>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 1 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 1 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                    <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
+                                    {% if allAnswers[index].answer == 1 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
+                                    {{ question.answerOne }}
+                                </li>
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 2 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 2 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                    <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
+                                    {% if allAnswers[index].answer == 2 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
+                                    {{ question.answerTwo }}
+                                </li>
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 3 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 3 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                    <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
+                                    {% if allAnswers[index].answer == 3 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
+                                    {{ question.answerThree }}
+                                </li>
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 4 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 4 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                    <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
+                                    {% if allAnswers[index].answer == 4 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
+                                    {{ question.answerFour }}
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
             <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="quiz__button btn btn-dark mt-2 btn-lg"><i class="fa-solid fa-rotate-right"></i> Quiz wiederholen</a>
             <a href="{{ path('home') }}" type="button" class="btn btn-secondary quiz__button mt-2 btn-lg">Zurück zur Startseite</a>
         </p>
     </div>
     <div class="box box--70 mx-auto shadow border rounded pt-2 position-relative">
-        <h2>Statistik</h2>
+        <h2>Kursstatistik</h2>
         <p class="text-primary position-absolute top-0 end-0 mt-2 me-3 fs-5"><i class="fa-solid fa-arrows-rotate fa-spin"></i> Live</p>
         <div id="container-stats">
             <ul class="list-group rounded mb-2">
@@ -112,45 +151,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <span class="d-block w-100 text-center"><h2 class="m-0 ps-3">Mein Ergebnis anschauen</h2></span>
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse border-top" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        {% for question in quiz.getQuestions %}
-                            {% set index = loop.index0 %}
-                            <h3 class="mb-3">{{ question.text }}</h3>
-                            <ul class="list-group mb-3">
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 1 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 1 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
-                                    <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
-                                    {% if allAnswers[index].answer == 1 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
-                                    {{ question.answerOne }}
-                                </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 2 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 2 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
-                                    <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
-                                    {% if allAnswers[index].answer == 2 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
-                                    {{ question.answerTwo }}
-                                </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 3 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 3 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
-                                    <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
-                                    {% if allAnswers[index].answer == 3 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
-                                    {{ question.answerThree }}
-                                </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 4 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 4 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
-                                    <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
-                                    {% if allAnswers[index].answer == 4 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
-                                    {{ question.answerFour }}
-                                </li>
-                            </ul>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     {% block javascripts %}

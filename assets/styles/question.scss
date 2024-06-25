@@ -160,3 +160,21 @@
     top: 7px;
     font-size: 20px;
 }
+
+.finished__accordion-button {
+    .fa-eye {
+        display: none;
+    }
+    .fa-eye-slash {
+        display: inline-block ;
+    }
+}
+
+.finished__accordion-button.collapsed {
+    .fa-eye {
+        display: inline-block;
+    }
+    .fa-eye-slash {
+        display: none;
+    }
+}
