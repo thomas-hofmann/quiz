@@ -84,6 +84,14 @@ class DashboardController extends AbstractController {
             $question->setAnswerRight($request->get('rightAnswer'));
 
             $question->setQuiz($quiz);
+            
+            $positions = array_map(function($question) {
+                return $question->getPosition();
+            }, $quiz->getQuestions());
+            
+            $highestPosition = max($positions);
+
+            $question->setPosition($highestPosition + 1);
 
             $entityManager->persist($question);
             $entityManager->flush();
@@ -154,7 +162,6 @@ class DashboardController extends AbstractController {
         if ($quiz->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
-
         return $this->render('edit-quiz.html.twig', [
             'questions' => $quiz->getQuestions(),
             'quiz' => $quiz,
