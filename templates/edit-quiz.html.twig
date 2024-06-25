@@ -28,10 +28,10 @@
             <ul class="list-group mb-2" id="sortable">
                 {% for question in questions %}
                     <li class="list-group-item edit-question-list-item" data-id="{{ question.id }}">
-                        <p class="mb-2">
+                        <p class="mb-2 fw-bold">
                             {{ loop.index }}. Frage: {{ question.text}}
                         </p>
-                        <p class="mb-2 fw-bold">
+                        <p class="mb-2">
                             Richtig:
                             {% if question.answerRight == 1 %}
                                 {{ question.answerOne }}
