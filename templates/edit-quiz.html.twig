@@ -31,6 +31,21 @@
                         <p class="mb-2">
                             {{ loop.index }}. Frage: {{ question.text}}
                         </p>
+                        <p class="mb-2 fw-bold">
+                            Richtig:
+                            {% if question.answerRight == 1 %}
+                                {{ question.answerOne }}
+                            {% endif %}
+                            {% if question.answerRight == 2 %}
+                                {{ question.answerTwo }}
+                            {% endif %}
+                            {% if question.answerRight == 3 %}
+                                {{ question.answerThree }}
+                            {% endif %}
+                            {% if question.answerRight == 4 %}
+                                {{ question.answerFour }}
+                            {% endif %}
+                        </p>
                         <p>
                             <a href="{{ path('edit_question', { 'id': question.id }) }}" class="btn btn-sm btn-dark mt-2"><i class="fa-regular fa-pen-to-square"></i> Frage bearbeiten</a>
                             <a href="{{ path('delete_question', { 'id': question.id }) }}" class="btn btn-sm btn-danger mt-2" onclick="return confirm('Sind Sie sicher, dass Sie diese Frage löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Frage löschen</a>
