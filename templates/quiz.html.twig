@@ -67,7 +67,13 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success btn-lg quiz__button" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Nächste Frage</button>
+
+                {% if shuffledQuestions[index + 1] is defined %}
+                    <button type="submit" class="btn btn-success btn-lg quiz__button quiz__next-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Nächste Frage</button>
+                {% else %}
+                    <button type="submit" class="btn btn-success btn-lg quiz__button quiz__final-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-solid fa-flag-checkered next-icon"></i></span> Quiz abschließen</button>
+                {% endif %}
+                
             </form>
             {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}

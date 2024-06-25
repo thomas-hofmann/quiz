@@ -1,5 +1,5 @@
 $(function() {
-    $('#quiz-form').on('submit', function(event) {
+    $('.quiz__next-answer').on('click', function(event) {
         event.preventDefault(); // Verhindert das Standard-Formular-Absenden
 
         let form = $('#quiz-form');

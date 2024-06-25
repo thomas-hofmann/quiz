@@ -26,7 +26,7 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
-        {% if (app.request.attributes.get('_route') != 'quiz') and (app.request.attributes.get('_route') != 'quiz-finished') %}
+        {% if app.request.attributes.get('_route') != 'quiz' %}
             {% block javascripts %}
                 {{ encore_entry_script_tags('app') }}
             {% endblock %}
