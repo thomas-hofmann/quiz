@@ -84,14 +84,18 @@ class DashboardController extends AbstractController {
             $question->setAnswerRight($request->get('rightAnswer'));
 
             $question->setQuiz($quiz);
-            
-            $positions = array_map(function($question) {
-                return $question->getPosition();
-            }, $quiz->getQuestions());
-            
-            $highestPosition = max($positions);
 
-            $question->setPosition($highestPosition + 1);
+            if (count($quiz->getQuestions())) {
+                $positions = array_map(function($question) {
+                    return $question->getPosition();
+                }, $quiz->getQuestions());
+                
+                $highestPosition = max($positions);
+
+                $question->setPosition($highestPosition + 1);
+             } else {
+                $question->setPosition(1);
+             }
 
             $entityManager->persist($question);
             $entityManager->flush();
