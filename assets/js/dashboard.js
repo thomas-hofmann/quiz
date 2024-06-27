@@ -97,16 +97,4 @@ $(function() {
             }
         });
     }
-    if ($('#codeInput').length) {
-        $('#codeInput').on('change', function() {
-            // Den Wert des Eingabefelds überprüfen
-            if ($(this).val().trim() !== '') {
-                // Wenn das Feld nicht leer ist, aktivieren Sie den Button
-                $('#startQuizBtn').prop('disabled', false);
-            } else {
-                // Andernfalls deaktivieren Sie den Button
-                $('#startQuizBtn').prop('disabled', true);
-            }
-        });
-    }
 });

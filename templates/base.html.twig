@@ -25,12 +25,15 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
-        {% if app.request.attributes.get('_route') != 'quiz' %}
-            {% block javascripts %}
-                {{ encore_entry_script_tags('app') }}
-            {% endblock %}
-        {% endif %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+             {% if app.request.attributes.get('_route') == 'quiz' %}
+                {{ encore_entry_script_tags('quiz') }}
+            {% endif %}
+            {% if app.user.username is defined %}
+                {{ encore_entry_script_tags('backend') }}
+            {% endif %}
+        {% endblock %}
     </head>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
