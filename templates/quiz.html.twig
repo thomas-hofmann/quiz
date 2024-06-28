@@ -41,7 +41,7 @@
         {% set question = shuffledQuestions[index] %}
         <div class="question row mt-5 p-4 border rounded shadow">
             <p class="text-center mb-2">{{ index + 1 }} von {{ shuffledQuestions|length }}</p>
-            <div class="col-12 fs-1 lead question__text">
+            <div class="col-12 fs-2 lead question__text">
                 {{ question.question.text }}
             </div>
             <form action="{{ path('quiz') }}" method="post" id="quiz-form">
