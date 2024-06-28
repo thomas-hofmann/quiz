@@ -3,6 +3,16 @@
     margin-bottom: 30px;
 }
 
+.index__input-code {
+    margin: auto;
+    display: block;
+    width: 50%;
+
+    @include media-breakpoint-down(lg) {
+        width: 100%;
+    }
+}
+
 .index__logo {
     position: absolute;
     top: 0;
