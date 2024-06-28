@@ -16,7 +16,7 @@
                     Punkteschnitt: <strong>{{ averageScore }}</strong>
                     
                 </li>
-                    <li class="list-group-item
+                    <li class="list-group-item bg-gradient
                     {% if averageScorePercentage >= 70 %}
                         bg-success text-light
                     {% elseif averageScorePercentage >= 40 %}
@@ -98,7 +98,7 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse border-top" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <button data-href="{{ path('answer-stats', { 'id': quiz.id }) }}" class="btn btn-primary mb-2" id="show-answers-button"><i class="fa-regular fa-eye"></i> Ergebnisse einblenden</button>
+                        <button data-href="{{ path('answer-stats', { 'id': quiz.id }) }}" class="btn btn-primary bg-gradient mb-2" id="show-answers-button"><i class="fa-regular fa-eye"></i> Ergebnisse einblenden</button>
                         <div id="answer-stats-container">
                             {% for question in quiz.getQuestions %}
                                 <h3 class="mb-3">{{ question.text}}</h3>
@@ -126,7 +126,7 @@
                 </div>
             </div>
         </div>
-        <a href="/dashboard" type="button" class="btn btn-dark mt-3">Zurück zum Dashboard</a>
+        <a href="/dashboard" type="button" class="btn btn-dark bg-gradient mt-3">Zurück zum Dashboard</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}

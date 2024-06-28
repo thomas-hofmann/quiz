@@ -1,5 +1,5 @@
 {% include ('base.html.twig') %}
-<div class="container text-center">
+<div class="container container--fade-in text-center">
     <div class="box border rounded shadow p-3 mx-auto">
         <img src="{{ asset('images/logo.png') }}" class="logo">
         <h1>Willkommen zum Quiz</h1>
@@ -20,7 +20,7 @@
                 {% endif %}
             </li>
         </ul>
-        <a href="{{ path('quiz') }}" class="btn btn-success btn-lg mt-3 mb-3 w-100 animated__icon"><i class="fa-regular fa-circle-right"></i></i> Erste Frage</a>
+        <a href="{{ path('quiz') }}" class="btn btn-success bg-gradient btn-lg mt-3 mb-3 animated__icon quiz__final-initial quiz__button--initial"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Erste Frage</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}

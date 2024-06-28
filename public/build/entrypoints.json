@@ -6,17 +6,17 @@
         "/build/554.a87074fe.js",
         "/build/96.1c551593.js",
         "/build/345.55497111.js",
-        "/build/app.639c6ce1.js"
+        "/build/app.095c0fb0.js"
       ],
       "css": [
-        "/build/app.e3bcf32c.css"
+        "/build/app.eb9b20a8.css"
       ]
     },
     "quiz": {
       "js": [
         "/build/runtime.8ab7f0c8.js",
         "/build/554.a87074fe.js",
-        "/build/quiz.b1cbea56.js"
+        "/build/quiz.42978418.js"
       ]
     },
     "backend": {

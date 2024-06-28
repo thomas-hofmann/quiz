@@ -21,7 +21,13 @@ header, main, footer {
 }
 
 .box {
+    background: #fff;
     max-width: 50%;
+
+    @include media-breakpoint-down('xl') {
+        max-width: 70%;
+    }
+
     @include media-breakpoint-down('lg') {
         max-width: 100%;
     }
@@ -40,6 +46,12 @@ header, main, footer {
     height: auto;
 
     max-width: 250px;
+}
+
+.navbar__login {
+    @include media-breakpoint-down('lg') {
+        padding-bottom: 0;
+    }
 }
 
 .animated__icon {

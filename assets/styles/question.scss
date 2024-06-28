@@ -38,6 +38,7 @@
 }
 
 .question {
+    background: #fff;
     @include media-breakpoint-down(lg) {
         margin-top: 30px !important;
         padding: 10px !important;
@@ -45,6 +46,7 @@
 }
 
 .quiz__finished {
+    background: #fff;
     @include media-breakpoint-down(lg) {
         margin-top: 30px !important;
         margin-bottom: 30px !important;
@@ -72,7 +74,7 @@
     font-size: 18px;
 }
 
-.quiz__button {
+.quiz__button, .quiz__button--initial {
     margin: auto;
     display: block;
     width: 50%;
@@ -182,4 +184,8 @@
     .fa-eye-slash {
         display: none;
     }
+}
+
+.container--fade-in {
+    display: none;
 }

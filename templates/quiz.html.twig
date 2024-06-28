@@ -1,7 +1,7 @@
 {% include ('base.html.twig') %}
-<div class="container text-center quiz-container">
-    <div class="box shadow mx-auto">
-        <ul class="list-group rounded">
+<div class="container text-center quiz-container container--fade-in">
+    <div class="box shadow mx-auto rounded">
+        <ul class="list-group">
             <li class="list-group-item">
                 <h1 class="mb-0">{{ quiz.name }}</h1>
             </li>
@@ -11,22 +11,28 @@
             </li>
             {% if index > 0 %}
                 {% if rightAnswer %}
-                    <li class="list-group-item bg-success text-light">
-                        <i class="fa-regular fa-circle-check answer__logo"></i>
-                        <i class="fa-regular fa-circle-check answer__logo--right"></i>
-                        Richtige Antwort!
+                    <li class="list-group-item p-0">
+                        <div class="alert alert-success m-0 p-2 rounded-top-0">
+                            <i class="fa-regular fa-circle-check answer__logo"></i>
+                            <i class="fa-regular fa-circle-check answer__logo--right"></i>
+                            Richtige Antwort!
+                        </div>
                     </li>
                 {% else %}
-                    <li class="list-group-item bg-danger text-light">
-                        <i class="fa-regular fa-circle-xmark answer__logo"></i>
-                        <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
-                        <p class="mb-1 fw-bold"><small>Leider falsch! Richtig wäre:</small></p>
-                        <p class="m-0">{{ rightAnswerText }}</p>
+                    <li class="list-group-item p-0">
+                        <div class="alert alert-danger m-0 p-2 rounded-top-0">
+                            <i class="fa-regular fa-circle-xmark answer__logo"></i>
+                            <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
+                            <p class="mb-1 fw-bold"><small>Falsche Antwort! Richtig wäre:</small></p>
+                            <p class="m-0">{{ rightAnswerText }}</p>
+                        </div>
                     </li>
                 {% endif %}
             {% else %}
-                <li class="list-group-item">
-                    Das Quiz beginnt. Viel Erfolg!
+                <li class="list-group-item p-0">
+                    <div class="alert alert-primary m-0 p-2 rounded-top-0">
+                        Das Quiz beginnt. Viel Erfolg!
+                    </div>
                 </li>
             {% endif %}
         </ul>
@@ -43,35 +49,34 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 p-0 d-flex" >
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[0].index }}" name="answer" value="{{ question.answers[0].index }}" required/>
-                            <label class="answer__label fs-4 question__answer-1" for="answer{{ question.answers[0].index }}">
+                            <label class="answer__label fs-4 question__answer-1 bg-gradient" for="answer{{ question.answers[0].index }}">
                                 <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">  
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[1].index }}" name="answer" value="{{ question.answers[1].index }}"/>
-                            <label class="answer__label fs-4 question__answer-2" for="answer{{ question.answers[1].index }}">
+                            <label class="answer__label fs-4 question__answer-2 bg-gradient" for="answer{{ question.answers[1].index }}">
                                 <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[2].index }}" name="answer" value="{{ question.answers[2].index }}"/>
-                            <label class="answer__label fs-4 question__answer-3" for="answer{{ question.answers[2].index }}">
+                            <label class="answer__label fs-4 question__answer-3 bg-gradient" for="answer{{ question.answers[2].index }}">
                                 <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[3].index }}" name="answer" value="{{ question.answers[3].index }}"/>
-                            <label class="answer__label fs-4 question__answer-4" for="answer{{ question.answers[3].index }}">
+                            <label class="answer__label fs-4 question__answer-4 bg-gradient" for="answer{{ question.answers[3].index }}">
                                 <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].text }}
                             </label>
                         </div>
                     </div>
                 </div>
-
                 {% if shuffledQuestions[index + 1] is defined %}
-                    <button type="submit" class="btn btn-success btn-lg quiz__button quiz__next-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Nächste Frage</button>
+                    <button type="submit" class="btn btn-success bg-gradient btn-lg quiz__button quiz__next-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Nächste Frage</button>
                 {% else %}
-                    <button type="submit" class="btn btn-success btn-lg quiz__button quiz__final-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-solid fa-flag-checkered next-icon"></i></span> Quiz abschließen</button>
+                    <button type="submit" class="btn btn-success bg-gradient btn-lg quiz__button quiz__final-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-solid fa-flag-checkered next-icon"></i></span> Quiz abschließen</button>
                 {% endif %}
                 
             </form>

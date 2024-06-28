@@ -1,7 +1,7 @@
 {% include ('base.html.twig') %}
-<div class="container text-center quiz-container">
-    <div class="box shadow mx-auto">
-        <ul class="list-group rounded">
+<div class="container text-center quiz-container container--fade-in">
+    <div class="box shadow mx-auto rounded">
+        <ul class="list-group">
             <li class="list-group-item">
                 <h1 class="mb-0">{{ quiz.name }}</h1>
             </li>
@@ -10,17 +10,21 @@
                 <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
             </li>
             {% if rightAnswer %}
-                <li class="list-group-item bg-success text-light">
-                    <i class="fa-regular fa-circle-check answer__logo"></i>
-                    <i class="fa-regular fa-circle-check answer__logo--right"></i>
-                    Richtige Antwort!
+                <li class="list-group-item p-0">
+                    <div class="alert alert-success m-0 p-2 rounded-top-0">
+                        <i class="fa-regular fa-circle-check answer__logo"></i>
+                        <i class="fa-regular fa-circle-check answer__logo--right"></i>
+                        Richtige Antwort!
+                    </div>
                 </li>
             {% else %}
-                <li class="list-group-item bg-danger text-light">
-                    <i class="fa-regular fa-circle-xmark answer__logo"></i>
-                    <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
-                    <p class="mb-1 fw-bold"><small>Leider falsch! Richtig wäre:</small></p>
-                    <p class="m-0">{{ rightAnswerText }}</p>
+                <li class="list-group-item p-0">
+                    <div class="alert alert-danger m-0 p-2 rounded-top-0">
+                        <i class="fa-regular fa-circle-xmark answer__logo"></i>
+                        <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
+                        <p class="mb-1 fw-bold"><small>Falsche Antwort! Richtig wäre:</small></p>
+                        <p class="m-0">{{ rightAnswerText }}</p>
+                    </div>
                 </li>
             {% endif %}
         </ul>
@@ -38,33 +42,34 @@
             <div class="accordion" id="accordionExample">
             <div class="accordion-item border-0">
                 <h2 class="accordion-header" id="headingOne">
-                    <button class="quiz__button btn btn-primary mt-2 btn-lg finished__accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="quiz__button btn bg-gradient btn-primary mt-2 btn-lg finished__accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         <i class="fa-regular fa-eye"></i><i class="fa-regular fa-eye-slash"></i> Meine Antworten
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body pe-0 ps-0">
+                        <hr>
                         {% for question in quiz.getQuestions %}
                             {% set index = loop.index0 %}
                             <h3>Frage {{ index + 1 }}</h3>
                             <h4 class="mb-3">{{ question.text }}</h4>
                             <ul class="list-group mb-3">
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 1 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 1 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 1 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 1 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
                                     {% if allAnswers[index].answer == 1 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerOne }}
                                 </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 2 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 2 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 2 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 2 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
                                     {% if allAnswers[index].answer == 2 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerTwo }}
                                 </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 3 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 3 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 3 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 3 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
                                     {% if allAnswers[index].answer == 3 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerThree }}
                                 </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 {% if question.answerRight == 4 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 4 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 4 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 4 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
                                     {% if allAnswers[index].answer == 4 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerFour }}
@@ -75,8 +80,8 @@
                 </div>
             </div>
         </div>
-            <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="quiz__button btn btn-dark mt-2 btn-lg"><i class="fa-solid fa-rotate-right"></i> Quiz wiederholen</a>
-            <a href="{{ path('home') }}" type="button" class="btn btn-secondary quiz__button mt-2 btn-lg">Zurück zur Startseite</a>
+            <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="quiz__button btn btn-dark bg-gradient mt-2 btn-lg"><i class="fa-solid fa-rotate-right"></i> Quiz wiederholen</a>
+            <a href="{{ path('home') }}" type="button" class="btn btn-secondary bg-gradient quiz__button mt-2 btn-lg">Zurück zur Startseite</a>
         </p>
     </div>
     <div class="box box--70 mx-auto shadow border rounded pt-2 position-relative">
@@ -94,7 +99,7 @@
                     <li class="list-group-item">
                         Punkteschnitt: <strong>{{ averageScore }}</strong>
                     </li>
-                    <li class="list-group-item
+                    <li class="list-group-item bg-gradient
                         {% if averageScorePercentage >= 70 %}
                             bg-success text-light
                         {% elseif averageScorePercentage >= 40 %}

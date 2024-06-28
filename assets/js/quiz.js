@@ -19,12 +19,12 @@ $(function() {
                     // Ersetzt den HTML-Code mit der neuen Frage
                     let newContent = $(response).find('.quiz-container').html();
                     // Fade out the current content
-                    $('.quiz-container').fadeOut(200, function() {
+                    $('.quiz-container').fadeOut(150, function() {
                         // Replace the HTML content
                         $(this).html(newContent);
                         loadingSpan.html(originalContent);
                         // Fade in the new content
-                        $(this).fadeIn(200, function() {
+                        $(this).fadeIn(150, function() {
                             // Bind the event listeners to the new content
                             bindEventListeners();
                         });
@@ -35,6 +35,11 @@ $(function() {
                     loadingSpan.html(originalContent);
                 }
             });
+        });
+
+        $('.quiz__final-answer').on('click', function(event) {
+            let loadingSpan = $('#loading');
+            loadingSpan.html('<i class="fa-solid fa-spinner fa-spin"></i>');
         });
 
         $('.answer__radio').on('click', function() {

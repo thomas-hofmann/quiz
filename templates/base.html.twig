@@ -35,44 +35,44 @@
             {% endif %}
         {% endblock %}
     </head>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ path('home') }}">h_da Quiz</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('dashboard') }}"><i class="fa-solid fa-table-columns"></i> Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_logout') }}" onclick="return confirm('Sind Sie sicher, dass Sie ausloggen wollen?')"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_login') }}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                    {% if app.user.username is defined %}
-                        <span class="navbar-text text-info">
-                            <i class="fa-regular fa-user"></i> {{ app.user.username }}
-                            {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
-                            <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <body class="bg-light">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{ path('home') }}">h_da Quiz</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('dashboard') }}"><i class="fa-solid fa-table-columns"></i> Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_logout') }}" onclick="return confirm('Sind Sie sicher, dass Sie ausloggen wollen?')"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_login') }}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                                </li>
                             {% endif %}
-                        </span>
-                    {% endif %}
-                    {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
-                        <span class="navbar-text text-info">
-                            <i class="fa-regular fa-user"></i> {{ app.session.get('matrikelnummer') }}
-                        </span>
-                    {% endif %}
+                        </ul>
+                        {% if app.user.username is defined %}
+                            <span class="navbar-text text-info navbar__login">
+                                <i class="fa-regular fa-user"></i> {{ app.user.username }}
+                                {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
+                                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                                {% endif %}
+                            </span>
+                        {% endif %}
+                        {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
+                            <span class="navbar-text text-info navbar__login">
+                                <i class="fa-regular fa-user"></i> {{ app.session.get('matrikelnummer') }}
+                            </span>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="main-content">
+            </nav>
+        </header>
+        <main class="main-content">

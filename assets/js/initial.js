@@ -35,4 +35,14 @@ $(function() {
             }
         });
     }
+
+    $('.quiz__final-initial').on('click', function(event) {
+        let loadingSpan = $('#loading');
+        loadingSpan.html('<i class="fa-solid fa-spinner fa-spin"></i>');
+    });
+
+    $('#startQuizBtn').on('click', function(event) {
+        let loadingSpan = $('#loading');
+        loadingSpan.html('<i class="fa-solid fa-spinner fa-spin"></i>');
+    });
 });

@@ -16,7 +16,7 @@
                     Punkteschnitt: <strong>{{ averageScore }}</strong>
                     
                 </li>
-                 <li class="list-group-item
+                 <li class="list-group-item bg-gradient
                     {% if averageScorePercentage >= 70 %}
                         bg-success text-light
                     {% elseif averageScorePercentage >= 40 %}
@@ -89,7 +89,7 @@
                 </tbody>
             </table>
         </div>
-        <a href="/dashboard" type="button" class="btn btn-dark mt-2">Zurück zum Dashboard</a>
+        <a href="/dashboard" type="button" class="btn btn-dark bg-gradient mt-2">Zurück zum Dashboard</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}
