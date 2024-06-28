@@ -12,29 +12,3 @@
         width: 100%;
     }
 }
-
-.index__logo {
-    position: absolute;
-    top: 0;
-    font-size: 35px;
-    padding: 1rem;
-
-    animation-duration: 3s;
-
-    @include media-breakpoint-down(sm) {
-        font-size: 25px;
-        padding: .5rem;
-    }
-
-    @media (max-width: 350px) {
-        font-size: 18px;
-    }
-}
-
-.index__logo--left {
-    left: 0;
-}
-
-.index__logo--right {
-    right: 0;
-}
