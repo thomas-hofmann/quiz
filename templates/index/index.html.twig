@@ -1,13 +1,15 @@
 {% include ('base.html.twig') %}
 <div class="container text-center">
-    <div class="box border rounded shadow p-3 mx-auto">
+    <div class="box border rounded shadow p-3 mx-auto position-relative">
         <img src="{{ asset('images/logo.png') }}" class="logo">
+        <i class="fa-regular fa-circle-question index__logo index__logo--left fa-shake"></i>
+        <i class="fa-regular fa-circle-question index__logo index__logo--right fa-shake"></i>
         <h1><strong>Quiz</strong></h1>
-        <form action="{{ path('quiz-initial') }}" method="post" class="box mx-auto">
+        <form action="{{ path('quiz-initial') }}" method="post">
             <div class="form-group mt-4">
                 <input type="text" class="form-control mb-4 text-center" id="codeInput" name="code" placeholder="Beitrittscode" required>
             </div>
-            <button type="submit" id="startQuizBtn" class="btn btn-success bg-gradient btn-lg mt-2 mb-3 w-100 index__button animated__icon" disabled><span id="loading"><i class="fa-regular fa-circle-play"></i></span> Quiz starten</button>
+            <button type="submit" id="startQuizBtn" class="btn btn-success bg-gradient btn-lg mt-2 mb-3 quiz__button--initial" disabled><span id="loading"><i class="fa-regular fa-circle-play next-icon"></i></span> Quiz starten</button>
         </form>
     </div>
 </div>
