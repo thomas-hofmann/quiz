@@ -2,7 +2,9 @@
 
 <div id="answer-stats-container">
     {% for entry in sortedEntries %}
-        <h3 class="mb-3">{{ entry.question.text}}</h3>
+        {% set index = loop.index0 %}
+        <h3>Frage {{ index + 1 }}</h3>
+        <h4 class="mb-3">{{ entry.question.text}}</h4>
         <ul class="list-group mb-3">
             <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 1 %}bg-success bg-gradient text-light{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
