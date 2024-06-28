@@ -6,8 +6,6 @@ import './js/initial.js';
 import './js/leaderboard.js';
 import './js/dashboard.js';
 
-$(function() {
-    if ($('.container--fade-in').length) {
-        $('.container--fade-in').fadeIn(300);
-    }
+$(window).on('load', function() {
+    $('.container--fade-in').fadeIn(300);
 });
