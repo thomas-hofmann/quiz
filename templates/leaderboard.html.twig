@@ -16,13 +16,13 @@
                     Punkteschnitt: <strong>{{ averageScore }}</strong>
                     
                 </li>
-                 <li class="list-group-item bg-gradient
+                 <li class="list-group-item bg-gradient rounded-bottom-0
                     {% if averageScorePercentage >= 70 %}
-                        bg-success text-light
+                        bg-success-subtle text-success-emphasis
                     {% elseif averageScorePercentage >= 40 %}
-                        bg-warning 
+                        bg-warning-subtle text-warning-emphasis
                     {% else %}
-                        bg-danger text-light
+                        bg-danger-subtle text-danger-emphasis
                     {% endif %}
                 ">
                     Kursnote: <strong>{{ averageScorePercentage }}%</strong>

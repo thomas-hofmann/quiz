@@ -54,22 +54,22 @@
                             <h3>Frage {{ index + 1 }}</h3>
                             <h4 class="mb-3">{{ question.text }}</h4>
                             <ul class="list-group mb-3">
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 1 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 1 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 1 %}bg-success-subtle text-success-emphasis{% endif %} {% if allAnswers[index].answer == 1 %}{% if allAnswers[index].answer == question.answerRight %}bg-success-subtle text-success-emphasis{% else %}bg-danger-subtle text-danger-emphasis{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
                                     {% if allAnswers[index].answer == 1 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerOne }}
                                 </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 2 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 2 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 2 %}bg-success-subtle text-success-emphasis{% endif %} {% if allAnswers[index].answer == 2 %}{% if allAnswers[index].answer == question.answerRight %}bg-success-subtle text-success-emphasis{% else %}bg-danger-subtle text-danger-emphasis{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
                                     {% if allAnswers[index].answer == 2 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerTwo }}
                                 </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 3 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 3 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 3 %}bg-success-subtle text-success-emphasis{% endif %} {% if allAnswers[index].answer == 3 %}{% if allAnswers[index].answer == question.answerRight %}bg-success-subtle text-success-emphasis{% else %}bg-danger-subtle text-danger-emphasis{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
                                     {% if allAnswers[index].answer == 3 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerThree }}
                                 </li>
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 4 %}bg-success text-light{% endif %} {% if allAnswers[index].answer == 4 %}{% if allAnswers[index].answer == question.answerRight %}bg-success text-light{% else %}bg-danger text-light{% endif %}{% endif %}">
+                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if question.answerRight == 4 %}bg-success-subtle text-success-emphasis{% endif %} {% if allAnswers[index].answer == 4 %}{% if allAnswers[index].answer == question.answerRight %}bg-success-subtle text-success-emphasis{% else %}bg-danger-subtle text-danger-emphasis{% endif %}{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
                                     {% if allAnswers[index].answer == 4 %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
                                     {{ question.answerFour }}
@@ -99,13 +99,13 @@
                     <li class="list-group-item">
                         Punkteschnitt: <strong>{{ averageScore }}</strong>
                     </li>
-                    <li class="list-group-item bg-gradient
+                    <li class="list-group-item bg-gradient rounded-bottom-0
                         {% if averageScorePercentage >= 70 %}
-                            bg-success text-light
+                            bg-success-subtle text-success-emphasis
                         {% elseif averageScorePercentage >= 40 %}
-                            bg-warning 
+                            bg-warning-subtle text-warning-emphasis
                         {% else %}
-                            bg-danger text-light
+                            bg-danger-subtle text-danger-emphasis
                         {% endif %}
                     ">
                         Kursnote: <strong>{{ averageScorePercentage }}%</strong>

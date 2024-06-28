@@ -6,22 +6,22 @@
         <h3>Frage {{ index + 1 }}</h3>
         <h4 class="mb-3">{{ entry.question.text}}</h4>
         <ul class="list-group mb-3">
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 1 %}bg-success bg-gradient text-light{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 1 %}bg-success-subtle text-success-emphasis{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
                 {{ entry.question.answerOne}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerOne}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 2 %}bg-success bg-gradient text-light{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 2 %}bg-success-subtle text-success-emphasis{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
                 {{ entry.question.answerTwo}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerTwo}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 3 %}bg-success bg-gradient text-light{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 3 %}bg-success-subtle text-success-emphasis{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
                 {{ entry.question.answerThree}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerThree}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 4 %}bg-success bg-gradient text-light{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.question.answerRight == 4 %}bg-success-subtle text-success-emphasis{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
                 {{ entry.question.answerFour}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerFour}}</span>

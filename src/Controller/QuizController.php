@@ -222,7 +222,7 @@ class QuizController extends AbstractController {
         $rightIndex = $session->get('rightIndex');
         $matrikelnummer = $session->get('matrikelnummer');
 
-        if (!$quiz) {
+        if (!$quiz || !$quiz->getQuestions()) {
             return $this->render('error.html.twig', [
             ]);
         }
@@ -329,7 +329,7 @@ class QuizController extends AbstractController {
         $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
         $matrikelnummer = $session->get('matrikelnummer');
 
-        if (!$quiz) {
+        if (!$quiz || !$quiz->getQuestions()) {
             return $this->render('error.html.twig', [
             ]);
         }

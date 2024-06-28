@@ -20,7 +20,11 @@
                 {% endif %}
             </li>
         </ul>
-        <a href="{{ path('quiz') }}" class="btn btn-success bg-gradient btn-lg mt-3 mb-3 quiz__final-initial quiz__button--initial"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Erste Frage</a>
+        {% if quiz.getQuestions|length %}
+            <a href="{{ path('quiz') }}" class="btn btn-success bg-gradient btn-lg mt-3 mb-3 quiz__final-initial quiz__button--initial"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Erste Frage</a>
+        {% else %}
+            <p class="text-danger fw-bold mt-2">Quiz hat leider keine Fragen und kann deshalb nicht gestartet werden!</p>
+        {% endif %}
     </div>
 </div>
 {% include ('footer.html.twig') %}
