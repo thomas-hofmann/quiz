@@ -60,7 +60,7 @@
                         </ul>
                         {% if app.user.username is defined %}
                             <span class="navbar-text text-info navbar__login">
-                                <i class="fa-regular fa-user"></i> {{ app.user.username }}
+                                <i class="fa-regular fa-circle-user"></i></i> {{ app.user.username }}
                                 {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
                                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                                 {% endif %}
@@ -68,7 +68,7 @@
                         {% endif %}
                         {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
                             <span class="navbar-text text-info navbar__login">
-                                <i class="fa-regular fa-user"></i> {{ app.session.get('matrikelnummer') }}
+                                <i class="fa-regular fa-circle-user"></i></i> {{ app.session.get('matrikelnummer') }}
                             </span>
                         {% endif %}
                     </div>

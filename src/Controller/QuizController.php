@@ -184,6 +184,7 @@ class QuizController extends AbstractController {
         $session->set('rightAnswerText', '');
         $session->set('index', 0);
         $session->set('allAnswers', []);
+        $session->set('playerAnswers', []);
 
         return $this->redirectToRoute('quiz-start');
     }
@@ -287,6 +288,7 @@ class QuizController extends AbstractController {
         if ($answerReceived) {
             $index = $index + 1;
             $session->set('index', $index);
+            $session->set('playerAnswers', $playerAnswers);
             return $this->redirectToRoute('quiz');
         }
 
@@ -341,6 +343,7 @@ class QuizController extends AbstractController {
             'rightIndex' => $rightIndex,
             'rightAnswer'=> $rightAnswer,
             'rightAnswers' => $rightAnswersText,
+            'playerAnswers' => $session->get('playerAnswers'),
         ]);
     }
 

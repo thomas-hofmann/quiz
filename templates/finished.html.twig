@@ -6,11 +6,11 @@
                 <h1 class="mb-0">{{ quiz.name }}</h1>
             </li>
             <li class="list-group-item">
-                <i class="fa-regular fa-user"></i> {{ matrikelnummer }} | 
+                <i class="fa-regular fa-circle-user"></i> {{ matrikelnummer }} | 
                 <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
             </li>
             {% if rightAnswer %}
-                <li class="list-group-item p-0">
+                <li class="list-group-item p-0 fw-bold">
                     <div class="alert alert-success m-0 p-2 rounded-top-0">
                         <i class="fa-regular fa-circle-check answer__logo"></i>
                         <i class="fa-regular fa-circle-check answer__logo--right"></i>
@@ -18,7 +18,7 @@
                     </div>
                 </li>
             {% else %}
-                <li class="list-group-item p-0">
+                <li class="list-group-item p-0 fw-bold">
                     <div class="alert alert-danger m-0 p-2 rounded-top-0">
                         <i class="fa-regular fa-circle-xmark answer__logo"></i>
                         <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
@@ -62,7 +62,7 @@
                                     {% endfor %}
                                     <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if answer.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
                                         <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
-                                        {% if isAnswerSelected %}<i class="fa-regular fa-user answer__logo--right"></i>{% endif %}
+                                        {% if isAnswerSelected %}<i class="fa-regular fa-circle-user text-info answer__logo--right"></i>{% endif %}
                                         {{ answer.text }}
                                     </li>
                                 {% endfor %}  
@@ -139,7 +139,7 @@
                                     {{ entry.matrikelnumber }}
                                     
                                     {% if entry.matrikelnumber == matrikelnummer %}
-                                        <i class="fa-regular fa-user"></i>
+                                        <i class="fa-regular fa-circle-user"></i>
                                     {% endif %}
                                     </span>
                                 </div>

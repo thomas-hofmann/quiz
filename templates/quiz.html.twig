@@ -20,20 +20,20 @@
                     </li>
                 {% else %}
                     <li class="list-group-item p-0">
-                        <div class="alert alert-danger m-0 p-2 rounded-top-0">
+                        <div class="alert {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}alert-warning{% else %}alert-danger{% endif %} m-0 p-2 rounded-top-0">
                             <div class="fw-bold">
                                 <i class="fa-regular fa-circle-xmark answer__logo"></i>
                                 <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
-                                <p class="mb-0">Falsch!</p>
+                                <p class="mb-0">{% if rightAnswers|length > 1 %}Fast! Etwas hat gefehlt.{% elseif playerAnswers|length > 1 %}Fast! Etwas war zuviel.{% else %}Falsch!{% endif %}</p>
                             </div>
                             <div class="accordion" id="accordionExample">
-                                <div class="accordion-item bg-danger-subtle border-0">
-                                    <h2 class="accordion-header bg-danger-subtle" id="headingOne">
+                                <div class="accordion-item {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %} border-0">
+                                    <h2 class="accordion-header {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %}" id="headingOne">
                                         <button class="btn bg-gradient btn-dark btn-sm finished__accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                             <i class="fa-regular fa-eye"></i><i class="fa-regular fa-eye-slash"></i> Lösung
                                         </button>
                                     </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto bg-danger-subtle" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                         <div class="accordion-body pe-0 ps-0">
                                             <b>{{ shuffledQuestions[index - 1].question.text }}</b>
                                             <ul class="list-group mt-2">
