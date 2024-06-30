@@ -41,7 +41,6 @@
     background: #fff;
     @include media-breakpoint-down(lg) {
         margin-top: 30px !important;
-        padding: 10px !important;
     }
 }
 
@@ -188,4 +187,42 @@
 
 .container--fade-in {
     display: none;
+}
+
+/* Define keyframes for blinking with border-radius respected */
+@keyframes blinkCorrect {
+    0% { box-shadow: inset 0 1rem 2rem transparent; }
+    25% { box-shadow: inset 0 1rem 2rem $success; }
+    75% { box-shadow: inset 0 1rem 2rem transparent; }
+    100% { box-shadow: inset 0 1rem 2rem transparent; }
+}
+
+@keyframes blinkAlmost {
+    0% { box-shadow: inset 0 1rem 2rem transparent; }
+    25% { box-shadow: inset 0 1rem 2rem $warning; }
+    75% { box-shadow: inset 0 1rem 2rem transparent; }
+    100% { box-shadow: inset 0 1rem 2rem transparent; }
+}
+
+@keyframes blinkWrong {
+    0% { box-shadow: inset 0 1rem 2rem transparent; }
+    25% { box-shadow: inset 0 1rem 2rem $danger; }
+    75% { box-shadow: inset 0 1rem 2rem transparent; }
+    100% { box-shadow: inset 0 1rem 2rem transparent; }
+}
+
+/* Define the classes to use the animations */
+.container--correct {
+    animation: blinkCorrect 2s linear 1;
+    border-radius: inherit; /* Ensure border-radius is applied */
+}
+
+.container--almost {
+    animation: blinkAlmost 2s linear 1;
+    border-radius: inherit; /* Ensure border-radius is applied */
+}
+
+.container--wrong {
+    animation: blinkWrong 2s linear 1;
+    border-radius: inherit; /* Ensure border-radius is applied */
 }
