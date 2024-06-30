@@ -9,14 +9,14 @@
         "/build/app.b52519cc.js"
       ],
       "css": [
-        "/build/app.281d4803.css"
+        "/build/app.9c4301ae.css"
       ]
     },
     "quiz": {
       "js": [
         "/build/runtime.8ab7f0c8.js",
         "/build/554.a87074fe.js",
-        "/build/quiz.42978418.js"
+        "/build/quiz.e1017de4.js"
       ]
     },
     "backend": {

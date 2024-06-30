@@ -12,19 +12,39 @@
             {% if index > 0 %}
                 {% if rightAnswer %}
                     <li class="list-group-item p-0">
-                        <div class="alert alert-success m-0 p-2 rounded-top-0">
+                        <div class="alert alert-success m-0 p-2 rounded-top-0 fw-bold">
                             <i class="fa-regular fa-circle-check answer__logo"></i>
                             <i class="fa-regular fa-circle-check answer__logo--right"></i>
-                            Richtige Antwort!
+                            Richtig!
                         </div>
                     </li>
                 {% else %}
                     <li class="list-group-item p-0">
                         <div class="alert alert-danger m-0 p-2 rounded-top-0">
-                            <i class="fa-regular fa-circle-xmark answer__logo"></i>
-                            <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
-                            <p class="mb-1 fw-bold"><small>Falsche Antwort! Richtig wäre:</small></p>
-                            <p class="m-0">{{ rightAnswerText }}</p>
+                            <div class="fw-bold">
+                                <i class="fa-regular fa-circle-xmark answer__logo"></i>
+                                <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
+                                <p class="mb-0">Falsch!</p>
+                            </div>
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item bg-danger-subtle border-0">
+                                    <h2 class="accordion-header bg-danger-subtle" id="headingOne">
+                                        <button class="btn bg-gradient btn-dark btn-sm finished__accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="fa-regular fa-eye"></i><i class="fa-regular fa-eye-slash"></i> Lösung
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto bg-danger-subtle" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body pe-0 ps-0">
+                                            <b>{{ shuffledQuestions[index - 1].question.text }}</b>
+                                            <ul class="list-group mt-2">
+                                                {% for answerText in rightAnswers %}
+                                                    <li class="list-group-item list-group-item-success">{{ answerText }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </li>
                 {% endif %}
@@ -47,28 +67,28 @@
             <form action="{{ path('quiz') }}" method="post" id="quiz-form">
                 <div class="col-12 mt-4 mb-4">
                     <div class="row">
-                        <div class="col-12 col-lg-6 p-0 d-flex" >
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[0].index }}" name="answer" value="{{ question.answers[0].index }}" required/>
+                        <div class="col-12 col-lg-6 p-0 d-flex">
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[0].index }}" name="answer{{ question.answers[0].index }}" value="{{ question.answers[0].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-1 bg-gradient" for="answer{{ question.answers[0].index }}">
-                                <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].text }}
+                                <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].answerObject.text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">  
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[1].index }}" name="answer" value="{{ question.answers[1].index }}"/>
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[1].index }}" name="answer{{ question.answers[1].index }}" value="{{ question.answers[1].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-2 bg-gradient" for="answer{{ question.answers[1].index }}">
-                                <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].text }}
+                                <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].answerObject.text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[2].index }}" name="answer" value="{{ question.answers[2].index }}"/>
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[2].index }}" name="answer{{ question.answers[2].index }}" value="{{ question.answers[2].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-3 bg-gradient" for="answer{{ question.answers[2].index }}">
-                                <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].text }}
+                                <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].answerObject.text }}
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
-                            <input class="radio answer__radio visually-hidden" type="radio" id="answer{{ question.answers[3].index }}" name="answer" value="{{ question.answers[3].index }}"/>
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[3].index }}" name="answer{{ question.answers[3].index }}" value="{{ question.answers[3].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-4 bg-gradient" for="answer{{ question.answers[3].index }}">
-                                <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].text }}
+                                <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].answerObject.text }}
                             </label>
                         </div>
                     </div>
@@ -78,7 +98,6 @@
                 {% else %}
                     <button type="submit" class="btn btn-success bg-gradient btn-lg quiz__button quiz__final-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-solid fa-flag-checkered next-icon"></i></span> Quiz abschließen</button>
                 {% endif %}
-                
             </form>
         </div>
     {% endif %}

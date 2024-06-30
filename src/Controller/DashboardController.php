@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Quiz;
 use App\Entity\Question;
+use App\Entity\Answer;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\LeaderBoardEntry;
 
@@ -75,13 +76,46 @@ class DashboardController extends AbstractController {
 
             $question = new Question();
             $question->setText($request->get('question'));
+            $minCorrect = 0;
+            if ($request->get('answer1')) {
+                $answer = new Answer();
+                $answer->setText($request->get('answer1'));
+                if ($request->get('answer1-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                }
+                $question->addAnswer($answer);
+            }
+            
+            if ($request->get('answer2')) {
+                $answer = new Answer();
+                $answer->setText($request->get('answer2'));
+                if ($request->get('answer2-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                }
+                $question->addAnswer($answer);
+            }
 
-            $question->setAnswerOne($request->get('answer1'));
-            $question->setAnswerTwo($request->get('answer2'));
-            $question->setAnswerThree($request->get('answer3'));
-            $question->setAnswerFour($request->get('answer4'));
+            if ($request->get('answer3')) {
+                $answer = new Answer();
+                $answer->setText($request->get('answer3'));
+                if ($request->get('answer3-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                }
+                $question->addAnswer($answer);
+            }
 
-            $question->setAnswerRight($request->get('rightAnswer'));
+            if ($request->get('answer4')) {
+                $answer = new Answer();
+                $answer->setText($request->get('answer4'));
+                if ($request->get('answer4-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                }
+                $question->addAnswer($answer);
+            }
 
             $question->setQuiz($quiz);
 
@@ -96,6 +130,15 @@ class DashboardController extends AbstractController {
              } else {
                 $question->setPosition(1);
              }
+            
+            if ($minCorrect == 0) {
+                return $this->render('edit-quiz.html.twig', [
+                    'questions' => $quiz->getQuestions(),
+                    'quiz' => $quiz,
+                    'error'=> false,
+                    'minCorrectError' => true
+                ]);
+            }
 
             $entityManager->persist($question);
             $entityManager->flush();
@@ -134,7 +177,8 @@ class DashboardController extends AbstractController {
             throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
         return $this->render('edit-question.html.twig', [
-            'question' => $question
+            'question' => $question,
+            'minCorrectError' => false
         ]);
     }
 
@@ -147,13 +191,57 @@ class DashboardController extends AbstractController {
                 throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
             }
             $question->setText($request->get('question'));
+            $minCorrect = 0;
+            if ($request->get('answer1')) {
+                $answer = $question->getAnswer($request->get('answerId1'));
+                $answer->setText($request->get('answer1'));
+                if ($request->get('answer1-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                } else {
+                    $answer->setIsCorrect(false);
+                }
+            }
+            
+            if ($request->get('answer2')) {
+                $answer = $question->getAnswer($request->get('answerId2'));
+                $answer->setText($request->get('answer2'));
+                if ($request->get('answer2-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                } else {
+                    $answer->setIsCorrect(false);
+                }
+            }
 
-            $question->setAnswerOne($request->get('answer1'));
-            $question->setAnswerTwo($request->get('answer2'));
-            $question->setAnswerThree($request->get('answer3'));
-            $question->setAnswerFour($request->get('answer4'));
+            if ($request->get('answer3')) {
+                $answer = $question->getAnswer($request->get('answerId3'));
+                $answer->setText($request->get('answer3'));
+                if ($request->get('answer3-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                } else {
+                    $answer->setIsCorrect(false);
+                }
+            }
 
-            $question->setAnswerRight($request->get('rightAnswer'));
+            if ($request->get('answer4')) {
+                $answer = $question->getAnswer($request->get('answerId4'));
+                $answer->setText($request->get('answer4'));
+                if ($request->get('answer4-correct')) {
+                    $minCorrect++;
+                    $answer->setIsCorrect(true);
+                } else {
+                    $answer->setIsCorrect(false);
+                }
+            }
+
+            if ($minCorrect == 0) {
+                return $this->render('edit-question.html.twig', [
+                    'question' => $question,
+                    'minCorrectError' => true
+                ]);
+            }
 
             $entityManager->persist($question);
             $entityManager->flush();
@@ -170,6 +258,7 @@ class DashboardController extends AbstractController {
             'questions' => $quiz->getQuestions(),
             'quiz' => $quiz,
             'error'=> false,
+            'minCorrectError' => false,
         ]);
     }
 

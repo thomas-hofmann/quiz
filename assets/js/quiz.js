@@ -46,6 +46,14 @@ $(function() {
             // Enable the submit button
             $('#submit-btn').prop('disabled', false);
         });
+
+        function checkAnswers() {
+            let anyChecked = $('.answer__radio:checked').length > 0;
+            $('#submit-btn').prop('disabled', !anyChecked);
+        }
+
+        // Attach the checkAnswers function to the change event of the checkboxes
+        $('.answer__radio').on('change', checkAnswers);
     }
 
     // Bind the initial event listeners

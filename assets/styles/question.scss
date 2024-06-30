@@ -26,7 +26,7 @@
         }
     }
 
-    input[type="radio"]:checked + & {
+    input[type="checkbox"]:checked + & {
         background: #212529;
         color: white; // Matching border color
         .question__letter {

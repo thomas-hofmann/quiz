@@ -228,36 +228,63 @@ class QuizController extends AbstractController {
         }
 
         $rightAnswer = $session->get('rightAnswer');
-        $rightAnswerText = $session->get('rightAnswerText');
+        $rightAnswersText = $session->get('rightAnswers');
 
-        if (isset($quiz->getQuestions()[$index]) && $quiz->getQuestions()[$index]->getAnswerRight() == $request->get('answer')) {
+        $playerAnswers = [];
+        $rightAnswers = [];
+        $correctCount = 0;
+        $correctCountPlayer = 0;
+        $answerReceived = false;
+        $question = null;
+
+        if (isset($quiz->getQuestions()[$index])) {
+            $question = $quiz->getQuestions()[$index];
+        }
+
+        if ($question) {
+            foreach ($question->getAnswers() as $answer) {
+                if ($answer->getIsCorrect()) {
+                    $correctCount++;
+                }
+            }
+            $requestIndex = 0;
+            foreach ($question->getAnswers() as $answer) {
+                $requestIndex++;
+                if ($answer->getIsCorrect()) {
+                    $rightAnswers[] = $answer->getText();
+                }
+                if ($request->get('answer' . $requestIndex)) {
+                    $answerReceived = true;
+                    $playerAnswers[] = $request->get('answer' . $requestIndex);
+                    if ( $question->getAnswer($request->get('answer' . $requestIndex))->getIsCorrect()) {
+                        $correctCountPlayer++;
+                    } else {
+                        $correctCountPlayer--;
+                    }
+                }
+            }
+        }
+        // dd($session->get('allAnswers'));
+        if ($question && $answerReceived && $correctCount == $correctCountPlayer) {
             $session->set('rightAnswer', true);
-
+            
             $allAnswers = $session->get('allAnswers');
-            $allAnswers[] = ['questionId' => $quiz->getQuestions()[$index]->getId(), 'answer' => $request->get('answer')];
+            $allAnswers[] = ['questionId' => $question->getId(), 'answers' => $playerAnswers];
             $session->set('allAnswers', $allAnswers);
 
             $rightIndex = $rightIndex + 1;
             $session->set('rightIndex', $rightIndex);
-        } else if (isset($quiz->getQuestions()[$index]) && $request->get('answer')) {
+        } else if ($question && $answerReceived) {
             $session->set('rightAnswer', false);
 
             $allAnswers = $session->get('allAnswers');
-            $allAnswers[] = ['questionId' => $quiz->getQuestions()[$index]->getId(), 'answer' => $request->get('answer')];
+            $allAnswers[] = ['questionId' => $question->getId(), 'answers' => $playerAnswers];
             $session->set('allAnswers', $allAnswers);
 
-            if ($quiz->getQuestions()[$index]->getAnswerRight() == 1) {
-                $session->set('rightAnswerText', $rightAnswerText = $quiz->getQuestions()[$index]->getAnswerOne());
-            } else if ($quiz->getQuestions()[$index]->getAnswerRight() == 2) {
-                $session->set('rightAnswerText', $rightAnswerText = $quiz->getQuestions()[$index]->getAnswerTwo());
-            } else if ($quiz->getQuestions()[$index]->getAnswerRight() == 3) {
-                $session->set('rightAnswerText', $rightAnswerText = $quiz->getQuestions()[$index]->getAnswerThree());
-            } else if ($quiz->getQuestions()[$index]->getAnswerRight() == 4) {
-                $session->set('rightAnswerText', $rightAnswerText = $quiz->getQuestions()[$index]->getAnswerFour());
-            }
+            $session->set('rightAnswers', $rightAnswers);
         }
-        
-        if ($request->get('answer')) {
+
+        if ($answerReceived) {
             $index = $index + 1;
             $session->set('index', $index);
             return $this->redirectToRoute('quiz');
@@ -292,10 +319,10 @@ class QuizController extends AbstractController {
 
         foreach ($questions as $question) {
             $answers = [
-                ['index' => 1, 'text' => $question->getAnswerOne()],
-                ['index' => 2, 'text' => $question->getAnswerTwo()],
-                ['index' => 3, 'text' => $question->getAnswerThree()],
-                ['index' => 4, 'text' => $question->getAnswerFour()],
+                ['index' => 1, 'answerObject' => $question->getAnswers()[0]],
+                ['index' => 2, 'answerObject' => $question->getAnswers()[1]],
+                ['index' => 3, 'answerObject' => $question->getAnswers()[2]],
+                ['index' => 4, 'answerObject' => $question->getAnswers()[3]],
             ];
 
             shuffle($answers);
@@ -313,7 +340,7 @@ class QuizController extends AbstractController {
             'index' => $index,
             'rightIndex' => $rightIndex,
             'rightAnswer'=> $rightAnswer,
-            'rightAnswerText' => $rightAnswerText,
+            'rightAnswers' => $rightAnswersText,
         ]);
     }
 
@@ -324,7 +351,7 @@ class QuizController extends AbstractController {
             return $this->render('error.html.twig', [
             ]);
         }
-
+        // dd($session->get('allAnswers'));
         $quizRepository = $entityManager->getRepository(Quiz::class);
         $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
         $matrikelnummer = $session->get('matrikelnummer');

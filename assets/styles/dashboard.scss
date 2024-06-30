@@ -38,3 +38,14 @@
     padding-left: 60px;
     box-shadow: $box-shadow-inset;
 }
+
+.quiz__edit-checkbox:checked {
+    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.dashboard__quiz-answer-list {
+    font-size: 10px;
+    li {
+        padding: 7px;
+    }
+}
