@@ -61,6 +61,7 @@
         {% if minCorrectError %}
             <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Es muss mindestens eine Frage richtig sein! Frage wurde nicht hinzugefügt.</p>
         {% endif %}
+        <p><i class="fa-solid fa-circle-info"></i> Richtige Antwort bitte markieren. Es muss mindestens eine richtig sein.</p>
         <form action="{{ path('update_questions') }}" method="get">
             <div class="form-group">
                 <input type="hidden" name="quizId" value="{{ quiz.id }}">
