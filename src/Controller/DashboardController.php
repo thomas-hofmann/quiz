@@ -393,26 +393,34 @@ class DashboardController extends AbstractController {
         $sortedEntries = [];
         foreach ($quiz->getQuestions() as $index => $question) {
             $sortedEntries[$index]['question'] = $question;
-            $sortedEntries[$index]['answerOne'] = 0;
-            $sortedEntries[$index]['answerTwo'] = 0;
-            $sortedEntries[$index]['answerThree'] = 0;
-            $sortedEntries[$index]['answerFour'] = 0;
+            $sortedEntries[$index]['answerOne']['object'] = $question->getAnswers()[0];
+            $sortedEntries[$index]['answerOne']['cnt'] = 0;
+            $sortedEntries[$index]['answerTwo']['object'] = $question->getAnswers()[1];
+            $sortedEntries[$index]['answerTwo']['cnt'] = 0;
+            $sortedEntries[$index]['answerThree']['object'] = $question->getAnswers()[2];
+            $sortedEntries[$index]['answerThree']['cnt'] = 0;
+            $sortedEntries[$index]['answerFour']['object'] = $question->getAnswers()[3];
+            $sortedEntries[$index]['answerFour']['cnt'] = 0;
             $sortedEntries[$index]['count'] = 0;
             foreach ($quiz->getLeaderBoardEntries() as $entry) {
+                
                 if ($entry->getAllAnswers()) {
                     foreach ($entry->getAllAnswers() as $answer) {
+                        
                         if ($question->getId() == $answer['questionId']) {
-                            if ($answer['answer'] == 1) {
-                                $sortedEntries[$index]['answerOne']++;
-                            }
-                            if ($answer['answer'] == 2) {
-                                $sortedEntries[$index]['answerTwo']++;
-                            }
-                            if ($answer['answer'] == 3) {
-                                $sortedEntries[$index]['answerThree']++;
-                            }
-                            if ($answer['answer'] == 4) {
-                                $sortedEntries[$index]['answerFour']++;
+                            foreach ($answer['answers'] as $playerAnswer) {
+                                if ($playerAnswer == $question->getAnswers()[0]->getId()) {
+                                    $sortedEntries[$index]['answerOne']['cnt']++;
+                                }
+                                if ($playerAnswer == $question->getAnswers()[1]->getId()) {
+                                    $sortedEntries[$index]['answerTwo']['cnt']++;
+                                }
+                                if ($playerAnswer == $question->getAnswers()[2]->getId()) {
+                                    $sortedEntries[$index]['answerThree']['cnt']++;
+                                }
+                                if ($playerAnswer == $question->getAnswers()[3]->getId()) {
+                                    $sortedEntries[$index]['answerFour']['cnt']++;
+                                }
                             }
                         }
                     }

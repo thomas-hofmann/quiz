@@ -107,19 +107,19 @@
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
                                         <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
-                                        {{ question.answerOne}}
+                                        {{ question.getAnswers.0.text}}
                                     </li>
                                     <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
                                         <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
-                                         {{ question.answerTwo}}
+                                         {{ question.getAnswers.1.text}}
                                     </li>
                                     <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
                                         <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
-                                        {{ question.answerThree}}
+                                        {{ question.getAnswers.2.text}}
                                     </li>
                                     <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
                                         <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
-                                        {{ question.answerFour}}
+                                        {{ question.getAnswers.3.text}}
                                     </li>
                                 </ul>
                             {% endfor %}
