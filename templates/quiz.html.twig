@@ -1,7 +1,7 @@
 {% include ('base.html.twig') %}
 <div class="container text-center quiz-container container--fade-in">
     <div class="quiz__overlay {% if index > 0 %}{% if rightAnswer %}container--correct{% elseif alert %}container--almost{% else %}container--wrong{% endif %}{% endif %}"></div>
-        <div class="box shadow mx-auto rounded">
+        <div class="box shadow mx-auto rounded quiz__overlay--z-index">
             <ul class="list-group">
                 <li class="list-group-item">
                     <h1 class="mb-0">{{ quiz.name }}</h1>
@@ -60,7 +60,7 @@
         </div>
         {% if shuffledQuestions[index] is defined %}
             {% set question = shuffledQuestions[index] %}
-            <div class="question p-4 border rounded shadow">
+            <div class="question p-4 border rounded shadow quiz__overlay--z-index">
                 <p class="text-center mb-2">{{ index + 1 }} von {{ shuffledQuestions|length }}</p>
                 <div class="col-12 fs-2 lead question__text">
                     {{ question.question.text }}
