@@ -1,66 +1,66 @@
 {% include ('base.html.twig') %}
 <div class="container text-center quiz-container container--fade-in">
-    <div class="box shadow mx-auto rounded">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <h1 class="mb-0">{{ quiz.name }}</h1>
-            </li>
-            <li class="list-group-item">
-                <strong><i class="fa-regular fa-user"></i> {{ matrikelnummer }}</strong>
-                | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
-            </li>
-            {% if index > 0 %}
-                {% if rightAnswer %}
-                    <li class="list-group-item p-0">
-                        <div class="alert alert-success m-0 p-2 rounded-top-0 fw-bold">
-                            <i class="fa-regular fa-circle-check answer__logo"></i>
-                            <i class="fa-regular fa-circle-check answer__logo--right"></i>
-                            Richtig!
-                        </div>
-                    </li>
-                {% else %}
-                    <li class="list-group-item p-0">
-                        <div class="alert {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}alert-warning{% else %}alert-danger{% endif %} m-0 p-2 rounded-top-0">
-                            <div class="fw-bold">
-                                <i class="fa-regular fa-circle-xmark answer__logo"></i>
-                                <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
-                                <p class="mb-0">{% if rightAnswers|length > 1 %}Fast! Etwas hat gefehlt.{% elseif playerAnswers|length > 1 %}Fast! Etwas war zuviel.{% else %}Falsch!{% endif %}</p>
+    <div class="quiz__overlay {% if index > 0 %}{% if rightAnswer %}container--correct{% elseif alert %}container--almost{% else %}container--wrong{% endif %}{% endif %}"></div>
+        <div class="box shadow mx-auto rounded">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h1 class="mb-0">{{ quiz.name }}</h1>
+                </li>
+                <li class="list-group-item">
+                    <strong><i class="fa-regular fa-user"></i> {{ matrikelnummer }}</strong>
+                    | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span>
+                </li>
+                {% if index > 0 %}
+                    {% if rightAnswer %}
+                        <li class="list-group-item p-0">
+                            <div class="alert alert-success m-0 p-2 rounded-top-0 fw-bold">
+                                <i class="fa-regular fa-circle-check answer__logo"></i>
+                                <i class="fa-regular fa-circle-check answer__logo--right"></i>
+                                Richtig!
                             </div>
-                            <div class="accordion" id="accordionExample">
-                                <div class="accordion-item {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %} border-0">
-                                    <h2 class="accordion-header {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %}" id="headingOne">
-                                        <button class="btn bg-gradient btn-outline-dark btn-sm finished__accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="fa-regular fa-eye"></i><i class="fa-regular fa-eye-slash"></i> Lösung anzeigen
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto {% if (rightAnswers|length > 1) or (playerAnswers|length > 1) %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body pe-0 ps-0">
-                                            <b>{{ shuffledQuestions[index - 1].question.text }}</b>
-                                            <ul class="list-group mt-2">
-                                                {% for answerText in rightAnswers %}
-                                                    <li class="list-group-item list-group-item-success">{{ answerText }}</li>
-                                                {% endfor %}
-                                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item p-0">
+                            <div class="alert {% if alert %}alert-warning{% else %}alert-danger{% endif %} m-0 p-2 rounded-top-0">
+                                <div class="fw-bold">
+                                    <i class="fa-regular fa-circle-xmark answer__logo"></i>
+                                    <i class="fa-regular fa-circle-xmark answer__logo--right"></i>
+                                    <p class="mb-0">{% if alert %}Fast! Etwas hat gefehlt oder war zuviel.{% else %}Falsch!{% endif %}</p>
+                                </div>
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item {% if alert %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %} border-0">
+                                        <h2 class="accordion-header {% if alert %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %}" id="headingOne">
+                                            <button class="btn bg-gradient btn-outline-dark btn-sm finished__accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <i class="fa-regular fa-eye"></i><i class="fa-regular fa-eye-slash"></i> Lösung anzeigen
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto {% if alert %}bg-warning-subtle{% else %}bg-danger-subtle{% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body pe-0 ps-0">
+                                                <b>{{ shuffledQuestions[index - 1].question.text }}</b>
+                                                <ul class="list-group mt-2">
+                                                    {% for answerText in rightAnswers %}
+                                                        <li class="list-group-item list-group-item-success">{{ answerText }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="list-group-item p-0">
+                        <div class="alert alert-primary m-0 p-2 rounded-top-0">
+                            Das Quiz beginnt. Viel Erfolg!
                         </div>
                     </li>
                 {% endif %}
-            {% else %}
-                <li class="list-group-item p-0">
-                    <div class="alert alert-primary m-0 p-2 rounded-top-0">
-                        Das Quiz beginnt. Viel Erfolg!
-                    </div>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
-    {% if shuffledQuestions[index] is defined %}
-        {% set question = shuffledQuestions[index] %}
-        <div class="question row mt-5 p-0 border rounded shadow">
-            <div class="p-4 {% if index > 0 %}{% if rightAnswer %}container--correct{% elseif (rightAnswers|length > 1) or (playerAnswers|length > 1) %}container--almost{% else %}container--wrong{% endif %}{% endif %}">
+            </ul>
+        </div>
+        {% if shuffledQuestions[index] is defined %}
+            {% set question = shuffledQuestions[index] %}
+            <div class="question p-4 border rounded shadow">
                 <p class="text-center mb-2">{{ index + 1 }} von {{ shuffledQuestions|length }}</p>
                 <div class="col-12 fs-2 lead question__text">
                     {{ question.question.text }}
@@ -94,6 +94,7 @@
                             </div>
                         </div>
                     </div>
+                    {# <button type="submit">dada</button> #}
                     {% if shuffledQuestions[index + 1] is defined %}
                         <button type="submit" class="btn btn-success bg-gradient btn-lg quiz__button quiz__next-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Nächste Frage</button>
                     {% else %}
@@ -101,7 +102,7 @@
                     {% endif %}
                 </form>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% include ('footer.html.twig') %}

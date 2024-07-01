@@ -10,14 +10,14 @@ class LeaderBoardEntry
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $matrikelnumber = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $score = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $score = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $allAnswers = null;
@@ -42,12 +42,12 @@ class LeaderBoardEntry
         return $this;
     }
 
-    public function getScore(): ?string
+    public function getScore(): ?int
     {
         return $this->score;
     }
 
-    public function setScore(string $score): static
+    public function setScore(int $score): static
     {
         $this->score = $score;
 

@@ -39,18 +39,10 @@
 
 .question {
     background: #fff;
-    @include media-breakpoint-down(lg) {
-        margin-top: 30px !important;
-    }
 }
 
 .quiz__finished {
     background: #fff;
-    @include media-breakpoint-down(lg) {
-        margin-top: 30px !important;
-        margin-bottom: 30px !important;
-        padding: 10px !important;
-    }
 }
 
 .question__letter {
@@ -185,30 +177,40 @@
     }
 }
 
+.quiz__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999; /* Stelle sicher, dass es hoch genug ist, um über anderen Elementen zu liegen */
+    pointer-events: none; /* Verhindert, dass Klicks abgefangen werden */
+}
+
 .container--fade-in {
     display: none;
 }
 
 /* Define keyframes for blinking with border-radius respected */
 @keyframes blinkCorrect {
-    0% { box-shadow: inset 0 1rem 2rem transparent; }
-    25% { box-shadow: inset 0 1rem 2rem $success; }
-    75% { box-shadow: inset 0 1rem 2rem transparent; }
-    100% { box-shadow: inset 0 1rem 2rem transparent; }
+    0% { box-shadow: inset 0 0 2.7rem transparent; }
+    25% { box-shadow: inset 0 0 2.7rem $success; }
+    75% { box-shadow: inset 0 0 2.7rem transparent; }
+    100% { box-shadow: inset 0 0 2.7rem transparent; }
 }
 
 @keyframes blinkAlmost {
-    0% { box-shadow: inset 0 1rem 2rem transparent; }
-    25% { box-shadow: inset 0 1rem 2rem $warning; }
-    75% { box-shadow: inset 0 1rem 2rem transparent; }
-    100% { box-shadow: inset 0 1rem 2rem transparent; }
+    0% { box-shadow: inset 0 0 2.7rem transparent; }
+    25% { box-shadow: inset 0 0 2.7rem $warning; }
+    75% { box-shadow: inset 0 0 2.7rem transparent; }
+    100% { box-shadow: inset 0 0 2.7rem transparent; }
 }
 
 @keyframes blinkWrong {
-    0% { box-shadow: inset 0 1rem 2rem transparent; }
-    25% { box-shadow: inset 0 1rem 2rem $danger; }
-    75% { box-shadow: inset 0 1rem 2rem transparent; }
-    100% { box-shadow: inset 0 1rem 2rem transparent; }
+    0% { box-shadow: inset 0 0 2.7rem transparent; }
+    25% { box-shadow: inset 0 0 2.7rem $danger; }
+    75% { box-shadow: inset 0 0 2.7rem transparent; }
+    100% { box-shadow: inset 0 0 2.7rem transparent; }
 }
 
 /* Define the classes to use the animations */

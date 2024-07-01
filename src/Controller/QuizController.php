@@ -184,7 +184,7 @@ class QuizController extends AbstractController {
         $session->set('rightAnswerText', '');
         $session->set('index', 0);
         $session->set('allAnswers', []);
-        $session->set('playerAnswers', []);
+        $session->set('alert', false);
 
         return $this->redirectToRoute('quiz-start');
     }
@@ -257,7 +257,7 @@ class QuizController extends AbstractController {
                 if ($request->get('answer' . $requestIndex)) {
                     $answerReceived = true;
                     $playerAnswers[] = $request->get('answer' . $requestIndex);
-                    if ( $question->getAnswer($request->get('answer' . $requestIndex))->getIsCorrect()) {
+                    if ($question->getAnswer($request->get('answer' . $requestIndex))->getIsCorrect()) {
                         $correctCountPlayer++;
                     } else {
                         $correctCountPlayer--;
@@ -265,7 +265,7 @@ class QuizController extends AbstractController {
                 }
             }
         }
-        // dd($session->get('allAnswers'));
+        
         if ($question && $answerReceived && $correctCount == $correctCountPlayer) {
             $session->set('rightAnswer', true);
             
@@ -288,7 +288,14 @@ class QuizController extends AbstractController {
         if ($answerReceived) {
             $index = $index + 1;
             $session->set('index', $index);
-            $session->set('playerAnswers', $playerAnswers);
+            
+            $diff = count($playerAnswers) + $correctCountPlayer;
+            if (count($playerAnswers) > 0 && $diff != 0) {
+                $session->set('alert', true);
+            } else {
+                $session->set('alert', false);
+            }
+            
             return $this->redirectToRoute('quiz');
         }
 
@@ -343,7 +350,7 @@ class QuizController extends AbstractController {
             'rightIndex' => $rightIndex,
             'rightAnswer'=> $rightAnswer,
             'rightAnswers' => $rightAnswersText,
-            'playerAnswers' => $session->get('playerAnswers'),
+            'alert' => $session->get('alert'),
         ]);
     }
 
@@ -392,6 +399,7 @@ class QuizController extends AbstractController {
             'rightAnswer' => $session->get('rightAnswer'),
             'rightAnswerText' => $session->get('rightAnswerText'),
             'leaderBoardEntries' => $leaderBoardEntries,
+            'alert' => $session->get('alert')
         ]);
     }
 

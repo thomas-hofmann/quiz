@@ -1,6 +1,16 @@
-.container {
+.container, .question, .quiz__finished {
     margin-top: 30px;
     margin-bottom: 30px;
+
+    @include media-breakpoint-down(md) {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    @include media-breakpoint-down(sm) {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
 }
 
 .index__input-code {

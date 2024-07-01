@@ -19,8 +19,8 @@
                     <a id="newName" href="{{ path('update_name') }}" class="btn btn-dark bg-gradient btn-sm"><i class="fa-solid fa-arrows-rotate"></i> Anderer Name</a>
                 {% endif %}
             </li>
-            <li class="list-group-item text-danger">
-               Mehrfachantworten sind möglich
+            <li class="list-group-item fw-bold">
+               <i class="fa-solid fa-circle-info"></i> Es ist möglich, mehrere Antworten zu wählen.
             </li>
         </ul>
         {% if quiz.getQuestions|length %}
