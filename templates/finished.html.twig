@@ -49,20 +49,22 @@
                 <div id="collapseOne" class="accordion-collapse collapse box box--70 mx-auto" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body pe-0 ps-0">
                         <hr>
+                        {% set letters = ['A', 'B', 'C', 'D'] %}
                         {% for question in quiz.getQuestions %}
-                            {% set index = loop.index0 %}
-                            <h3>Frage {{ index + 1 }}</h3>
+                            {% set questionIndex = loop.index0 %}
+                            <h3>Frage {{ questionIndex + 1 }}</h3>
                             <h4 class="mb-3">{{ question.text }}</h4>
                             <ul class="list-group mb-3">
                             {% for answer in question.getAnswers %}
+                                {% set answerIndex = loop.index0 %}
                                 {% set isAnswerSelected = false %}
-                                {% for playerAnswer in allAnswers[index].answers %}
+                                {% for playerAnswer in allAnswers[questionIndex].answers %}
                                     {% if playerAnswer == answer.id %}
                                         {% set isAnswerSelected = true %}
                                     {% endif %}
                                 {% endfor %}
                                 <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if answer.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
-                                    <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
+                                    <span class="question__letter question__letter--statistics bg-dark text-light border">{{ letters[answerIndex] }}</span>
                                     {% if isAnswerSelected %}<i class="fa-regular fa-circle-user text-info answer__logo--right"></i>{% endif %}
                                     {{ answer.text }}
                                 </li>
