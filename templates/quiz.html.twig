@@ -68,41 +68,38 @@
         </div>
         {% if shuffledQuestions[index] is defined %}
             {% set question = shuffledQuestions[index] %}
-            <div class="question p-4 border rounded shadow quiz__overlay--z-index">
-                <p class="text-center mb-2">{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></p>
-                <div class="col-12 fs-2 lead question__text">
+            <div class="question p-3 border rounded shadow quiz__overlay--z-index">
+                <p class="text-center mb-0">{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></p>
+                <div class="fs-2 lead question__text mt-3 mb-4">
                     {{ question.question.text }}
                 </div>
                 <form action="{{ path('quiz') }}" method="post" id="quiz-form">
-                    <div class="col-12 mt-4 mb-4">
-                        <div class="row">
-                            <div class="col-12 col-lg-6 p-0 d-flex">
-                                <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[0].index }}" name="answer{{ question.answers[0].index }}" value="{{ question.answers[0].answerObject.id }}"/>
-                                <label class="answer__label fs-5 question__answer-1 bg-gradient" for="answer{{ question.answers[0].index }}">
-                                    <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].answerObject.text }}
-                                </label>
-                            </div>
-                            <div class="col-12 col-lg-6 p-0 d-flex">  
-                                <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[1].index }}" name="answer{{ question.answers[1].index }}" value="{{ question.answers[1].answerObject.id }}"/>
-                                <label class="answer__label fs-5 question__answer-2 bg-gradient" for="answer{{ question.answers[1].index }}">
-                                    <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].answerObject.text }}
-                                </label>
-                            </div>
-                            <div class="col-12 col-lg-6 p-0 d-flex">
-                                <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[2].index }}" name="answer{{ question.answers[2].index }}" value="{{ question.answers[2].answerObject.id }}"/>
-                                <label class="answer__label fs-5 question__answer-3 bg-gradient" for="answer{{ question.answers[2].index }}">
-                                    <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].answerObject.text }}
-                                </label>
-                            </div>
-                            <div class="col-12 col-lg-6 p-0 d-flex">
-                                <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[3].index }}" name="answer{{ question.answers[3].index }}" value="{{ question.answers[3].answerObject.id }}"/>
-                                <label class="answer__label fs-5 question__answer-4 bg-gradient" for="answer{{ question.answers[3].index }}">
-                                    <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].answerObject.text }}
-                                </label>
-                            </div>
+                    <div class="row mb-3 ms-0 me-0">
+                        <div class="col-12 col-lg-6 p-0 d-flex">
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[0].index }}" name="answer{{ question.answers[0].index }}" value="{{ question.answers[0].answerObject.id }}"/>
+                            <label class="answer__label fs-5 question__answer-1 bg-gradient" for="answer{{ question.answers[0].index }}">
+                                <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].answerObject.text }}
+                            </label>
+                        </div>
+                        <div class="col-12 col-lg-6 p-0 d-flex">  
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[1].index }}" name="answer{{ question.answers[1].index }}" value="{{ question.answers[1].answerObject.id }}"/>
+                            <label class="answer__label fs-5 question__answer-2 bg-gradient" for="answer{{ question.answers[1].index }}">
+                                <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].answerObject.text }}
+                            </label>
+                        </div>
+                        <div class="col-12 col-lg-6 p-0 d-flex">
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[2].index }}" name="answer{{ question.answers[2].index }}" value="{{ question.answers[2].answerObject.id }}"/>
+                            <label class="answer__label fs-5 question__answer-3 bg-gradient" for="answer{{ question.answers[2].index }}">
+                                <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].answerObject.text }}
+                            </label>
+                        </div>
+                        <div class="col-12 col-lg-6 p-0 d-flex">
+                            <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[3].index }}" name="answer{{ question.answers[3].index }}" value="{{ question.answers[3].answerObject.id }}"/>
+                            <label class="answer__label fs-5 question__answer-4 bg-gradient" for="answer{{ question.answers[3].index }}">
+                                <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].answerObject.text }}
+                            </label>
                         </div>
                     </div>
-                    {# <button type="submit">dada</button> #}
                     {% if shuffledQuestions[index + 1] is defined %}
                         <button type="submit" class="btn btn-success bg-gradient btn-lg quiz__button quiz__next-answer" disabled="disabled" id="submit-btn"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Nächste Frage</button>
                     {% else %}
