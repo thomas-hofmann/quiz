@@ -75,6 +75,15 @@
                 </div>
             </nav>
         </header>
+        {% for label, messages in app.flashes %}
+            <div class="flash-message-wrapper">
+                <div class="flash-message shadow ps-5 pe-5 pt-2 pb-2 alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p class="mb-0 text-center">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
         <noscript>
             <div class="container">
             <div class="box border rounded shadow p-3 mx-auto">

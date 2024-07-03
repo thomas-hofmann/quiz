@@ -182,6 +182,12 @@
     z-index: 99;
 }
 
+.quiz-alert-sticky {
+    z-index: 100;
+    position: sticky;
+    top:0;
+}
+
 .quiz__overlay {
     position: absolute;
     top: 0;
@@ -232,4 +238,39 @@
 .container--wrong {
     animation: blinkWrong 2s linear 1;
     border-radius: inherit; /* Ensure border-radius is applied */
+}
+
+.alert-finished {
+    animation: hideAlert 3s forwards;
+}
+
+.alert-bye {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: showAlert 5s forwards;
+}
+
+@keyframes hideAlert {
+    0% {
+        visibility: visible;
+        opacity: 1;
+    }
+    100% {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+@keyframes showAlert {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

@@ -268,6 +268,7 @@ class QuizController extends AbstractController {
         
         if ($question && $answerReceived && $correctCount == $correctCountPlayer) {
             $session->set('rightAnswer', true);
+            $session->set('rightAnswers', $rightAnswers);
             
             $allAnswers = $session->get('allAnswers');
             $allAnswers[] = ['questionId' => $question->getId(), 'answers' => $playerAnswers];
@@ -277,12 +278,11 @@ class QuizController extends AbstractController {
             $session->set('rightIndex', $rightIndex);
         } else if ($question && $answerReceived) {
             $session->set('rightAnswer', false);
+            $session->set('rightAnswers', $rightAnswers);
 
             $allAnswers = $session->get('allAnswers');
             $allAnswers[] = ['questionId' => $question->getId(), 'answers' => $playerAnswers];
             $session->set('allAnswers', $allAnswers);
-
-            $session->set('rightAnswers', $rightAnswers);
         }
 
         if ($answerReceived) {
@@ -389,6 +389,7 @@ class QuizController extends AbstractController {
         }
 
         $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
+
         return $this->render('finished.html.twig', [
             'quiz' => $quiz,
             'allAnswers' => $session->get('allAnswers'),
@@ -397,7 +398,6 @@ class QuizController extends AbstractController {
             'averageScore' => $averageScore,
             'rightIndex' => $rightIndex,
             'rightAnswer' => $session->get('rightAnswer'),
-            'rightAnswerText' => $session->get('rightAnswerText'),
             'leaderBoardEntries' => $leaderBoardEntries,
             'alert' => $session->get('alert')
         ]);

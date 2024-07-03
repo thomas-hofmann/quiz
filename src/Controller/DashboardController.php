@@ -54,6 +54,12 @@ class DashboardController extends AbstractController {
             $quiz->setUser($this->getUser());
             $entityManager->persist($quiz);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Quiz erfolgreich erstellt!'
+            );
+
             return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
         }
 
@@ -143,6 +149,11 @@ class DashboardController extends AbstractController {
             $entityManager->persist($question);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Frage erfolgreich zugefügt!'
+            );
+
             return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
         }
     }
@@ -156,6 +167,11 @@ class DashboardController extends AbstractController {
         $entityManager->remove($quiz);
         $entityManager->flush();
 
+        $this->addFlash(
+            'danger',
+            'Quiz erfolgreich gelöscht!'
+        );
+
         return $this->redirectToRoute('dashboard');
     }
 
@@ -167,6 +183,11 @@ class DashboardController extends AbstractController {
 
         $entityManager->remove($question);
         $entityManager->flush();
+
+        $this->addFlash(
+            'danger',
+            'Frage erfolgreich gelöscht!'
+        );
 
         return $this->redirectToRoute('edit_quiz', ['id' => $question->getQuiz()->getId()]);
     }
@@ -245,8 +266,14 @@ class DashboardController extends AbstractController {
 
             $entityManager->persist($question);
             $entityManager->flush();
-        }
-        return $this->redirectToRoute('edit_question', ['id' => $question->getId()]);
+
+            $this->addFlash(
+                'success',
+                'Frage erfolgreich bearbeitet!'
+            );
+
+            return $this->redirectToRoute('edit_question', ['id' => $question->getId()]);
+        }  
     }
 
     #[Route('/edit-quiz/{id}', name: 'edit_quiz')]
@@ -284,8 +311,15 @@ class DashboardController extends AbstractController {
 
             $entityManager->persist($quiz);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Quiz erfolgreich bearbeitet!'
+            );
+
+            return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
         }
-        return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
+        
     }
 
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
@@ -337,6 +371,11 @@ class DashboardController extends AbstractController {
         }
 
         $entityManager->flush();
+
+        $this->addFlash(
+            'danger',
+            'Satistik erfolgreich gelöscht!'
+        );
 
         return $this->redirectToRoute('dashboard');
     }

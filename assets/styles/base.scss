@@ -70,3 +70,15 @@ header, main, footer {
     75% { transform: translateX(-5px) }
     100% { transform: translateX(0) }
 }
+
+
+.flash-message-wrapper {
+    width: 100%;
+    position: fixed;
+    top: 7px;
+    z-index: 9999;
+}
+.flash-message {
+    margin: auto;
+    width: fit-content;
+}
