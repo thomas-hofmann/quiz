@@ -182,12 +182,6 @@
     z-index: 99;
 }
 
-.quiz-alert-sticky {
-    z-index: 100;
-    position: sticky;
-    top:0;
-}
-
 .quiz__overlay {
     position: absolute;
     top: 0;
@@ -247,8 +241,8 @@
 .alert-bye {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    transform: translateY(-50%);
     animation: showAlert 5s forwards;
 }
 
