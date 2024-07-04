@@ -1,0 +1,50 @@
+{% include ('base.html.twig') %}
+<div class="container container--fade-in">
+    <div class="box box--70 border rounded shadow p-3 mx-auto">
+        <h1 class="mb-4">Admin-Dashboard</h1>
+        <p>
+            <b>Hallo, {{ app.user.username }}!</b><br>
+            Hier kannst du die Benutzer verwalten.
+        </p>
+        <h2>Neuen Benutzer anlegen</h2>
+        <p>
+            <form action="{{ path('create-user') }}" method="POST">
+                <input type="text" name="username" placeholder="Benutzername" class="form-control mb-2" required>
+                <input type="password" name="password" placeholder="Passwort" class="form-control mb-2" required>
+                <button type="submit" class="btn btn-success bg-gradient btn-sm">Benutzer anlegen</button>
+            </form>
+        </p>
+        <h2>Liste aller Benutzer</h2>
+        <ul class="list-group">
+            {% for user in users %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <strong>{{ user.username }}</strong><br>
+                            {% set admin = false %}
+                            {% for role in user.roles %}
+                                <span class="badge text-bg-success">{{ role}}</span>
+                                {% if role == "ROLE_ADMIN" %}
+                                    {% set admin = true %}
+                                {% endif %}
+                            {% endfor %}
+                            <span class="badge text-bg-info">QUIZZE: {{ user.getQuizzes|length }}</span>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <form action="{{ path('change-password', {id: user.id}) }}" method="POST">
+                                <input type="password" name="new_password" placeholder="Neues Passwort" class="form-control" required>
+                                <button type="submit" class="btn btn-warning bg-gradient btn-sm w-100 mt-2"><i class="fa-solid fa-lock"></i> Passwort ändern</button>
+                            </form>
+                            {% if admin == false %}
+                                <form action="{{ path('delete-user', {id: user.id}) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger bg-gradient btn-sm w-100 mt-2" onclick="return confirm('Sind Sie sicher, dass Sie den Nutzer löschen wollen?')"><i class="fa-regular fa-trash-can"></i> Benutzer löschen</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% include ('footer.html.twig') %}

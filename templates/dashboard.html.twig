@@ -3,6 +3,9 @@
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1 class="mb-4">Dashboard</h1>
         <p><b>Hallo, {{ user.username }}!</b><br> Hier kannst du neue Quizze erstellen oder vorhandene bearbeiten sowie die Statistik einsehen.</p>
+        {% if 'ROLE_ADMIN' in user.roles %}
+            <a class="btn btn-info bg-gradient dashboard__button mb-2" href="{{ path('admin-dashboard') }}"><i class="fa-solid fa-user-tie"></i> Adminbereich</a>
+        {% endif %}
         <p>
             <a class="btn btn-success bg-gradient dashboard__button" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Neues Quiz erstellen</a>
         </p>

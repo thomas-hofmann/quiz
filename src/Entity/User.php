@@ -21,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $username = null;
 
-    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'user', cascade: ['remove'])]
     private Collection $quizzes;
 
     /**
