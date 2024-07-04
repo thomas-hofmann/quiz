@@ -55,20 +55,34 @@
                             <h3>Frage {{ questionIndex + 1 }}</h3>
                             <h4 class="mb-3">{{ question.text }}</h4>
                             <ul class="list-group mb-3">
+                            {% set correctIndex = 0 %}
+                            {% set playerCorrectIndex = 0 %}
                             {% for answer in question.getAnswers %}
+                                {% if answer.isCorrect %}
+                                    {% set correctIndex = correctIndex + 1 %}
+                                {% endif %}
                                 {% set answerIndex = loop.index0 %}
                                 {% set isAnswerSelected = false %}
                                 {% for playerAnswer in allAnswers[questionIndex].answers %}
                                     {% if playerAnswer == answer.id %}
+                                        {% if answer.isCorrect %}
+                                            {% set playerCorrectIndex = playerCorrectIndex + 1 %}
+                                        {% endif %}
                                         {% set isAnswerSelected = true %}
                                     {% endif %}
                                 {% endfor %}
-                                <li class="list-group-item question-stats-li fs-5 pt-2 pb-2 bg-gradient {% if answer.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
+                                <li class="list-group-item question-stats-finished fs-5 bg-gradient {% if answer.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">{{ letters[answerIndex] }}</span>
                                     {% if isAnswerSelected %}<i class="fa-regular fa-circle-user text-info answer__logo--right"></i>{% endif %}
                                     {{ answer.text }}
                                 </li>
-                            {% endfor %}  
+                            {% endfor %}
+                            <li class="list-group-item fs-5 question-stats-count fw-bold">
+                                <span class="{% if playerCorrectIndex == correctIndex %} text-success {% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex)%} text-warning {% else %} text-danger {% endif %}">
+                                    {% if playerCorrectIndex == correctIndex %}<i class="fa-regular fa-circle-check"></i>{% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex)%}<i class="fa-regular fa-circle-question"></i>{% else %}<i class="fa-regular fa-circle-xmark"></i>{% endif %}
+                                    <br>{{ playerCorrectIndex }} / {{ correctIndex }}<br>
+                                </span>
+                            </li>
                             </ul>
                         {% endfor %}
                     </div>
