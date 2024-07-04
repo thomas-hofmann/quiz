@@ -4,7 +4,7 @@
         <div class="box shadow mx-auto rounded">
             {% if index > 0 %}
                 {% if rightAnswer %}
-                    <div class="alert alert-success m-0 p-2">
+                    <div class="alert quiz__overlay--z-index alert-success m-0 p-2">
                         <i class="fa-regular fa-circle-check answer__logo"></i>
                         <i class="fa-regular fa-circle-check answer__logo--right"></i>
                         <p class="fw-bold mb-0">Richtig!</p>
@@ -17,7 +17,7 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse bg-success-subtle collapse box box--70 mx-auto" aria-labelledby="headingOne" data-bs-parent="#accordion-right-answers">
                                     <div class="accordion-body rounded border-success-subtle border mt-2 bg-white p-2">
-                                        <p>{{ shuffledQuestions[index - 1].question.text }}</p>
+                                        <p class="fw-bold">{{ shuffledQuestions[index - 1].question.text }}</p>
                                         <ul class="list-group mt-2">
                                             {% for answerText in rightAnswers %}
                                                 <li class="list-group-item">{{ answerText }}</li>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <div class="alert {% if alert %}alert-warning{% else %}alert-danger{% endif %} m-0 p-2">
+                    <div class="alert quiz__overlay--z-index {% if alert %}alert-warning{% else %}alert-danger{% endif %} m-0 p-2">
                         {% if alert %}
                             <i class="fa-regular fa-circle-question answer__logo"></i>
                             <i class="fa-regular fa-circle-question answer__logo--right"></i>
@@ -48,7 +48,7 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse {% if alert %}alert-warning{% else %}alert-danger{% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordion-right-answers">
                                     <div class="accordion-body rounded {% if alert %}border-warning-subtle{% else %}border-danger-subtle{% endif %} bg-white mt-2 border p-2">
-                                        <b>{{ shuffledQuestions[index - 1].question.text }}</b>
+                                        <p class="fw-bold">{{ shuffledQuestions[index - 1].question.text }}</p>
                                         <ul class="list-group mt-2">
                                             {% for answerText in rightAnswers %}
                                                 <li class="list-group-item">{{ answerText }}</li>
