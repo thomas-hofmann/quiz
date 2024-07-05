@@ -36,6 +36,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $note = null;
+
     public function __construct()
     {
         $this->quizzes = new ArrayCollection();
@@ -126,6 +129,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->quizzes[] = $quiz;
             $quiz->setUser($this);
         }
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

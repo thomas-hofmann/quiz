@@ -25,10 +25,11 @@ class AdminController extends AbstractController {
 
     #[Route('/admin-dashboard/create-user', name: 'create-user')]
     public function newUser(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response {
-        if ($request->get('username') && $request->get('password')) {
+        if ($request->get('username') && $request->get('password') && $request->get('note')) {
             $user = new User();
 
             $user->setUsername($request->get('username'));
+            $user->setNote($request->get('note'));
             $user->setPassword($passwordHasher->hashPassword($user, $request->get('password')));
             $user->setRoles(["ROLE_USER"]);
 
@@ -66,6 +67,23 @@ class AdminController extends AbstractController {
             $this->addFlash(
                 'success',
                 'Passwort geändert!'
+            );
+        }
+    
+        return $this->redirectToRoute('admin-dashboard');
+    }
+
+    #[Route('/admin-dashboard/change-note/{id}', name: 'change-note')]
+    public function changeNote(Request $request, User $user, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response {
+        if ($request->get('note')) {
+            $user->setNote($request->get('note'));
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Notiz geändert!'
             );
         }
     

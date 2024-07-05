@@ -10,6 +10,7 @@
         <p>
             <form action="{{ path('create-user') }}" method="POST">
                 <input type="text" name="username" placeholder="Benutzername" class="form-control mb-2" required>
+                <input type="text" name="note" placeholder="Notiz" class="form-control mb-2" required>
                 <input type="password" name="password" placeholder="Passwort" class="form-control mb-2" required>
                 <button type="submit" class="btn btn-success bg-gradient btn-sm">Benutzer anlegen</button>
             </form>
@@ -18,17 +19,22 @@
         <ul class="list-group">
             {% for user in users %}
                 <li class="list-group-item">
+                    <strong>{{ user.username }}</strong><br>
+                    {% set admin = false %}
+                    {% for role in user.roles %}
+                        <span class="badge text-bg-success">{{ role}}</span>
+                        {% if role == "ROLE_ADMIN" %}
+                            {% set admin = true %}
+                        {% endif %}
+                    {% endfor %}
+                    <span class="badge text-bg-info">QUIZZE: {{ user.getQuizzes|length }}</span>
+                    <p class="mt-2">{{ user.getNote }}</p>
                     <div class="row">
                         <div class="col-12 col-md-6">
-                            <strong>{{ user.username }}</strong><br>
-                            {% set admin = false %}
-                            {% for role in user.roles %}
-                                <span class="badge text-bg-success">{{ role}}</span>
-                                {% if role == "ROLE_ADMIN" %}
-                                    {% set admin = true %}
-                                {% endif %}
-                            {% endfor %}
-                            <span class="badge text-bg-info">QUIZZE: {{ user.getQuizzes|length }}</span>
+                            <form action="{{ path('change-note', {id: user.id}) }}" method="POST">
+                                <input type="text" name="note" placeholder="{{ user.getNote }}" class="form-control" required>
+                                <button type="submit" class="btn btn-success bg-gradient btn-sm w-100 mt-2">Notiz ändern</button>
+                            </form>
                         </div>
                         <div class="col-12 col-md-6">
                             <form action="{{ path('change-password', {id: user.id}) }}" method="POST">

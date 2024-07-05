@@ -77,10 +77,10 @@
                                     {{ answer.text }}
                                 </li>
                             {% endfor %}
-                            <li class="list-group-item fs-5 question-stats-count fw-bold">
-                                <span class="{% if playerCorrectIndex == correctIndex %} text-success {% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex)%} text-warning {% else %} text-danger {% endif %}">
-                                    {% if playerCorrectIndex == correctIndex %}<i class="fa-regular fa-circle-check"></i>{% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex)%}<i class="fa-regular fa-circle-question"></i>{% else %}<i class="fa-regular fa-circle-xmark"></i>{% endif %}
-                                    <br>{{ playerCorrectIndex }} / {{ correctIndex }}<br>
+                            <li class="list-group-item question-stats-count fw-bold">
+                                <span class="{% if (playerCorrectIndex == correctIndex) and (correctIndex == allAnswers[questionIndex].answers|length) %} text-success {% elseif (playerCorrectIndex > 0) and (correctIndex < allAnswers[questionIndex].answers|length) %} text-warning {% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex)%} text-warning {% else %} text-danger {% endif %}">
+                                    {% if (playerCorrectIndex == correctIndex) and (correctIndex == allAnswers[questionIndex].answers|length) %}<i class="fa-regular fs-3 fa-circle-check"></i> {% elseif (playerCorrectIndex > 0) and (correctIndex < allAnswers[questionIndex].answers|length) %}<i class="fa-regular fa-circle-question fs-3"></i>{% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex) %}<i class="fa-regular fa-circle-question fs-3"></i>{% else %}<i class="fa-regular fa-circle-xmark fs-3"></i>{% endif %}
+                                    <br>{{ playerCorrectIndex }}/{{ correctIndex }}<br>
                                 </span>
                             </li>
                             </ul>
