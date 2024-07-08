@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label for="question">Fragetext</label>
                 <input type="hidden" name="questionId" value="{{ question.id }}">
-                <input type="text" class="form-control" id="question" name="question" value="{{ question.text }}" required>
+                <textarea type="text" class="form-control" id="question" name="question" rows="3" required>{{ question.text }}</textarea>
                 {% for answer in question.getAnswers %}
                     {% set index = loop.index0 + 1%}
                    <label for="answer1" class="mt-2">Antwort: {{ index }}</label>
@@ -18,22 +18,9 @@
                         <div class="input-group-text">
                             <input class="form-check-input quiz__edit-checkbox mt-0" id="answer{{ index }}-correct" name="answer{{ index }}-correct" type="checkbox" value="1"{% if answer.isCorrect %} checked {% endif %}>
                         </div>
-                        <input type="text" class="form-control" id="answer{{ index }}" name="answer{{ index }}" value="{{ answer.text }}" required>
+                        <textarea type="text" class="form-control" id="answer{{ index }}" name="answer{{ index }}" required>{{ answer.text }}</textarea>
                     </div>
                 {% endfor %}
-                {# <label for="question">Frage</label>
-                <input type="hidden" name="questionId" value="{{ question.id }}">
-                <input type="text" class="form-control" id="question" name="question" value="{{ question.text }}" required>
-                <label for="answer1" class="mt-2">Antwortmöglichkeit: 1</label>
-                <input type="text" class="form-control" id="answer1" name="answer1" value="{{ question.answerOne }}" required>
-                <label for="answer2" class="mt-2">Antwortmöglichkeit: 2</label>
-                <input type="text" class="form-control" id="answer2" name="answer2" value="{{ question.answerTwo }}" required>
-                <label for="answer3" class="mt-2">Antwortmöglichkeit: 3</label>
-                <input type="text" class="form-control" id="answer3" name="answer3" value="{{ question.answerThree }}" required>
-                <label for="answer4" class="mt-2">Antwortmöglichkeit: 4</label>
-                <input type="text" class="form-control" id="answer4" name="answer4" value="{{ question.answerFour }}" required>
-                <label for="rightAnswer" class="mt-2">Richtige Antwort (Eine Nummer zwischen 1 - 4)</label>
-                <input type="number" min="1" max="4" class="form-control" id="rightAnswer" name="rightAnswer" value="{{ question.answerRight }}" required> #}
             </div>
             <p class="mt-3">
                 <button type="submit" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-arrows-rotate"></i> Diese Frage aktualisiere</button>
