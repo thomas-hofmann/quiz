@@ -1,7 +1,18 @@
 {% include ('base.html.twig') %}
 <div class="container text-center container--fade-in">
+    <div class="box border rounded shadow p-3 mx-auto">
+        <h1>{{ quiz.name }}</h1>
+       <ul class="list-group rounded">
+            <li class="list-group-item text-bg-info">
+               Beitrittscode:
+               <h2>{{ quiz.code}}</h2>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container text-center container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto position-relative">
-        <h1>Statistik</h1>
+        <h2>Statistik</h2>
         <p class="text-primary position-absolute top-0 end-0 mt-2 me-3 fs-5"><i class="fa-solid fa-arrows-rotate fa-spin"></i> Live</p>
         <div id="container-stats">
             <ul class="list-group rounded mb-2">
