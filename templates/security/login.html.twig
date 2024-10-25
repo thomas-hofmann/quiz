@@ -5,7 +5,7 @@
         {% if error %}
             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
-        <p>Hier können sich Dozenten einloggen um ihre Quizze zu erstellen und verwalten.</p>
+        <p>Hier können sich Dozenten einloggen, um ihre Quizze zu erstellen und zu verwalten.</p>
         <form action="{{ path('app_login') }}" method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
