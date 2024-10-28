@@ -6,6 +6,7 @@
             <li class="list-group-item text-bg-info">
                Beitrittscode:
                <h3>{{ quiz.code}}</h3>
+               <img class="border" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
             </li>
         </ul>
     </div>
@@ -19,7 +20,6 @@
                 <li class="list-group-item">
                     Fragenanzahl: <strong>{{ quiz.getQuestions|length }}</strong>
                 </li>
-            
                 <li class="list-group-item">
                     Spieleranzahl: <strong>{{ leaderBoardEntries|length }}</strong>
                 </li>

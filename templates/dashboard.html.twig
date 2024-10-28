@@ -26,37 +26,40 @@
                                         {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
                                     </label>
                                 </div>
-                                <p class="mb-2 mt-2">
+                                {% if quiz.getQuestions is empty %}
+                                    <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
+                                {% else %}
+                                    <p class="mb-2 mt-2">
+                                        <b>Fragenanzahl:</b><br>
+                                        {{ quiz.getQuestions|length }}
+                                    </p>
+                                {% endif %}
+                                <p class="mb-2">
                                     <b>Beitrittscode:</b><br>{{ quiz.code }}
                                 </p>
                                 <p class="mb-2">
                                     <b>Sharelink:</b>
                                     <br>{{ url('home', { 'quizcode': quiz.code }) }}
                                 </p>
-                                {% if quiz.getLeaderBoardEntries|length %}
-                                    <p class="mb-2">
-                                        <b>Spieleranzahl:</b>
-                                        <br>
-                                        {{ quiz.getLeaderBoardEntries|length }} in der Rangliste
-                                    </p>
-                                {% endif %}
-                                
-                                {% if quiz.getQuestions is empty %}
-                                    <p class="text-danger mb-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
-                                {% else %}
-                                    <p class="mb-2">
-                                        <b>Fragenanzahl:</b><br>
-                                        {{ quiz.getQuestions|length }}
-                                    </p>
-                                {% endif %}
+                                <p class="mb-2">
+                                    <b>QR-Code:</b><br>
+                                    <img class="border mt-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
+                                </p>                  
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
-                                <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
+                                <p>
+                                    <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
+                                    <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
+                                    <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
+                                </p>
                                 {% if quiz.getLeaderBoardEntries|length %}
-                                    <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
+                                    <p class="mb-2">
+                                        <b>Ranglisteneinträge:</b>
+                                        {{ quiz.getLeaderBoardEntries|length }}
+                                        <br>
+                                        <a class="btn btn-sm btn-dark bg-gradient mt-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
+                                    </p>
                                 {% endif %}
-                                <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
-                                <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
                             </div>
                         </div>
                     </li>
