@@ -54,6 +54,9 @@
                                 </li>
                             {% else %}
                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('register') }}"><i class="fa-regular fa-address-card"></i></i> Registrierung</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ path('app_login') }}" {% if app.request.attributes.get('_route') == 'quiz' %}onclick="return confirm('Sind Sie sicher, dass Sie das Quiz verlassen wollen?')"{% endif %}><i class="fa-solid fa-right-to-bracket"></i> Login</a>
                                 </li>
                             {% endif %}

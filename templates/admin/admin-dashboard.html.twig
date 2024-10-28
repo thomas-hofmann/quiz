@@ -19,7 +19,18 @@
         <ul class="list-group">
             {% for user in users %}
                 <li class="list-group-item">
-                    <strong>{{ user.username }}</strong><br>
+                    <p>
+                        <strong>{{ user.username }}</strong><br>
+                        {% if user.createdAt %}
+                            <strong>Erstellt: {{ user.createdAt|date('d.m.Y H:i') }}</strong><br>
+                        {% endif %}
+                        {% if user.updatedAt %}
+                            <strong>Aktualisiert: {{ user.updatedAt|date('d.m.Y H:i') }}</strong><br>
+                        {% endif %}
+                        {% if user.lastLogin %}
+                            <strong class="text-success">Letzter Login: {{ user.lastLogin|date('d.m.Y H:i') }}</strong><br>
+                        {% endif %}
+                    </p>
                     {% set admin = false %}
                     {% for role in user.roles %}
                         <span class="badge text-bg-success">{{ role}}</span>

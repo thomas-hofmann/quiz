@@ -19,6 +19,12 @@ class IndexController extends AbstractController {
 		]);
 	}
 
+	#[Route('/register', name: 'register')]
+	public function registerAction(): Response {
+		return $this->render('index/register.html.twig', [
+		]);
+	}
+
 	#[Route('/imprint', name: 'imprint')]
 	public function imprintAction(): Response {
 		return $this->render('index/imprint.html.twig', [
