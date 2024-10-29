@@ -34,6 +34,10 @@ class Quiz
     #[ORM\Column(type: 'boolean')]
     private bool $isEnabled = true;
 
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'quizzes')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -136,6 +140,18 @@ class Quiz
     public function setEnabled(bool $isEnabled): self
     {
         $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

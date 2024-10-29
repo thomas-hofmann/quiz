@@ -35,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Quiz::class, mappedBy: 'user', cascade: ['remove'])]
     private Collection $quizzes;
 
+    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'user', cascade: ['remove'])]
+    private Collection $categories;
+
     /**
      * @var list<string> The user roles
      */
@@ -138,6 +141,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->quizzes->contains($quiz)) {
             $this->quizzes[] = $quiz;
+            $quiz->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getCategories() {
+        return $this->categories;
+    }
+
+    public function addCategories(Quiz $quiz): self
+    {
+        if (!$this->categories->contains($quiz)) {
+            $this->categories[] = $quiz;
             $quiz->setUser($this);
         }
 

@@ -9,6 +9,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Entity\Quiz;
+use App\Entity\Category;
 use App\Entity\Question;
 use App\Entity\Answer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +23,6 @@ class DashboardController extends AbstractController {
         $quizRepository = $entityManager->getRepository(Quiz::class);
         /** @var \Symfony\Component\Security\Core\User\UserInterface $user */
         $user = $this->getUser();
-
         $quizzes = [];
         $quizzes = $quizRepository->findBy(['user' => $user], ['id' => 'DESC']);
         return $this->render('dashboard.html.twig', [
@@ -284,6 +284,7 @@ class DashboardController extends AbstractController {
         return $this->render('edit-quiz.html.twig', [
             'questions' => $quiz->getQuestions(),
             'quiz' => $quiz,
+            'user' => $this->getUser(),
             'error'=> false,
             'minCorrectError' => false,
         ]);
@@ -293,6 +294,7 @@ class DashboardController extends AbstractController {
     public function updateQuizAction(Request $request, EntityManagerInterface $entityManager): Response {
         if($request->get('quizId')) {
             $quizRepository = $entityManager->getRepository(Quiz::class);
+            $categoryRepository = $entityManager->getRepository(Category::class);
             $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
             if ($quiz->getUser() !== $this->getUser()) {
                 throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
@@ -307,6 +309,14 @@ class DashboardController extends AbstractController {
                     'quiz' => $quiz,
                     'error'=> true,
                 ]);
+            }
+
+            $categoryId = $request->get('category');
+            if ($categoryId) {
+                $category = $categoryRepository->find($categoryId);
+                if ($category) {
+                    $quiz->setCategory($category); // Setze die neue Kategorie
+                }
             }
 
             $entityManager->persist($quiz);
@@ -470,6 +480,27 @@ class DashboardController extends AbstractController {
         return $this->render('answer-stats.html.twig', [
             'sortedEntries' => $sortedEntries,
             'quiz' => $quiz,
+        ]);
+    }
+
+    #[Route('/create-category', name: 'create-category')]
+    public function createCategoryAction(Request $request, EntityManagerInterface $entityManager): Response {
+        if($request->get('categoryname')) {
+            $category = new Category();
+            $category->setName($request->get('categoryname'));
+
+            $category->setUser($this->getUser());
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Kategorie erfolgreich erstellt!'
+            );
+        }
+
+        return $this->render('create-category.html.twig', [
+            'error' => false,
         ]);
     }
 }
