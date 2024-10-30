@@ -1,0 +1,20 @@
+{% include ('base.html.twig') %}
+<div class="container container--fade-in">
+    <div class="box box--70 border rounded shadow p-3 mx-auto">
+        <h1>Ordner bearbeiten</h1>
+        <form action="{{ path('update-category') }}" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control mb-2" id="categoryname" name="categoryname" placeholder="Ordnername" required value="{{ category.name }}">
+                <input type="hidden" class="form-control mb-2" id="categoryId" name="categoryId" value="{{ category.id }}">
+                {% if error %}
+                    <div id="categorycode" class="invalid-feedback">
+                        Achtung Code wird bereits verwendet. Nutzen Sie einen anderen
+                    </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-plus"></i> Ordner aktualisieren</button>
+            <a href="{{ path('categories') }}" type="button" class="btn btn-secondary bg-gradient mt-2">Zurück zu den Ordnern</a>
+        </form>
+    </div>
+</div>
+{% include ('footer.html.twig') %}

@@ -17,9 +17,10 @@
                         Achtung Code wird bereits verwendet. Nutzen Sie einen anderen
                     </div>
                 {% endif %}
-                <label for="category" class="mt-2">Kategorie</label>
-                <select class="form-control" id="category" name="category" required>
+                <label for="category" class="mt-2">Ordner</label>
+                <select class="form-control" id="category" name="category">
                     <option value="" disabled {% if not quiz.category %}selected{% endif %}>Bitte wählen</option>
+                    <option value="no-category">Keinen Ordner</option>
                     {% for category in user.categories %}
                         <option value="{{ category.id }}" {% if quiz.category and quiz.category.id == category.id %}selected{% endif %}>
                             {{ category.name }}

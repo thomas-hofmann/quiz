@@ -1,155 +1,164 @@
 {% include ('base.html.twig') %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
-        <h1 class="mb-4">Dashboard</h1>
+        <h1 class="mb-4">
+            Dashboard
+        </h1>
         <p><b>Hallo, {{ user.username }}!</b><br> Hier kannst du neue Quizze erstellen oder vorhandene bearbeiten sowie die Statistik einsehen.</p>
-        {% if 'ROLE_ADMIN' in user.roles %}
-            <a class="btn btn-info bg-gradient dashboard__button mb-2" href="{{ path('admin-dashboard') }}"><i class="fa-solid fa-user-tie"></i> Adminbereich</a>
-        {% endif %}
-        <p>
-            <a class="btn btn-success bg-gradient dashboard__button mb-2" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> <i class="fa-solid fa-question"></i> Quiz erstellen</a>
-            <a class="btn btn-success bg-gradient dashboard__button" href="{{ path('create-category') }}"><i class="fa-solid fa-plus"></i> <i class="fa-regular fa-folder"></i> Kategorie erstellen</a>
-        </p>
-            
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <a class="btn btn-success bg-gradient d-block mb-2" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Quiz erstellen</a>
+            </div>
+            <div class="col-12 col-md-6">
+                {% if 'ROLE_ADMIN' in user.roles %}
+                    <a class="btn btn-info bg-gradient d-block" href="{{ path('admin-dashboard') }}"><i class="fa-solid fa-user-tie"></i> Adminbereich</a>
+                {% endif %}
+            </div>
+        </div>
         {% if quizzes|length %}
             <h2>Meine Quizze</h2>
-            <p><i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!</p>
+            <p>
+                <i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!
+            </p>
+            <a class="btn btn-success bg-gradient mb-2" href="{{ path('create-category') }}"><i class="fa-regular fa-folder"></i> <i class="fa-solid fa-plus"></i></a>
+            <a class="btn btn-dark bg-gradient mb-2" href="{{ path('categories') }}"><i class="fa-regular fa-folder"></i> <i class="fa-regular fa-pen-to-square"></i></a>
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 {% for category in user.categories %}
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-{{ category.id }}" aria-expanded="true" aria-controls="panelsStayOpen-{{ category.id }}">
-                                <i class="fa-regular fa-folder"></i> <span class="ms-2">{{ category.name }}</span>
+                                <i class="fa-regular fa-folder"></i> <span class="ms-2">{{ category.name }}</span><span class="badge text-bg-secondary ms-2 ps-2 pe-2">{{ category.quizzes|length }}</span>
                             </button>
                         </h2>
                         <div id="panelsStayOpen-{{ category.id }}" class="accordion-collapse collapse">
                             <div class="accordion-body">     
-                                <ul class="list-group">
+                                <div class="accordion" id="accordionPanelsStayOpenExample-Quizzes">
                                     {% for quiz in category.quizzes %}
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-12 col-md-6 col-lg-8">
-                                                    <h3>{{ quiz.name|e }}</h3>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input toggle-quiz" type="checkbox" id="quizToggle{{ quiz.id }}" 
-                                                            {% if quiz.isEnabled %} checked {% endif %} 
-                                                            data-url="{{ path('toggle_quiz', {id: quiz.id}) }}">
-                                                        <label class="form-check-label toggle-quiz-label" for="quizToggle{{ quiz.id }}">
-                                                            {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
-                                                        </label>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-{{ quiz.id }}" aria-expanded="true" aria-controls="panelsStayOpen-{{ quiz.id }}">
+                                                    {{ quiz.name }} {% if quiz.getLeaderBoardEntries|length %}<span class="badge text-bg-secondary ms-2">Statistik vorhanden</span>{% endif %}
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-{{ quiz.id }}" class="accordion-collapse collapse">
+                                                <div class="accordion-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6 col-lg-8">
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input toggle-quiz" type="checkbox" id="quizToggle{{ quiz.id }}" 
+                                                                    {% if quiz.isEnabled %} checked {% endif %} 
+                                                                    data-url="{{ path('toggle_quiz', {id: quiz.id}) }}">
+                                                                <label class="form-check-label toggle-quiz-label" for="quizToggle{{ quiz.id }}">
+                                                                    {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
+                                                                </label>
+                                                            </div>
+                                                            {% if quiz.getQuestions is empty %}
+                                                                <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
+                                                            {% else %}
+                                                                <p class="mb-2 mt-2">
+                                                                    <b>Fragenanzahl:</b><br>
+                                                                    {{ quiz.getQuestions|length }}
+                                                                </p>
+                                                            {% endif %}
+                                                            <p class="mb-2">
+                                                                <b>Beitrittscode:</b><br>{{ quiz.code }}
+                                                            </p>
+                                                            <p class="mb-2">
+                                                                <b>Sharelink:</b>
+                                                                <br>{{ url('home', { 'quizcode': quiz.code }) }}
+                                                            </p>
+                                                            <p class="mb-2">
+                                                                <b>QR-Code:</b><br>
+                                                                <img class="border mt-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
+                                                            </p>                  
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-4">
+                                                            <p>
+                                                                <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
+                                                                <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
+                                                                <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
+                                                            </p>
+                                                            {% if quiz.getLeaderBoardEntries|length %}
+                                                                <p class="mb-2">
+                                                                    <b>Ranglisteneinträge:</b>
+                                                                    {{ quiz.getLeaderBoardEntries|length }}
+                                                                    <br>
+                                                                    <a class="btn btn-sm btn-outline-danger bg-gradient mt-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
+                                                                </p>
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
-                                                    {% if quiz.getQuestions is empty %}
-                                                        <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
-                                                    {% else %}
-                                                        <p class="mb-2 mt-2">
-                                                            <b>Fragenanzahl:</b><br>
-                                                            {{ quiz.getQuestions|length }}
-                                                        </p>
-                                                    {% endif %}
-                                                    <p class="mb-2">
-                                                        <b>Beitrittscode:</b><br>{{ quiz.code }}
-                                                    </p>
-                                                    <p class="mb-2">
-                                                        <b>Sharelink:</b>
-                                                        <br>{{ url('home', { 'quizcode': quiz.code }) }}
-                                                    </p>
-                                                    <p class="mb-2">
-                                                        <b>QR-Code:</b><br>
-                                                        <img class="border mt-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
-                                                    </p>                  
-                                                </div>
-                                                <div class="col-12 col-md-6 col-lg-4">
-                                                    <p>
-                                                        <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
-                                                        <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
-                                                        <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
-                                                    </p>
-                                                    {% if quiz.getLeaderBoardEntries|length %}
-                                                        <p class="mb-2">
-                                                            <b>Ranglisteneinträge:</b>
-                                                            {{ quiz.getLeaderBoardEntries|length }}
-                                                            <br>
-                                                            <a class="btn btn-sm btn-dark bg-gradient mt-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
-                                                        </p>
-                                                    {% endif %}
                                                 </div>
                                             </div>
-                                        </li>
+                                        </div>
                                     {% endfor %}
-                                </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-            <div class="accordion mt-2" id="accordionPanelsStayOpenExample-WithOut">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-WithOut" aria-expanded="true" aria-controls="panelsStayOpen-WithOut">
-                                <i class="fa-regular fa-folder"></i> <span class="ms-2">Ohne Kategorie</span>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-WithOut" class="accordion-collapse collapse">
-                            <div class="accordion-body">     
-                                <ul class="list-group">
-                                    {% for quiz in quizzes %}
-                                        {% if not quiz.category %}
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-12 col-md-6 col-lg-8">
-                                                    <h3>{{ quiz.name|e }}</h3>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input toggle-quiz" type="checkbox" id="quizToggle{{ quiz.id }}" 
-                                                            {% if quiz.isEnabled %} checked {% endif %} 
-                                                            data-url="{{ path('toggle_quiz', {id: quiz.id}) }}">
-                                                        <label class="form-check-label toggle-quiz-label" for="quizToggle{{ quiz.id }}">
-                                                            {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
-                                                        </label>
-                                                    </div>
-                                                    {% if quiz.getQuestions is empty %}
-                                                        <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
-                                                    {% else %}
-                                                        <p class="mb-2 mt-2">
-                                                            <b>Fragenanzahl:</b><br>
-                                                            {{ quiz.getQuestions|length }}
-                                                        </p>
-                                                    {% endif %}
-                                                    <p class="mb-2">
-                                                        <b>Beitrittscode:</b><br>{{ quiz.code }}
-                                                    </p>
-                                                    <p class="mb-2">
-                                                        <b>Sharelink:</b>
-                                                        <br>{{ url('home', { 'quizcode': quiz.code }) }}
-                                                    </p>
-                                                    <p class="mb-2">
-                                                        <b>QR-Code:</b><br>
-                                                        <img class="border mt-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
-                                                    </p>                  
-                                                </div>
-                                                <div class="col-12 col-md-6 col-lg-4">
-                                                    <p>
-                                                        <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
-                                                        <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
-                                                        <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
-                                                    </p>
-                                                    {% if quiz.getLeaderBoardEntries|length %}
-                                                        <p class="mb-2">
-                                                            <b>Ranglisteneinträge:</b>
-                                                            {{ quiz.getLeaderBoardEntries|length }}
-                                                            <br>
-                                                            <a class="btn btn-sm btn-dark bg-gradient mt-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
-                                                        </p>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
+            {% set first = true %}
+            {% for quiz in quizzes %}
+                {% if not quiz.category %}
+                    {% if first %}
+                        <ul class="list-group mt-4">
+                        {% set first = false %}
+                    {% endif %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-8">
+                                    <h3>{{ quiz.name|e }}</h3>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input toggle-quiz" type="checkbox" id="quizToggle{{ quiz.id }}" 
+                                            {% if quiz.isEnabled %} checked {% endif %} 
+                                            data-url="{{ path('toggle_quiz', {id: quiz.id}) }}">
+                                        <label class="form-check-label toggle-quiz-label" for="quizToggle{{ quiz.id }}">
+                                            {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
+                                        </label>
+                                    </div>
+                                    {% if quiz.getQuestions is empty %}
+                                        <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
+                                    {% else %}
+                                        <p class="mb-2 mt-2">
+                                            <b>Fragenanzahl:</b><br>
+                                            {{ quiz.getQuestions|length }}
+                                        </p>
+                                    {% endif %}
+                                    <p class="mb-2">
+                                        <b>Beitrittscode:</b><br>{{ quiz.code }}
+                                    </p>
+                                    <p class="mb-2">
+                                        <b>Sharelink:</b>
+                                        <br>{{ url('home', { 'quizcode': quiz.code }) }}
+                                    </p>
+                                    <p class="mb-2">
+                                        <b>QR-Code:</b><br>
+                                        <img class="border mt-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
+                                    </p>                  
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <p>
+                                        <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
+                                        <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
+                                        <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
+                                    </p>
+                                    {% if quiz.getLeaderBoardEntries|length %}
+                                        <p class="mb-2">
+                                            <b>Ranglisteneinträge:</b>
+                                            {{ quiz.getLeaderBoardEntries|length }}
+                                            <br>
+                                            <a class="btn btn-sm btn-dark bg-gradient mt-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>
+                                        </p>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
-                    </div>
-            </div>
+                        </li>
+                    {% if first %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
         {% endif %}   
     </div>
 </div>

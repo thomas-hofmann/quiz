@@ -148,7 +148,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getCategories() {
-        return $this->categories;
+        $categories = $this->categories->toArray();
+    
+        usort($categories, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+    
+        return new ArrayCollection($categories);
     }
 
     public function addCategories(Quiz $quiz): self

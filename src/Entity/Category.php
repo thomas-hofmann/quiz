@@ -64,7 +64,13 @@ class Category
      */
     public function getQuizzes(): Collection
     {
-        return $this->quizzes;
+        $quizzes = $this->quizzes->toArray();
+    
+        usort($quizzes, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+    
+        return new ArrayCollection($quizzes);
     }
 
     public function addQuiz(Quiz $quiz): self

@@ -24,7 +24,7 @@ class DashboardController extends AbstractController {
         /** @var \Symfony\Component\Security\Core\User\UserInterface $user */
         $user = $this->getUser();
         $quizzes = [];
-        $quizzes = $quizRepository->findBy(['user' => $user], ['id' => 'DESC']);
+        $quizzes = $quizRepository->findBy(['user' => $user], ['name' => 'ASC']);
         return $this->render('dashboard.html.twig', [
             'quizzes' => $quizzes,
             'user' => $user,
@@ -52,6 +52,16 @@ class DashboardController extends AbstractController {
             }
 
             $quiz->setUser($this->getUser());
+
+            $categoryId = $request->get('category');
+            if ($categoryId) {
+                $categoryRepository = $entityManager->getRepository(Category::class);
+                $category = $categoryRepository->find($categoryId);
+                if ($category) {
+                    $quiz->setCategory($category); // Setze die neue Kategorie
+                }
+            }
+
             $entityManager->persist($quiz);
             $entityManager->flush();
 
@@ -65,6 +75,7 @@ class DashboardController extends AbstractController {
 
         return $this->render('create-quiz.html.twig', [
             'error' => false,
+            'user' => $this->getUser(),
         ]);
     }
 
@@ -312,11 +323,13 @@ class DashboardController extends AbstractController {
             }
 
             $categoryId = $request->get('category');
-            if ($categoryId) {
+            if ($categoryId && $categoryId !== 'no-category') {
                 $category = $categoryRepository->find($categoryId);
                 if ($category) {
                     $quiz->setCategory($category); // Setze die neue Kategorie
                 }
+            } else if ($categoryId == 'no-category') {
+                $quiz->setCategory(null);
             }
 
             $entityManager->persist($quiz);
@@ -483,9 +496,16 @@ class DashboardController extends AbstractController {
         ]);
     }
 
+    #[Route('/categories', name: 'categories')]
+    public function categoriesAction(Request $request, EntityManagerInterface $entityManager): Response {
+        return $this->render('categories.html.twig', [
+            'user' => $this->getUser(),
+        ]);
+    }
+
     #[Route('/create-category', name: 'create-category')]
     public function createCategoryAction(Request $request, EntityManagerInterface $entityManager): Response {
-        if($request->get('categoryname')) {
+        if($request->get('categoryname') && $request->get('categoryname') !== 'no-category') {
             $category = new Category();
             $category->setName($request->get('categoryname'));
 
@@ -497,10 +517,70 @@ class DashboardController extends AbstractController {
                 'success',
                 'Kategorie erfolgreich erstellt!'
             );
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('create-category.html.twig', [
             'error' => false,
         ]);
+    }
+
+    #[Route('/edit-category/{id}', name: 'edit-category')]
+    public function editCategoryAction(Category $category, Request $request, EntityManagerInterface $entityManager): Response {
+        if ($category->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
+
+        return $this->render('edit-category.html.twig', [
+            'error' => false,
+            'category' => $category,
+        ]);
+    }
+
+    #[Route('/update-category', name: 'update-category')]
+    public function updateCategoryAction(Request $request, EntityManagerInterface $entityManager): Response {
+        if($request->get('categoryname') && $request->get('categoryId')) {
+            $categoryRepository = $entityManager->getRepository(Category::class);
+            $category = $categoryRepository->findOneBy(['id' => $request->get('categoryId')]);
+
+            if ($category->getUser() !== $this->getUser()) {
+                throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+            }
+            if($request->get('categoryname')) {
+                $category->setName($request->get('categoryname'));
+
+                $entityManager->persist($category);
+                $entityManager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Kategorie erfolgreich erstellt!'
+                );
+                
+            }
+        }
+
+        return $this->redirectToRoute('categories');
+    }
+
+    #[Route('/delete-category/{id}', name: 'delete-category')]
+    public function deleteCategoryAction(Category $category, Request $request, EntityManagerInterface $entityManager): Response {
+        if ($category->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
+
+        if($category) {
+            $entityManager->remove($category);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Kategorie erfolgreich gelöscht!'
+            );
+
+            return $this->redirectToRoute('categories');
+        }
+
+        return $this->redirectToRoute('categories');
     }
 }

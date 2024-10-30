@@ -1,0 +1,30 @@
+{% include ('base.html.twig') %}
+<div class="container container--fade-in">
+    <div class="box box--70 border rounded shadow p-3 mx-auto">
+        <h1>Meine Ordner</h1>
+        <ul class="list-group">
+        {% for category in user.categories %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <strong><i class="fa-regular fa-folder"></i> <span class="ms-2">{{ category.name }}</strong>
+                        <ul class="list-group mt-2">
+                        {% for quiz in category.quizzes %}
+                             <li class="list-group-item">
+                                {{ quiz.name }}
+                             </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <a class="btn btn-dark d-block mb-2" href="{{ path('edit-category', {'id': category.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
+                        <a class="btn btn-danger d-block mb-2" href="{{ path('delete-category', {'id': category.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diesen Ordner SAMT INHALT löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Ordner samt Inhalt löschen</a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+        <a href="{{ path('dashboard') }}" type="button" class="btn btn-secondary bg-gradient mt-2">Zurück zum Dashboard</a>
+    </div>
+</div>
+{% include ('footer.html.twig') %}

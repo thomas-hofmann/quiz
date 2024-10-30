@@ -1,17 +1,17 @@
 {% include ('base.html.twig') %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
-        <h1>Kategorie erstellen</h1>
+        <h1>Ordner erstellen</h1>
         <form action="{{ path('create-category') }}" method="post">
             <div class="form-group">
-                <input type="text" class="form-control mb-2" id="categoryname" name="categoryname" placeholder="categoryname" required>
+                <input type="text" class="form-control mb-2" id="categoryname" name="categoryname" placeholder="Ordnername" required>
                 {% if error %}
                     <div id="categorycode" class="invalid-feedback">
                         Achtung Code wird bereits verwendet. Nutzen Sie einen anderen
                     </div>
                 {% endif %}
             </div>
-            <button type="submit" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-plus"></i> Kategorie hinzufügen</button>
+            <button type="submit" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-plus"></i> Ordner erstellen</button>
             <a href="{{ path('dashboard') }}" type="button" class="btn btn-secondary bg-gradient mt-2">Zurück zum Dashboard</a>
         </form>
     </div>
