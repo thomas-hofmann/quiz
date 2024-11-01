@@ -93,6 +93,7 @@ header, main, footer {
     right: 0;
     width: 150px;
     height: auto;
+    z-index: -1;
     path {
         fill: rgba(33, 37, 41, 0.075);
     }
@@ -109,7 +110,6 @@ header, main, footer {
 .svg-questionmark--smaller {
     right: 130px;
     width: 80px;
-
     @include media-breakpoint-down(lg) {
         right: 80px;
         width: 50px;
@@ -122,6 +122,8 @@ header, main, footer {
     left: 0;
     width: 150px;
     height: auto;
+    z-index: -1;
+    transform: scaleX(-1);
     path {
         fill: rgba(33, 37, 41, 0.075);
     }
@@ -138,7 +140,7 @@ header, main, footer {
 .svg-questionmark-left--smaller {
     left: 130px;
     width: 80px;
-
+    transform: scaleX(-1);
     @include media-breakpoint-down(lg) {
         left: 80px;
         width: 50px;
