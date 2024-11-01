@@ -22,3 +22,8 @@
         width: 100%;
     }
 }
+
+.rotate-on-hover:hover i {
+    transition: transform 0.3s ease;
+    transform: rotate(360deg);
+}

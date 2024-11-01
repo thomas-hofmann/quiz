@@ -75,14 +75,72 @@ header, main, footer {
     100% { transform: translateX(0) }
 }
 
-
 .flash-message-wrapper {
     width: 100%;
     position: fixed;
     top: 7px;
     z-index: 9999;
 }
+
 .flash-message {
     margin: auto;
     width: fit-content;
+}
+
+.svg-questionmark {
+    position: absolute;
+    bottom: 3%;
+    right: 0;
+    width: 150px;
+    height: auto;
+    path {
+        fill: rgba(33, 37, 41, 0.075);
+    }
+
+    @include media-breakpoint-down(lg) {
+        width: 100px;
+    }
+
+    @include media-breakpoint-down(md) {
+       display: none;
+    }
+}
+
+.svg-questionmark--smaller {
+    right: 130px;
+    width: 80px;
+
+    @include media-breakpoint-down(lg) {
+        right: 80px;
+        width: 50px;
+    }
+}
+
+.svg-questionmark-left {
+    position: absolute;
+    bottom: 3%;
+    left: 0;
+    width: 150px;
+    height: auto;
+    path {
+        fill: rgba(33, 37, 41, 0.075);
+    }
+
+    @include media-breakpoint-down(lg) {
+        width: 100px;
+    }
+
+    @include media-breakpoint-down(md) {
+       display: none;
+    }
+}
+
+.svg-questionmark-left--smaller {
+    left: 130px;
+    width: 80px;
+
+    @include media-breakpoint-down(lg) {
+        left: 80px;
+        width: 50px;
+    }
 }

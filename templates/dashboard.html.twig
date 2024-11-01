@@ -20,8 +20,8 @@
             <p>
                 <i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!
             </p>
-            <a class="btn btn-success bg-gradient mb-2" href="{{ path('create-category') }}"><i class="fa-regular fa-folder"></i> <i class="fa-solid fa-plus"></i></a>
-            <a class="btn btn-dark bg-gradient mb-2" href="{{ path('categories') }}"><i class="fa-regular fa-folder"></i> <i class="fa-regular fa-pen-to-square"></i></a>
+            <a class="btn btn-success bg-gradient mb-2" title="Neuer Ordner" href="{{ path('create-category') }}"><i class="fa-regular fa-folder"></i> <i class="fa-solid fa-plus"></i></a>
+            <a class="btn btn-dark bg-gradient mb-2" title="Ordner verwalten" href="{{ path('categories') }}"><i class="fa-regular fa-folder"></i> <i class="fa-regular fa-pen-to-square"></i></a>
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 {% for category in user.categories %}
                     <div class="accordion-item">
