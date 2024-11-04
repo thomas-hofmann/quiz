@@ -377,7 +377,7 @@ class QuizController extends AbstractController {
             return $this->render('error.html.twig', [
             ]);
         }
-        // dd($session->get('allAnswers'));
+        
         $quizRepository = $entityManager->getRepository(Quiz::class);
         $quiz = $quizRepository->findOneBy(['code' => $session->get('code')]);
         $matrikelnummer = $session->get('matrikelnummer');
@@ -406,6 +406,47 @@ class QuizController extends AbstractController {
 
         $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
 
+        $veryGoodMessages = [
+            "Hervorragende Leistung!",
+            "Fantastisch, weiter so!",
+            "Exzellente Arbeit!",
+            "Großartig! Sie sind auf dem richtigen Weg!",
+            "Sehr gut!",
+            "Sie haben das großartig gemacht!",
+            "Spitzenleistung, weiter so!"
+        ];
+        
+        $warningMessages = [
+            "Ganz ordentlich, aber es gibt Raum für Verbesserung!",
+            "Nicht schlecht, aber versuchen Sie es noch einmal!",
+            "Das ist ein solider Anfang, aber es kann besser werden!",
+            "Gute Ansätze, aber ein bisschen mehr Übung wäre hilfreich!",
+            "Das geht noch besser!",
+            "Sie kommen gut voran, aber noch nicht ganz dort!",
+            "Ein paar kleine Fehler, aber das können Sie beheben!"
+        ];
+        
+        $dangerMessages = [
+            "Nicht aufgegeben, Sie können es besser!",
+            "Es gibt noch viel zu lernen, aber Sie schaffen das!",
+            "Lassen Sie sich nicht entmutigen, Übung macht den Meister!",
+            "Gehen Sie die Fragen noch einmal durch, das hilft!",
+            "Da müssen Sie noch etwas üben!",
+            "Jede Übung bringt Sie näher an das Ziel!",
+            "Nutzen Sie die Gelegenheit zum Lernen und Wachsen!"
+        ];
+
+        // Zufällige Auswahl
+        $percentage = ($rightIndex / count($quiz->getQuestions())) * 100;
+        $selectedMessage = '';
+        if ($percentage >= 70) {
+            $selectedMessage = $veryGoodMessages[array_rand($veryGoodMessages)];
+        } elseif ($percentage >= 40) {
+            $selectedMessage = $warningMessages[array_rand($warningMessages)];
+        } else {
+            $selectedMessage = $dangerMessages[array_rand($dangerMessages)];
+        }
+
         return $this->render('finished.html.twig', [
             'quiz' => $quiz,
             'allAnswers' => $session->get('allAnswers'),
@@ -415,7 +456,8 @@ class QuizController extends AbstractController {
             'rightIndex' => $rightIndex,
             'rightAnswer' => $session->get('rightAnswer'),
             'leaderBoardEntries' => $leaderBoardEntries,
-            'alert' => $session->get('alert')
+            'alert' => $session->get('alert'),
+            'selectedMessage' => $selectedMessage,
         ]);
     }
 

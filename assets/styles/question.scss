@@ -77,6 +77,16 @@
     }
 }
 
+.quiz__finish-message {
+    margin: auto;
+    display: block;
+    width: 50%;
+
+    @include media-breakpoint-down(lg) {
+        width: 100%;
+    }
+}
+
 .question__text {
     font-weight: 600;
     line-height: 1.1;

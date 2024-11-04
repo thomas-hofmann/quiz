@@ -36,11 +36,17 @@
 <div class="container text-center container--fade-in">
     <div class="box box--100 border rounded shadow p-3 mx-auto">
         <h2>Das Quiz ist fertig</h2>
-        {% if rightIndex > 0 %}
-            <p class="mb-3 fs-5">Sie haben <strong>{{ rightIndex }} von {{ quiz.getQuestions|length }}</strong> Fragen richtig beantwortet.</p>
-        {% else %}
-            <p class="mb-3 fs-5">Sie haben keine Frage richtig beantwortet.</p>
-        {% endif %}
+        {% set totalQuestions = quiz.getQuestions|length %}
+        {% set percentage = (rightIndex / totalQuestions) * 100 %}
+        <div class="quiz__finish-message mb-3 fs-5 shadow-sm border p-3 rounded {{ percentage >= 70 ? 'bg-success-subtle' : (percentage >= 40 ? 'bg-warning-subtle' : 'bg-danger-subtle') }}">
+            Sie haben
+            <strong>
+                {{ rightIndex }} von {{ totalQuestions }}
+            </strong>
+            Fragen richtig.
+            <br>
+            <em><small>{{ selectedMessage }}</small></em>
+        </div>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item border-0">
                 <h2 class="accordion-header" id="headingOne">
