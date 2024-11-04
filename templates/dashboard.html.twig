@@ -1,10 +1,14 @@
 {% include ('base.html.twig') %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
-        <h1 class="mb-4">
+        <h1>
             Dashboard
         </h1>
-        <p><b>Hallo, {{ user.username }}!</b><br> Hier kannst du neue Quizze erstellen sowie alle bereits vorhandenen bearbeiten und auswerten.</p>
+        <p>
+            <b>Hallo, {{ user.username }}!</b><br>
+            Hier kannst du neue Quizze erstellen sowie alle bereits vorhandenen bearbeiten und auswerten.<br>
+            Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!
+        </p>
         <div class="row">
             <div class="col-12 col-md-6">
                 <a class="btn btn-success bg-gradient d-block mb-2" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Quiz erstellen</a>
@@ -17,9 +21,6 @@
         </div>
         {% if quizzes|length %}
             <h2>Meine Quizze</h2>
-            <p>
-                <i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!
-            </p>
             <a class="btn btn-success bg-gradient mb-2" title="Neuer Ordner" href="{{ path('create-category') }}"><i class="fa-regular fa-folder"></i> Neu</i></a>
             <a class="btn btn-dark bg-gradient mb-2" title="Ordner verwalten" href="{{ path('categories') }}"><i class="fa-regular fa-folder"></i> Bearbeiten</a>
             <div class="accordion" id="accordionPanelsStayOpenExample">

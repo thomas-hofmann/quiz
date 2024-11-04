@@ -18,7 +18,7 @@
                     </div>
                 {% endif %}
                 <label for="category" class="mt-2">Ordner</label>
-                <select class="form-control" id="category" name="category">
+                <select class="form-select" id="category" name="category">
                     <option value="" disabled {% if not quiz.category %}selected{% endif %}>Bitte wählen</option>
                     <option value="no-category">Keinen Ordner</option>
                     {% for category in user.categories %}
