@@ -1,6 +1,6 @@
 {% include ('base.html.twig') %}
 <div class="container text-center container--fade-in">
-    <div class="box border rounded shadow p-3 mx-auto">
+    <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>{{ quiz.name }}</h1>
        <ul class="list-group rounded">
             <li class="list-group-item text-bg-info">
@@ -9,6 +9,49 @@
                <img class="border" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
             </li>
         </ul>
+    </div>
+</div>
+<div class="container text-center container--fade-in">
+    <div class="box box--70 border rounded shadow p-3 mx-auto">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="d-block w-100 text-center"><h2 class="m-0 ps-3"><i class="fa-solid fa-chart-simple"></i> Quiz auswerten</h2></span>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse border-top" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <button data-href="{{ path('answer-stats', { 'id': quiz.id }) }}" class="btn btn-primary bg-gradient mb-2" id="show-answers-button"><i class="fa-regular fa-eye"></i> Ergebnisse einblenden</button>
+                        <div id="answer-stats-container">
+                            {% for question in quiz.getQuestions %}
+                                {% set index = loop.index0 %}
+                                <h3>Frage {{ index + 1 }}</h3>
+                                <h4 class="mb-3">{{ question.text }}</h4>
+                                <ul class="list-group mb-3">
+                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
+                                        <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
+                                        {{ question.getAnswers.0.text}}
+                                    </li>
+                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
+                                        <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
+                                            {{ question.getAnswers.1.text}}
+                                    </li>
+                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
+                                        <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
+                                        {{ question.getAnswers.2.text}}
+                                    </li>
+                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
+                                        <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
+                                        {{ question.getAnswers.3.text}}
+                                    </li>
+                                </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="container text-center container--fade-in">
@@ -100,46 +143,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="accordion mt-3" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <span class="d-block w-100 text-center"><h2 class="m-0 ps-3">Quiz auswerten</h2></span>
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse border-top" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <button data-href="{{ path('answer-stats', { 'id': quiz.id }) }}" class="btn btn-primary bg-gradient mb-2" id="show-answers-button"><i class="fa-regular fa-eye"></i> Ergebnisse einblenden</button>
-                        <div id="answer-stats-container">
-                            {% for question in quiz.getQuestions %}
-                                {% set index = loop.index0 %}
-                                <h3>Frage {{ index + 1 }}</h3>
-                                <h4 class="mb-3">{{ question.text }}</h4>
-                                <ul class="list-group mb-3">
-                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
-                                        <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
-                                        {{ question.getAnswers.0.text}}
-                                    </li>
-                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
-                                        <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
-                                         {{ question.getAnswers.1.text}}
-                                    </li>
-                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
-                                        <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
-                                        {{ question.getAnswers.2.text}}
-                                    </li>
-                                    <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">
-                                        <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
-                                        {{ question.getAnswers.3.text}}
-                                    </li>
-                                </ul>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="/dashboard" type="button" class="btn btn-dark bg-gradient mt-3">Zurück zum Dashboard</a>
+        <a href="/dashboard" type="button" class="btn btn-secondary bg-gradient mt-3"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}

@@ -4,14 +4,14 @@
         <h1 class="mb-4">
             Dashboard
         </h1>
-        <p><b>Hallo, {{ user.username }}!</b><br> Hier kannst du neue Quizze erstellen oder vorhandene bearbeiten sowie die Statistik einsehen.</p>
+        <p><b>Hallo, {{ user.username }}!</b><br> Hier kannst du neue Quizze erstellen sowie alle bereits vorhandenen bearbeiten und auswerten.</p>
         <div class="row">
             <div class="col-12 col-md-6">
                 <a class="btn btn-success bg-gradient d-block mb-2" href="{{ path('create-quiz') }}"><i class="fa-solid fa-plus"></i> Quiz erstellen</a>
             </div>
             <div class="col-12 col-md-6">
                 {% if 'ROLE_ADMIN' in user.roles %}
-                    <a class="btn btn-info bg-gradient d-block" href="{{ path('admin-dashboard') }}"><i class="fa-solid fa-user-tie"></i> Adminbereich</a>
+                    {# <a class="btn btn-info bg-gradient d-block" href="{{ path('admin-dashboard') }}"><i class="fa-solid fa-user-tie"></i> Adminbereich</a> #}
                 {% endif %}
             </div>
         </div>
@@ -20,8 +20,8 @@
             <p>
                 <i class="fa-solid fa-circle-info"></i> Bitte halte deine Quizze sauber und lösche diejenigen, die nicht mehr benötigt werden. Vielen Dank!
             </p>
-            <a class="btn btn-success bg-gradient mb-2" title="Neuer Ordner" href="{{ path('create-category') }}"><i class="fa-regular fa-folder"></i> <i class="fa-solid fa-plus"></i></a>
-            <a class="btn btn-dark bg-gradient mb-2" title="Ordner verwalten" href="{{ path('categories') }}"><i class="fa-regular fa-folder"></i> <i class="fa-regular fa-pen-to-square"></i></a>
+            <a class="btn btn-success bg-gradient mb-2" title="Neuer Ordner" href="{{ path('create-category') }}"><i class="fa-regular fa-folder"></i> Neu</i></a>
+            <a class="btn btn-dark bg-gradient mb-2" title="Ordner verwalten" href="{{ path('categories') }}"><i class="fa-regular fa-folder"></i> Bearbeiten</a>
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 {% for category in user.categories %}
                     <div class="accordion-item">
@@ -74,7 +74,7 @@
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4">
                                                             <p>
-                                                                <a class="btn btn-primary d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
+                                                                <a class="btn btn-primary bg-gradient d-block mb-2" href="{{ path('leaderboard', {'id': quiz.id}) }}"><i class="fa-solid fa-chart-simple"></i> Auswertung</a>
                                                                 <a class="btn btn-dark bg-gradient d-block mb-2" href="{{ path('edit_quiz', {'id': quiz.id}) }}"><i class="fa-regular fa-pen-to-square"></i> Bearbeiten</a>
                                                                 <a class="btn btn-danger bg-gradient d-block" href="{{ path('delete_quiz', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie dieses Quiz löschen möchten?')"><i class="fa-regular fa-trash-can"></i> Löschen</a>
                                                             </p>

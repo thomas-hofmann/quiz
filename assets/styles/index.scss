@@ -10,6 +10,8 @@
     @include media-breakpoint-down(sm) {
         margin-top: 20px;
         margin-bottom: 20px;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 

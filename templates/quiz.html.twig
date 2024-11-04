@@ -1,8 +1,7 @@
 {% include ('base.html.twig') %}
-{% include ('background-svgs.html.twig') %}
 <div class="container text-center quiz-container container--fade-in">
     <div class="quiz__overlay {% if index > 0 %}{% if rightAnswer %}container--correct{% elseif alert %}container--almost{% else %}container--wrong{% endif %}{% endif %}"></div>
-        <div class="box shadow mx-auto rounded">
+        <div class="box shadow mx-auto rounded shake-on-load">
             {% if index > 0 %}
                 {% if rightAnswer %}
                     <div class="alert quiz__overlay--z-index alert-success m-0 p-2">

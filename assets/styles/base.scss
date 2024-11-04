@@ -101,10 +101,6 @@ header, main, footer {
     @include media-breakpoint-down(lg) {
         width: 100px;
     }
-
-    @include media-breakpoint-down(md) {
-       display: none;
-    }
 }
 
 .svg-questionmark--smaller {
@@ -131,10 +127,6 @@ header, main, footer {
     @include media-breakpoint-down(lg) {
         width: 100px;
     }
-
-    @include media-breakpoint-down(md) {
-       display: none;
-    }
 }
 
 .svg-questionmark-left--smaller {
@@ -145,4 +137,20 @@ header, main, footer {
         left: 80px;
         width: 50px;
     }
+}
+
+/* Keyframe-Definition für das "tilt-shaking" */
+@keyframes tilt-shaking {
+    0% { transform: translateX(0) }
+    25% { transform: translateX(3px) }
+    50% { transform: translateX(-3px) }
+    75% { transform: translateX(3px) }
+    100% { transform: translateX(0) }
+}
+  
+  /* Anwenden der Animation */
+  .shake-on-load {
+    position: relative; /* Ermöglicht die Anwendung des z-index */
+    z-index: 99; /* Setzt das Element in den Vordergrund */
+    animation: tilt-shaking 0.6s ease;
 }

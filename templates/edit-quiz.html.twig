@@ -29,7 +29,7 @@
                 </select>
             </div>
             <p class="mt-3">
-                <button type="submit" class="btn btn-dark mt-2"><i class="fa-regular fa-floppy-disk"></i> Werte aktualisieren</button>
+                <button type="submit" class="btn btn-success bg-gradient mt-2"><i class="fa-regular fa-floppy-disk"></i> Werte aktualisieren</button>
             </p>
         </form>
         {% if questions|length %}
@@ -60,7 +60,7 @@
                 {% endfor %}
             </ul>
             <p>
-                <button class="btn btn-dark mt-2" id="save-order"><i class="fa-regular fa-floppy-disk"></i> Sortierung aktualisieren</button>
+                <button class="btn btn-success bg-gradient mt-2" id="save-order"><i class="fa-regular fa-floppy-disk"></i> Sortierung aktualisieren</button>
             </p>
         {% endif %}
         {% if questions|length %}
@@ -69,9 +69,9 @@
             <h3>Frage erstellen</h3>
         {% endif %}
         {% if minCorrectError %}
-            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Es muss mindestens eine Frage richtig sein! Frage wurde nicht hinzugefügt.</p>
+            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Es muss mindestens eine Antwort richtig sein! Frage wurde nicht hinzugefügt.</p>
         {% endif %}
-        <p><i class="fa-solid fa-circle-info"></i> Richtige Antwort bitte markieren. Es muss mindestens eine richtig sein.</p>
+        <p><i class="fa-solid fa-circle-info"></i> Richtige Antwort bitte markieren. Es muss mindestens eine Antwort richtig sein.</p>
         <form action="{{ path('update_questions') }}" method="get">
             <div class="form-group">
                 <input type="hidden" name="quizId" value="{{ quiz.id }}">
@@ -107,11 +107,11 @@
                 </div>
             </div>
             <p class="mt-3">
-                <button type="submit" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-plus"></i> Diese Frage hinzufügen</button> 
+                <button type="submit" class="btn btn-success bg-gradient mt-2"><i class="fa-solid fa-plus"></i> Diese Frage hinzufügen</button> 
             </p>
         </form>
         <hr>
-        <a href="{{ path('dashboard')}}" class="btn btn-secondary bg-gradient mt-2">Zurück zum Dashboard</a>
+        <a href="{{ path('dashboard')}}" class="btn btn-secondary bg-gradient mt-2"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>
     </div>
 </div>
 {% include ('footer.html.twig') %}
