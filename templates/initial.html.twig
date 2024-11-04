@@ -26,9 +26,9 @@
             </li>
         </ul>
         {% if quiz.getQuestions|length %}
-            <a href="{{ path('quiz') }}" class="btn btn-success bg-gradient btn-lg mt-2 quiz__final-initial quiz__button--initial"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Los gehts!</a>
+            <a href="{{ path('quiz') }}" class="btn btn-success bg-gradient btn-lg mt-3 quiz__final-initial quiz__button--initial"><span id="loading"><i class="fa-regular fa-circle-right next-icon"></i></span> Los gehts!</a>
         {% else %}
-            <p class="text-danger fw-bold mt-2">Quiz hat leider keine Fragen und kann deshalb nicht gestartet werden!</p>
+            <p class="text-danger fw-bold mt-3">Quiz hat leider keine Fragen und kann deshalb nicht gestartet werden!</p>
         {% endif %}
     </div>
 </div>
