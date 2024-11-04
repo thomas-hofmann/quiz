@@ -38,7 +38,7 @@
         <h2>Das Quiz ist fertig</h2>
         {% set totalQuestions = quiz.getQuestions|length %}
         {% set percentage = (rightIndex / totalQuestions) * 100 %}
-        <div class="quiz__finish-message mb-3 fs-5 shadow-sm border p-3 rounded {{ percentage >= 70 ? 'bg-success-subtle' : (percentage >= 40 ? 'bg-warning-subtle' : 'bg-danger-subtle') }}">
+        <div class="quiz__finish-message mb-2 fs-5 border p-3 rounded {{ percentage >= 70 ? 'bg-success-subtle' : (percentage >= 40 ? 'bg-warning-subtle' : 'bg-danger-subtle') }}">
             Sie haben
             <strong>
                 {{ rightIndex }} von {{ totalQuestions }}
@@ -97,8 +97,14 @@
                 </div>
             </div>
         </div>
-        <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="quiz__button btn btn-dark bg-gradient mt-2 rotate-on-hover"><i class="fa-solid fa-rotate-right"></i> Quiz wiederholen</a>
-        <a href="{{ path('home') }}" type="button" class="btn btn-secondary bg-gradient quiz__button mt-2 rotate-on-hover"><i class="fa-solid fa-house"></i> Zurück zur Startseite</a>
+        <div class="row finished__button-row">
+            <div class="col-12 col-md-6 finished__button-col-left">
+                <a href="{{ path('quiz-initial', { 'code': quiz.code }) }}" type="button" class="w-100 btn btn-dark bg-gradient mt-2 rotate-on-hover"><i class="fa-solid fa-rotate-right"></i> Quiz wiederholen</a>
+            </div>
+            <div class="col-12 col-md-6 finished__button-col-right">
+                <a href="{{ path('home') }}" type="button" class="w-100 btn btn-secondary bg-gradient mt-2 rotate-on-hover"><i class="fa-solid fa-house"></i> Zurück zur Startseite</a>
+            </div>
+        </div>
     </div>
 </div>
 <div class="container text-center container--fade-in">
