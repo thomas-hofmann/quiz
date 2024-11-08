@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Rangliste{% endblock %}
+{% block content %}
 <div class="container text-center">
     <div class="box box--70 border rounded shadow p-3 mx-auto position-relative">
         <h1>Statistik</h1>
@@ -92,4 +94,4 @@
         <a href="/dashboard" type="button" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

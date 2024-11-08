@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}H_DA - Quiz{% endblock %}
+{% block content %}
 <div class="container container--fade-in text-center">
     <div class="box border rounded shadow p-3 mx-auto">
         <img src="{{ asset('images/logo.png') }}" class="logo ps-4 pe-4">
@@ -32,4 +34,4 @@
         {% endif %}
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

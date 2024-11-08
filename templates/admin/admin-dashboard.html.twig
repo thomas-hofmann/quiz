@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Admin{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1 class="mb-4">Admin-Dashboard</h1>
@@ -64,4 +66,4 @@
         </ul>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

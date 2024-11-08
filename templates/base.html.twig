@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        <title>H_DA - Quiz</title>
+        <title>{% block title %}H_DA - Quiz{% endblock %}</title>
         <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Quiz der Hochschule Darmstadt">
@@ -35,66 +35,6 @@
             {% endif %}
         {% endblock %}
     </head>
-    <body class="bg-body-tertiary">
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ path('home') }}" {% if app.request.attributes.get('_route') == 'quiz' %}onclick="return confirm('Sind Sie sicher, dass Sie das Quiz verlassen wollen?')"{% endif %}>h_da Quiz</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('dashboard') }}"><i class="fa-solid fa-table-columns"></i> Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('app_logout') }}" onclick="return confirm('Sind Sie sicher, dass Sie ausloggen wollen?')"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                                </li>
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('register') }}"><i class="fa-regular fa-address-card"></i></i> Registrierung</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('app_login') }}" {% if app.request.attributes.get('_route') == 'quiz' %}onclick="return confirm('Sind Sie sicher, dass Sie das Quiz verlassen wollen?')"{% endif %}><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                        {% if app.user.username is defined %}
-                            <span class="navbar-text text-info navbar__login">
-                                <i class="fa-regular fa-circle-user"></i></i> {{ app.user.username }}
-                                {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
-                                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                                {% endif %}
-                            </span>
-                        {% endif %}
-                        {% if app.session.get('matrikelnummer') and app.request.pathinfo != '/quiz-start' %}
-                            <span class="navbar-text text-info navbar__login">
-                                <i class="fa-regular fa-circle-user"></i></i> {{ app.session.get('matrikelnummer') }}
-                            </span>
-                        {% endif %}
-                    </div>
-                </div>
-            </nav>
-        </header>
-        {% for label, messages in app.flashes %}
-            <div class="flash-message-wrapper">
-                <div class="flash-message shadow ps-5 pe-5 pt-2 pb-2 alert alert-{{ label }}">
-                    {% for message in messages %}
-                        <p class="mb-0 text-center">{{ message }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        <noscript>
-            <div class="container">
-            <div class="box border rounded shadow p-3 mx-auto">
-                <h1>Ups!</h1>
-                    <p class="text-danger fw-bold mb-0">Dein JavaScript ist leider deaktiviert.</p>
-                    <p>Um diese Seite nutzen zu können, muss es aktiv sein.</p>
-                </div>
-            </div>
-        </noscript>
-        <main class="main-content">
-        {% include ('background-svgs.html.twig') %}
+    {% include 'page/header.html.twig' %}
+    {% block content %}{% endblock %}
+    {% include 'page/footer.html.twig' %}

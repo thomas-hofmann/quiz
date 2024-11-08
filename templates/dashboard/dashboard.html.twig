@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>
@@ -163,4 +165,4 @@
         {% endif %}   
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

@@ -1,5 +1,6 @@
-{% include ('base.html.twig') %}
-
+{% extends 'base.html.twig' %}
+{% block title %}Antwortstats{% endblock %}
+{% block content %}
 <div id="answer-stats-container">
     {% for entry in sortedEntries %}
         {% set index = loop.index0 %}
@@ -29,5 +30,4 @@
         </ul>
     {% endfor %}
 </div>
-                      
-{% include ('footer.html.twig') %}
+{% endblock %}

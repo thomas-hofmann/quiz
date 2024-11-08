@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Quiz auswerten{% endblock %}
+{% block content %}
 <div class="container text-center container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>{{ quiz.name }}</h1>
@@ -146,4 +148,4 @@
         <a href="/dashboard" type="button" class="btn btn-secondary bg-gradient mt-3"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

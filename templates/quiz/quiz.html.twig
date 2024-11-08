@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Quiz läuft...{% endblock %}
+{% block content %}
 <div class="container text-center quiz-container container--fade-in">
     <div class="quiz__overlay {% if index > 0 %}{% if rightAnswer %}container--correct{% elseif alert %}container--almost{% else %}container--wrong{% endif %}{% endif %}"></div>
         <div class="box shadow mx-auto rounded shake-on-load">
@@ -110,4 +112,4 @@
         {% endif %}
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

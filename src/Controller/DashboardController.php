@@ -25,7 +25,7 @@ class DashboardController extends AbstractController {
         $user = $this->getUser();
         $quizzes = [];
         $quizzes = $quizRepository->findBy(['user' => $user], ['name' => 'ASC']);
-        return $this->render('dashboard.html.twig', [
+        return $this->render('dashboard/dashboard.html.twig', [
             'quizzes' => $quizzes,
             'user' => $user,
         ]);
@@ -40,7 +40,7 @@ class DashboardController extends AbstractController {
             if($request->get('codeBool') == 'self' && $request->get('quizcode')) {
                 $quizRepository = $entityManager->getRepository(Quiz::class);
                 if ($quizRepository->findBy(['code' => $request->get('quizcode')])) {
-                    return $this->render('create-quiz.html.twig', [
+                    return $this->render('dashboard/create-quiz.html.twig', [
                         'error' => true,
                     ]);
                 }
@@ -73,7 +73,7 @@ class DashboardController extends AbstractController {
             return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
         }
 
-        return $this->render('create-quiz.html.twig', [
+        return $this->render('dashboard/create-quiz.html.twig', [
             'error' => false,
             'user' => $this->getUser(),
         ]);
@@ -149,7 +149,7 @@ class DashboardController extends AbstractController {
              }
             
             if ($minCorrect == 0) {
-                return $this->render('edit-quiz.html.twig', [
+                return $this->render('dashboard/edit-quiz.html.twig', [
                     'questions' => $quiz->getQuestions(),
                     'quiz' => $quiz,
                     'error'=> false,
@@ -208,7 +208,7 @@ class DashboardController extends AbstractController {
         if ($question->getQuiz()->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
-        return $this->render('edit-question.html.twig', [
+        return $this->render('dashboard/edit-question.html.twig', [
             'question' => $question,
             'minCorrectError' => false
         ]);
@@ -269,7 +269,7 @@ class DashboardController extends AbstractController {
             }
 
             if ($minCorrect == 0) {
-                return $this->render('edit-question.html.twig', [
+                return $this->render('dashboard/edit-question.html.twig', [
                     'question' => $question,
                     'minCorrectError' => true
                 ]);
@@ -292,7 +292,7 @@ class DashboardController extends AbstractController {
         if ($quiz->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
-        return $this->render('edit-quiz.html.twig', [
+        return $this->render('dashboard/edit-quiz.html.twig', [
             'questions' => $quiz->getQuestions(),
             'quiz' => $quiz,
             'user' => $this->getUser(),
@@ -315,7 +315,7 @@ class DashboardController extends AbstractController {
             if (!$quizRepository->findOneBy(['code' => $request->get('quizCode')])) {
                 $quiz->setCode($request->get('quizCode'));
             } else if ($quiz->getCode() !== $request->get('quizCode')){
-                return $this->render('edit-quiz.html.twig', [
+                return $this->render('dashboard/edit-quiz.html.twig', [
                     'questions' => $quiz->getQuestions(),
                     'quiz' => $quiz,
                     'error'=> true,
@@ -348,7 +348,7 @@ class DashboardController extends AbstractController {
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
     public function leaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
         if (!$quiz) {
-            return $this->render('error.html.twig', [
+            return $this->render('error/error.html.twig', [
             ]);
         }
 
@@ -373,7 +373,7 @@ class DashboardController extends AbstractController {
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }   
         
-        return $this->render('statistics.html.twig', [
+        return $this->render('dashboard/statistics.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
             'averageScorePercentage' => $averageScorePercentage,
             'quiz' => $quiz,
@@ -444,7 +444,7 @@ class DashboardController extends AbstractController {
     #[Route('/answer-stats/{id}', name: 'answer-stats')]
     public function answerStatsAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
         if (!$quiz) {
-            return $this->render('error.html.twig', [
+            return $this->render('error/error.html.twig', [
             ]);
         }
 
@@ -490,7 +490,7 @@ class DashboardController extends AbstractController {
             }
         }
         
-        return $this->render('answer-stats.html.twig', [
+        return $this->render('dashboard/answer-stats.html.twig', [
             'sortedEntries' => $sortedEntries,
             'quiz' => $quiz,
         ]);
@@ -498,7 +498,7 @@ class DashboardController extends AbstractController {
 
     #[Route('/categories', name: 'categories')]
     public function categoriesAction(Request $request, EntityManagerInterface $entityManager): Response {
-        return $this->render('categories.html.twig', [
+        return $this->render('dashboard/categories.html.twig', [
             'user' => $this->getUser(),
         ]);
     }
@@ -520,7 +520,7 @@ class DashboardController extends AbstractController {
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('create-category.html.twig', [
+        return $this->render('dashboard/create-category.html.twig', [
             'error' => false,
         ]);
     }
@@ -531,7 +531,7 @@ class DashboardController extends AbstractController {
             throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
 
-        return $this->render('edit-category.html.twig', [
+        return $this->render('dashboard/edit-category.html.twig', [
             'error' => false,
             'category' => $category,
         ]);

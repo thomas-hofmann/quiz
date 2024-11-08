@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Registrierung{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box border rounded shadow p-3 mx-auto">
         <h1>Registrierung</h1>
@@ -6,4 +8,4 @@
         <p class="fw-bold text-info">Thomas.Hofmann@h-da.de</p>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

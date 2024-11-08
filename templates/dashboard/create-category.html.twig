@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Ordner erstellen{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Ordner erstellen</h1>
@@ -16,4 +18,4 @@
         </form>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

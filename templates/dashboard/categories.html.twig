@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Ordner verwalten{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Ordner verwalten</h1>
@@ -27,4 +29,4 @@
         <a href="{{ path('dashboard') }}" type="button" class="btn btn-secondary bg-gradient mt-2"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

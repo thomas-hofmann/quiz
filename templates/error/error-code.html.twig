@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Beitrittscode ungültig{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Beitrittscode ungültig</h1>
@@ -6,4 +8,4 @@
         <a href="{{ path('home') }}" type="button" class="btn btn-dark bg-gradient mt-2"><i class="fa-solid fa-arrow-left-long"></i> Zurück zur Startseite</a>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}

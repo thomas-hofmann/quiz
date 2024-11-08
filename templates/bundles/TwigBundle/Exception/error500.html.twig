@@ -1,4 +1,6 @@
-{% include ('base.html.twig') %}
+{% extends 'base.html.twig' %}
+{% block title %}Fehler: 500{% endblock %}
+{% block content %}
 <div class="container container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Interner Serverfehler (500)</h1>
@@ -6,4 +8,4 @@
         <p>Bitte versuchen Sie es später erneut.</p>
     </div>
 </div>
-{% include ('footer.html.twig') %}
+{% endblock %}
