@@ -50,10 +50,10 @@
                             {% set entryScoreTmp = entry.score %}
                         {% endif %}
                         <tr>
-                            <td {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="text-info fs-5"{% endif %}>{{ place }}</td>
-                            {% if app.session.get('matrikelnummer') is defined%}
+                            <td {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info fs-5"{% endif %}>{{ place }}</td>
+                            {% if app.session.get('matrikelnummerHash') is defined%}
                                 <td class="text-start">
-                                    <div {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="d-inline-block fs-5"{% endif %}>
+                                    <div {% if entry.hash == app.session.get('matrikelnummerHash') %}class="d-inline-block fs-5"{% endif %}>
                                         {% if place == 1 %}
                                             <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
                                         {% endif %}
@@ -63,9 +63,9 @@
                                         {% if place == 3 %}
                                             <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
                                         {% endif %}
-                                        <span {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="text-info"{% endif %}>
+                                        <span {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info"{% endif %}>
                                         {{ entry.matrikelnumber }}
-                                        {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}
+                                        {% if entry.hash == app.session.get('matrikelnummerHash') %}
                                             <i class="fa-regular fa-circle-user"></i>
                                         {% endif %}
                                         </span>
@@ -85,7 +85,7 @@
                                     {{ entry.matrikelnumber }}
                                 </td>
                             {% endif %}
-                            <td {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
+                            <td {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

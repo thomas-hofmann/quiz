@@ -34,6 +34,11 @@
                         Achtung Code wird bereits verwendet. Nutzen Sie einen anderen
                     </div>
                 {% endif %}
+                <p class="mb-2 mt-2 fw-bold">Weitere Optionen</p>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="leaderboard-check" name="without-leaderboard" value="true">
+                    <label class="form-check-label" for="leaderboard-check">Ohne Rangliste</label>
+                </div>
             </div>
             <button type="submit" class="btn btn-success bg-gradient mt-2"><i class="fa-solid fa-plus"></i> Fragen hinzufügen</button>
             <a href="{{ path('dashboard') }}" type="button" class="btn btn-secondary bg-gradient mt-2"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>

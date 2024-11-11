@@ -51,6 +51,10 @@ class DashboardController extends AbstractController {
                 $quiz->setCode($code);
             }
 
+            if ($request->get('without-leaderboard') == true) {
+                $quiz->setWithoutLeaderboard(true);
+            }
+
             $quiz->setUser($this->getUser());
 
             $categoryId = $request->get('category');
@@ -311,6 +315,12 @@ class DashboardController extends AbstractController {
                 throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
             }
             $quiz->setName($request->get('quizName'));
+
+            if ($request->get('without-leaderboard') == true) {
+                $quiz->setWithoutLeaderboard(true);
+            } else {
+                $quiz->setWithoutLeaderboard(false);
+            }
 
             if (!$quizRepository->findOneBy(['code' => $request->get('quizCode')])) {
                 $quiz->setCode($request->get('quizCode'));

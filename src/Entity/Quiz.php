@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\QuizRepository;
 use Doctrine\ORM\Mapping as ORM;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -37,6 +36,9 @@ class Quiz
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'quizzes')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Category $category = null;
+
+    #[ORM\Column(type: 'boolean', nullable: true, options: ["default" => false])]
+    private ?bool $withoutLeaderboard = false;
 
     public function __construct()
     {
@@ -74,10 +76,8 @@ class Quiz
     }
 
     public function getQuestions() {
-        // Erstellen Sie ein leeres Array für die sortierten Fragen
         $sortedQuestions = [];
 
-        // Iterieren Sie über die Fragen und fügen Sie sie dem sortierten Array hinzu, wenn die Position nicht null ist
         foreach ($this->questions as $question) {
             if ($question->getPosition() !== null) {
                 $sortedQuestions[] = $question;
@@ -87,12 +87,10 @@ class Quiz
             }
         }
 
-        // Sortieren Sie das sortierte Array nach der Position
         usort($sortedQuestions, function ($a, $b) {
             return $a->getPosition() - $b->getPosition();
         });
 
-        // Rückgabe der sortierten Fragen
         return $sortedQuestions;
     }
 
@@ -152,6 +150,18 @@ class Quiz
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function isWithoutLeaderboard(): ?bool
+    {
+        return $this->withoutLeaderboard;
+    }
+
+    public function setWithoutLeaderboard(?bool $withoutLeaderboard): self
+    {
+        $this->withoutLeaderboard = $withoutLeaderboard;
 
         return $this;
     }

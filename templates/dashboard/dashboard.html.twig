@@ -83,7 +83,7 @@
                                                             </p>
                                                             {% if quiz.getLeaderBoardEntries|length %}
                                                                 <p class="mb-2">
-                                                                    <b>Ranglisteneinträge:</b>
+                                                                    <b>Statistikeinträge:</b>
                                                                     {{ quiz.getLeaderBoardEntries|length }}
                                                                     <br>
                                                                     <a class="btn btn-sm btn-outline-danger bg-gradient mt-2" href="{{ path('clear_leaderboard', {'id': quiz.id}) }}" onclick="return confirm('Sind Sie sicher, dass Sie diese Statistik zurücksetzen möchten?')"><i class="fa-solid fa-rotate-right"></i> Statistik zurücksetzen</a>

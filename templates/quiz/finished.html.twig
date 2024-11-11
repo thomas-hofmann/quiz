@@ -137,52 +137,54 @@
                         Kursnote: <strong>{{ averageScorePercentage }}%</strong>
                     </li>
                 </ul>
-            <h2>Rangliste</h2>
-            <table class="table table-striped table-dark mb-4t leaderboard mb-0" data-quiz="{{ quiz.id }}">
-                <thead>
-                    <tr>
-                    <th scope="col"><i class="fa-solid fa-ranking-star"></i></th>
-                    <th scope="col" class="text-start">Spielername</th>
-                    <th scope="col" ><i class="fa-regular fa-circle-check"></i></th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-body">
-                    {% set place = 1 %}
-                    {% for entry in leaderBoardEntries %}
-                        {% if loop.index == 1 %}
-                            {% set entryScoreTmp = entry.score %}
-                        {% endif %}
-                        {% if entryScoreTmp != entry.score %}
-                            {% set place = place + 1 %}
-                            {% set entryScoreTmp = entry.score %}
-                        {% endif %}
+            {% if quiz.isWithoutLeaderboard == false %}
+                <h2>Rangliste</h2>
+                <table class="table table-striped table-dark mb-4t leaderboard mb-0" data-quiz="{{ quiz.id }}">
+                    <thead>
                         <tr>
-                            <td {% if entry.matrikelnumber == matrikelnummer %}class="text-info fs-5"{% endif %}>{{ place }}</td>
-                            <td class="text-start">
-                                <div {% if entry.matrikelnumber == matrikelnummer %}class="d-inline-block fs-5"{% endif %}>
-                                    {% if place == 1 %}
-                                        <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
-                                    {% endif %}
-                                    {% if place == 2 %}
-                                        <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
-                                    {% endif %}
-                                    {% if place == 3 %}
-                                        <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
-                                    {% endif %}
-                                    <span {% if entry.matrikelnumber == matrikelnummer %}class="text-info"{% endif %}>
-                                    {{ entry.matrikelnumber }}
-                                    
-                                    {% if entry.matrikelnumber == matrikelnummer %}
-                                        <i class="fa-regular fa-circle-user"></i>
-                                    {% endif %}
-                                    </span>
-                                </div>
-                            </td>
-                            <td {% if entry.matrikelnumber == matrikelnummer %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
+                        <th scope="col"><i class="fa-solid fa-ranking-star"></i></th>
+                        <th scope="col" class="text-start">Spielername</th>
+                        <th scope="col" ><i class="fa-regular fa-circle-check"></i></th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        {% set place = 1 %}
+                        {% for entry in leaderBoardEntries %}
+                            {% if loop.index == 1 %}
+                                {% set entryScoreTmp = entry.score %}
+                            {% endif %}
+                            {% if entryScoreTmp != entry.score %}
+                                {% set place = place + 1 %}
+                                {% set entryScoreTmp = entry.score %}
+                            {% endif %}
+                            <tr>
+                                <td {% if entry.hash == matrikelnummerHash %}class="text-info fs-5"{% endif %}>{{ place }}</td>
+                                <td class="text-start">
+                                    <div {% if entry.hash == matrikelnummerHash %}class="d-inline-block fs-5"{% endif %}>
+                                        {% if place == 1 %}
+                                            <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
+                                        {% endif %}
+                                        {% if place == 2 %}
+                                            <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
+                                        {% endif %}
+                                        {% if place == 3 %}
+                                            <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
+                                        {% endif %}
+                                        <span {% if entry.hash == matrikelnummerHash %}class="text-info"{% endif %}>
+                                        {{ entry.matrikelnumber }}
+                                        
+                                        {% if entry.hash == matrikelnummerHash %}
+                                            <i class="fa-regular fa-circle-user"></i>
+                                        {% endif %}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td {% if entry.hash == matrikelnummerHash %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 </div>

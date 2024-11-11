@@ -29,6 +29,11 @@
                         </option>
                     {% endfor %}
                 </select>
+                <p class="mb-2 mt-2 fw-bold">Weitere Optionen</p>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="leaderboard-check" name="without-leaderboard" value="true" {% if quiz.isWithoutLeaderboard %}checked{% endif %}>
+                    <label class="form-check-label" for="leaderboard-check">Ohne Rangliste</label>
+                </div>
             </div>
             <p class="mt-3">
                 <button type="submit" class="btn btn-success bg-gradient mt-2"><i class="fa-regular fa-floppy-disk"></i> Werte aktualisieren</button>

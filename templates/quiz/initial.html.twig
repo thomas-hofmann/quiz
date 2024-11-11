@@ -14,15 +14,17 @@
                Anzahl an Fragen:
                <h3>{{ quiz.getQuestions|length }}</h3>
             </li>
-            <li class="list-group-item">
-                Dein Spielername lautet:
-                <h2 id="matrikelnummerChange">{{ matrikelnummer }}</h2>
-                {% if app.session.get('finished') is null %}
-                    <a id="newName" href="{{ path('update_name') }}" class="btn btn-dark bg-gradient btn-sm rotate-on-hover">
-                        <i class="fa-solid fa-arrows-rotate"></i> Anderer Name
-                    </a>
-                {% endif %}
-            </li>
+            {% if quiz.isWithoutLeaderboard == false %}
+                <li class="list-group-item">
+                    Dein Spielername lautet:
+                    <h2 id="matrikelnummerChange">{{ matrikelnummer }}</h2>
+                    {% if app.session.get('finished') is null %}
+                        <a id="newName" href="{{ path('update_name') }}" class="btn btn-dark bg-gradient btn-sm rotate-on-hover">
+                            <i class="fa-solid fa-arrows-rotate"></i> Anderer Name
+                        </a>
+                    {% endif %}
+                </li>
+            {% endif %}
             <li class="list-group-item fw-bold text-danger">
                <small><i class="fa-solid fa-circle-info"></i> Mehrfachantworten sind möglich</small>
             </li>

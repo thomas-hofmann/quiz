@@ -84,30 +84,50 @@
                     Kursnote: <strong>{{ averageScorePercentage }}%</strong>
                 </li>
             </ul>
-            <h2>Rangliste</h2>
-            <table class="table table-striped table-dark leaderboard mb-0" data-quiz="{{ quiz.id }}">
-                <thead>
-                    <tr>
-                    <th scope="col"><i class="fa-solid fa-ranking-star"></i></th>
-                    <th scope="col" class="text-start">Spielername</th>
-                    <th scope="col" ><i class="fa-regular fa-circle-check"></i></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% set place = 1 %}
-                    {% for entry in leaderBoardEntries %}
-                        {% if loop.index == 1 %}
-                            {% set entryScoreTmp = entry.score %}
-                        {% endif %}
-                        {% if entryScoreTmp != entry.score %}
-                            {% set place = place + 1 %}
-                            {% set entryScoreTmp = entry.score %}
-                        {% endif %}
+            {% if quiz.isWithoutLeaderboard == false %}
+                <h2>Rangliste</h2>
+                <table class="table table-striped table-dark leaderboard mb-0" data-quiz="{{ quiz.id }}">
+                    <thead>
                         <tr>
-                            <td {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="text-info fs-5"{% endif %}>{{ place }}</td>
-                            {% if app.session.get('matrikelnummer') is defined%}
-                                <td class="text-start">
-                                    <div {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="d-inline-block fs-5"{% endif %}>
+                        <th scope="col"><i class="fa-solid fa-ranking-star"></i></th>
+                        <th scope="col" class="text-start">Spielername</th>
+                        <th scope="col" ><i class="fa-regular fa-circle-check"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set place = 1 %}
+                        {% for entry in leaderBoardEntries %}
+                            {% if loop.index == 1 %}
+                                {% set entryScoreTmp = entry.score %}
+                            {% endif %}
+                            {% if entryScoreTmp != entry.score %}
+                                {% set place = place + 1 %}
+                                {% set entryScoreTmp = entry.score %}
+                            {% endif %}
+                            <tr>
+                                <td>{{ place }}</td>
+                                {% if app.session.get('matrikelnummerHash') is defined%}
+                                    <td class="text-start">
+                                        <div {% if entry.hash == app.session.get('matrikelnummerHash') %}class="d-inline-block fs-5"{% endif %}>
+                                            {% if place == 1 %}
+                                                <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
+                                            {% endif %}
+                                            {% if place == 2 %}
+                                                <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
+                                            {% endif %}
+                                            {% if place == 3 %}
+                                                <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
+                                            {% endif %}
+                                            <span {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info"{% endif %}>
+                                            {{ entry.matrikelnumber }}
+                                            {% if entry.hash == app.session.get('matrikelnummerHash') %}
+                                                <i class="fa-regular fa-circle-user"></i>
+                                            {% endif %}
+                                            </span>
+                                        </div>
+                                    </td>
+                                {% else %}
+                                    <td class="text-start">
                                         {% if place == 1 %}
                                             <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
                                         {% endif %}
@@ -117,33 +137,15 @@
                                         {% if place == 3 %}
                                             <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
                                         {% endif %}
-                                        <span {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="text-info"{% endif %}>
                                         {{ entry.matrikelnumber }}
-                                        {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}
-                                            <i class="fa-regular fa-circle-user"></i>
-                                        {% endif %}
-                                        </span>
-                                    </div>
-                                </td>
-                            {% else %}
-                                <td class="text-start">
-                                    {% if place == 1 %}
-                                        <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
-                                    {% endif %}
-                                    {% if place == 2 %}
-                                        <span style="color: #c0c0c0"><i class="fa-solid fa-crown"></i></span>
-                                    {% endif %}
-                                    {% if place == 3 %}
-                                        <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
-                                    {% endif %}
-                                    {{ entry.matrikelnumber }}
-                                </td>
-                            {% endif %}
-                            <td {% if entry.matrikelnumber == app.session.get('matrikelnummer') %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                    </td>
+                                {% endif %}
+                                <td {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
         <a href="/dashboard" type="button" class="btn btn-secondary bg-gradient mt-3"><i class="fa-solid fa-table-columns"></i> Zurück zum Dashboard</a>
     </div>

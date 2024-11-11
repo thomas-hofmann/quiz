@@ -25,6 +25,9 @@ class LeaderBoardEntry
     #[ORM\ManyToOne(targetEntity: Quiz::class, inversedBy: 'leaderBoardEntries')]
     private Quiz $quiz;
 
+    #[ORM\Column(type: 'string')]
+    private ?string $hash = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class LeaderBoardEntry
     public function setQuiz(?Quiz $quiz): self
     {
         $this->quiz = $quiz;
+
+        return $this;
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): static
+    {
+        $this->hash = $hash;
 
         return $this;
     }

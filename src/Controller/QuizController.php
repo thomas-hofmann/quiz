@@ -145,7 +145,7 @@ class QuizController extends AbstractController {
         $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
 
         do {
-            $matrikelnummer = $firstNames[random_int(0, count($firstNames) - 1)] . $lastNames[random_int(0, count($lastNames) - 1)] . random_int(10, 99);
+            $matrikelnummer = $firstNames[random_int(0, count($firstNames) - 1)] . ' ' . $lastNames[random_int(0, count($lastNames) - 1)];
         } while ($leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]));
 
         return $matrikelnummer;
@@ -187,8 +187,10 @@ class QuizController extends AbstractController {
             ]);
         }
 
-        if (!$session->get('matrikelnummer')) {
+        if (!$session->get('matrikelnummerHash')) {
             $matrikelnummer = $this->getRandomMatrikelnumber($quiz, $entityManager);
+            $hash = strtolower(bin2hex(random_bytes(32)));
+            $session->set('matrikelnummerHash', $hash);
         } else {
             $matrikelnummer = $session->get('matrikelnummer');
         }
@@ -208,7 +210,6 @@ class QuizController extends AbstractController {
     #[Route('/quiz-start', name: 'quiz-start')]
     public function quizStartAction(Request $request, EntityManagerInterface $entityManager): Response {
         $session = $request->getSession();
-
         if (!$session->get('matrikelnummer') || !$session->get('code')) {
             return $this->render('error/error.html.twig', [
             ]);
@@ -318,23 +319,27 @@ class QuizController extends AbstractController {
         if (!isset($quiz->getQuestions()[$index])) {
             $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
             $session->set('finished', true);
-            if (!$leaderBoardEntryRepository->findBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer])) {
+            if ($session->get('matrikelnummerHash') && $leaderBoardEntryRepository->findOneBy(['quiz' => $quiz, 'hash' => $session->get('matrikelnummerHash')])) {
+                $leaderBoardEntry = $leaderBoardEntryRepository->findOneBy(['quiz' => $quiz, 'hash' => $session->get('matrikelnummerHash')]);
+                $leaderBoardEntry->setScore($rightIndex);
+                $leaderBoardEntry->setAllAnswers($session->get('allAnswers'));
+
+                $entityManager->persist($leaderBoardEntry);
+                $entityManager->flush();
+            } else {
                 $leaderBoardEntry = new LeaderBoardEntry();
 
                 $leaderBoardEntry->setMatrikelnumber($matrikelnummer);
                 $leaderBoardEntry->setQuiz($quiz);
                 $leaderBoardEntry->setScore($rightIndex);
 
-                $leaderBoardEntry->setAllAnswers($session->get('allAnswers'));
-            } else {
-                $leaderBoardEntry = $leaderBoardEntryRepository->findOneBy(['quiz' => $quiz, 'matrikelnumber' => $matrikelnummer]);
-                $leaderBoardEntry->setScore($rightIndex);
+                $leaderBoardEntry->setHash($session->get('matrikelnummerHash'));
 
                 $leaderBoardEntry->setAllAnswers($session->get('allAnswers'));
+
+                $entityManager->persist($leaderBoardEntry);
+                $entityManager->flush();
             }
-
-            $entityManager->persist($leaderBoardEntry);
-            $entityManager->flush();
 
             return $this->redirectToRoute('quiz-finished');
         };
@@ -458,11 +463,12 @@ class QuizController extends AbstractController {
             'leaderBoardEntries' => $leaderBoardEntries,
             'alert' => $session->get('alert'),
             'selectedMessage' => $selectedMessage,
+            'matrikelnummerHash' => $session->get('matrikelnummerHash'),
         ]);
     }
 
     #[Route('/quiz-leaderboard/{id}', name: 'quiz-leaderboard')]
-    public function quizLeaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+    public function quizLeaderboardAction(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response {
         if (!$quiz) {
             return $this->render('error/error.html.twig', [
             ]);
@@ -484,12 +490,13 @@ class QuizController extends AbstractController {
             $averageScore = round($totalScore / $numEntries, 2);
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }   
-        
+        $session = $request->getSession();
         return $this->render('quiz/leaderboard.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
             'quiz' => $quiz,
             'averageScore' => $averageScore,
-            'averageScorePercentage' => $averageScorePercentage
+            'averageScorePercentage' => $averageScorePercentage,
+            'matrikelnummerHash' => $session->get('matrikelnummerHash'),
         ]);
     }
 }
