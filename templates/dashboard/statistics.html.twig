@@ -106,9 +106,9 @@
                             {% endif %}
                             <tr>
                                 <td>{{ place }}</td>
-                                {% if app.session.get('matrikelnummerHash') is defined%}
+                                {% if matrikelnummerHash %}
                                     <td class="text-start">
-                                        <div {% if entry.hash == app.session.get('matrikelnummerHash') %}class="d-inline-block fs-5"{% endif %}>
+                                        <div {% if entry.hash == matrikelnummerHash %}class="d-inline-block fs-5"{% endif %}>
                                             {% if place == 1 %}
                                                 <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>
                                             {% endif %}
@@ -118,14 +118,15 @@
                                             {% if place == 3 %}
                                                 <span style="color: #bf8970"><i class="fa-solid fa-crown"></i></span>
                                             {% endif %}
-                                            <span {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info"{% endif %}>
+                                            <span {% if entry.hash == matrikelnummerHash %}class="text-info"{% endif %}>
                                             {{ entry.matrikelnumber }}
-                                            {% if entry.hash == app.session.get('matrikelnummerHash') %}
+                                            {% if entry.hash == matrikelnummerHash %}
                                                 <i class="fa-regular fa-circle-user"></i>
                                             {% endif %}
                                             </span>
                                         </div>
                                     </td>
+                                    <td {% if entry.hash == matrikelnummerHash %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
                                 {% else %}
                                     <td class="text-start">
                                         {% if place == 1 %}
@@ -139,8 +140,8 @@
                                         {% endif %}
                                         {{ entry.matrikelnumber }}
                                     </td>
+                                    <td>{{ entry.score }}</td>
                                 {% endif %}
-                                <td {% if entry.hash == app.session.get('matrikelnummerHash') %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

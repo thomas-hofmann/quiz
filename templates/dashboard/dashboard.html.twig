@@ -29,7 +29,7 @@
                 {% for category in user.categories %}
                     <div class="accordion-item">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-{{ category.id }}" aria-expanded="true" aria-controls="panelsStayOpen-{{ category.id }}">
+                            <button class="accordion-button accordion-button--none-shadow collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-{{ category.id }}" aria-expanded="true" aria-controls="panelsStayOpen-{{ category.id }}">
                                 <i class="fa-regular fa-folder"></i> <span class="ms-2">{{ category.name }}</span><span class="badge text-bg-secondary ms-2 ps-2 pe-2">{{ category.quizzes|length }}</span>
                             </button>
                         </h2>
@@ -39,7 +39,7 @@
                                     {% for quiz in category.quizzes %}
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-{{ quiz.id }}" aria-expanded="true" aria-controls="panelsStayOpen-{{ quiz.id }}">
+                                                <button class="accordion-button accordion-button--none-shadow collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-{{ quiz.id }}" aria-expanded="true" aria-controls="panelsStayOpen-{{ quiz.id }}">
                                                     {{ quiz.name }} {% if quiz.getLeaderBoardEntries|length %}<span class="badge text-bg-secondary ms-2">Statistik vorhanden</span>{% endif %}
                                                 </button>
                                             </h2>
@@ -55,6 +55,16 @@
                                                                     {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
                                                                 </label>
                                                             </div>
+                                                            {% if quiz.createdAt or quiz.updatedAt %}
+                                                                <p class="mb-2 mt-2">
+                                                                    {% if quiz.createdAt %}
+                                                                        <b>Erstellt:</b> {{ quiz.createdAt|date('d.m.Y H:i') }}<br>
+                                                                    {% endif %}
+                                                                    {% if quiz.updatedAt %}
+                                                                        <b>Zuletzt aktualisiert:</b> {{ quiz.updatedAt|date('d.m.Y H:i') }}
+                                                                    {% endif %}
+                                                                </p>
+                                                            {% endif %}
                                                             {% if quiz.getQuestions is empty %}
                                                                 <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
                                                             {% else %}
@@ -120,6 +130,16 @@
                                             {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
                                         </label>
                                     </div>
+                                    {% if quiz.createdAt or quiz.updatedAt %}
+                                        <p class="mb-2 mt-2">
+                                            {% if quiz.createdAt %}
+                                                <b>Erstellt:</b><br> {{ quiz.createdAt|date('d.m.Y H:i') }}<br>
+                                            {% endif %}
+                                            {% if quiz.updatedAt %}
+                                                <b>Zuletzt aktualisiert:</b><br> {{ quiz.updatedAt|date('d.m.Y H:i') }}
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
                                     {% if quiz.getQuestions is empty %}
                                         <p class="text-danger mb-2 mt-2"><b><i class="fa-solid fa-circle-exclamation"></i> Dieses Quiz hat noch keine Fragen</b></p>
                                     {% else %}

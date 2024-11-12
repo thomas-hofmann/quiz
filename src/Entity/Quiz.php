@@ -6,8 +6,10 @@ use App\Repository\QuizRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
+#[HasLifecycleCallbacks]
 class Quiz
 {
     #[ORM\Id]
@@ -20,6 +22,12 @@ class Quiz
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $code = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz', cascade: ['remove'])]
     private Collection $questions;
@@ -164,5 +172,28 @@ class Quiz
         $this->withoutLeaderboard = $withoutLeaderboard;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->setUpdatedAtValue();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
     }
 }

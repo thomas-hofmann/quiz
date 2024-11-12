@@ -356,7 +356,7 @@ class DashboardController extends AbstractController {
     }
 
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
-    public function leaderboardAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+    public function leaderboardAction(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response {
         if (!$quiz) {
             return $this->render('error/error.html.twig', [
             ]);
@@ -383,11 +383,13 @@ class DashboardController extends AbstractController {
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }   
         
+        $session = $request->getSession();
         return $this->render('dashboard/statistics.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
             'averageScorePercentage' => $averageScorePercentage,
             'quiz' => $quiz,
-            'averageScore' => $averageScore
+            'averageScore' => $averageScore,
+            'matrikelnummerHash' => $session->get('matrikelnummerHash'),
         ]);
     }
 
