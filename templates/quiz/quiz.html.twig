@@ -71,7 +71,8 @@
         {% if shuffledQuestions[index] is defined %}
             {% set question = shuffledQuestions[index] %}
             <div class="question p-3 border rounded shadow quiz__overlay--z-index">
-                <p class="text-center mb-0">{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></p>
+                <p class="text-center mb-0 fw-bold">{{ quiz.name }}</p>
+                <p class="text-center mb-0"><small>{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></small></p>
                 <div class="fs-2 lead question__text mt-3 mb-4">
                     {{ question.question.text }}
                 </div>
