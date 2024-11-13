@@ -4,9 +4,6 @@
 <div class="container text-center quiz-container container--fade-in">
     <div class="box shadow mx-auto rounded">
         <ul class="list-group">
-            <li class="list-group-item">
-                <h1 class="mb-0">{{ quiz.name }}</h1>
-            </li>
             {% if rightAnswer %}
                 <li class="list-group-item p-0 fw-bold">
                     <div class="alert alert-success m-0 p-2 rounded-top-0 alert-finished">
@@ -14,7 +11,7 @@
                         <i class="fa-regular fa-circle-check answer__logo--right"></i>
                         Richtig!
                     </div>
-                    <div class="alert-bye fw-bold">
+                    <div class="alert-bye">
                         Bis zum nächsten Mal!
                     </div>
                 </li>
@@ -27,7 +24,7 @@
                             <p class="mb-0">{% if alert %}Fast!{% else %}Falsch!{% endif %}</p>
                         </div>
                     </div>
-                    <div class="alert-bye fw-bold">
+                    <div class="alert-bye">
                         Bis zum nächsten Mal!
                     </div>
                 </li>
@@ -37,10 +34,13 @@
 </div>
 <div class="container text-center container--fade-in">
     <div class="box box--100 border rounded shadow p-3 mx-auto">
-        <h2>Das Quiz ist fertig</h2>
+        <p class="text-center mb-0 fw-bold">{{ quiz.name }}</p>
+        <div class="fs-2 lead question__text mt-1 mb-3">
+            Abgeschlossen!
+        </div>
         {% set totalQuestions = quiz.getQuestions|length %}
         {% set percentage = (rightIndex / totalQuestions) * 100 %}
-        <div class="quiz__finish-message mb-2 fs-5 border p-3 rounded {{ percentage >= 70 ? 'bg-success-subtle' : (percentage >= 40 ? 'bg-warning-subtle' : 'bg-danger-subtle') }}">
+        <div class="quiz__finish-message shadow-sm mb-4 fs-5 border p-4 rounded {{ percentage >= 70 ? 'bg-success-subtle text-success-emphasis' : (percentage >= 40 ? 'bg-warning-subtle text-warning-emphasis' : 'bg-danger-subtle text-danger-emphasis') }}">
             Sie haben
             <strong>
                 {{ rightIndex }} von {{ totalQuestions }}
