@@ -22,7 +22,7 @@ return [
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
-    '@hotwired/turbo' => [
-        'version' => '7.3.0',
+    'chart.js' => [
+        'version' => '3.9.1',
     ],
 ];

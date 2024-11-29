@@ -26,6 +26,7 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
         {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
             {{ encore_entry_script_tags('app') }}
              {% if app.request.attributes.get('_route') == 'quiz' %}
                 {{ encore_entry_script_tags('quiz') }}
