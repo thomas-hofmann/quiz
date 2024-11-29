@@ -15,6 +15,9 @@ use App\Entity\Answer;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\LeaderBoardEntry;
 
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
+
 #[IsGranted('ROLE_USER')]
 class DashboardController extends AbstractController {
 
@@ -356,7 +359,7 @@ class DashboardController extends AbstractController {
     }
 
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
-    public function leaderboardAction(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response {
+    public function leaderboardAction(Request $request, Quiz $quiz, EntityManagerInterface $entityManager, ChartBuilderInterface $chartBuilder): Response {
         if (!$quiz) {
             return $this->render('error/error.html.twig', [
             ]);
@@ -381,7 +384,30 @@ class DashboardController extends AbstractController {
         if ($numEntries > 0) {
             $averageScore = round($totalScore / $numEntries, 2);
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
-        }   
+        }
+
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'My First dataset',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+        ]);
         
         $session = $request->getSession();
         return $this->render('dashboard/statistics.html.twig', [
@@ -390,6 +416,7 @@ class DashboardController extends AbstractController {
             'quiz' => $quiz,
             'averageScore' => $averageScore,
             'matrikelnummerHash' => $session->get('matrikelnummerHash'),
+            'chart' => $chart,
         ]);
     }
 
