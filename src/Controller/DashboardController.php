@@ -388,7 +388,8 @@ class DashboardController extends AbstractController {
 
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
         $scoreCounts = [];
-
+        $questionsCount = count($quiz->getQuestions());
+        $scoreCounts = array_fill(0, $questionsCount, 0);
         // Iteriere über jedes Leaderboard-Entry
         foreach ($leaderBoardEntries as $entry) {
             // Hole den Score
@@ -402,7 +403,10 @@ class DashboardController extends AbstractController {
             }
         }
 
+        $labels = range(0, count($scoreCounts));
+
         $chart->setData([
+            'labels' => array_keys($scoreCounts),
             'datasets' => [
                 [
                     'label' => 'Anzahl',
