@@ -386,25 +386,53 @@ class DashboardController extends AbstractController {
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }
 
-        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
+        $scoreCounts = [];
+
+        // Iteriere über jedes Leaderboard-Entry
+        foreach ($leaderBoardEntries as $entry) {
+            // Hole den Score
+            $score = $entry->getScore();
+            
+            // Zähle die Häufigkeit des Scores
+            if (isset($scoreCounts[$score])) {
+                $scoreCounts[$score]++; // Wenn der Score schon existiert, erhöhe die Zählung
+            } else {
+                $scoreCounts[$score] = 1; // Wenn der Score noch nicht existiert, setze die Zählung auf 1
+            }
+        }
 
         $chart->setData([
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             'datasets' => [
                 [
-                    'label' => 'My First dataset',
-                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'label' => 'Anzahl',
+                    'backgroundColor' => 'rgb(33, 37, 41)',
                     'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                    'data' => $scoreCounts,
                 ],
             ],
         ]);
 
         $chart->setOptions([
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ]
+            ],
             'scales' => [
                 'y' => [
                     'suggestedMin' => 0,
-                    'suggestedMax' => 100,
+                    'suggestedMax' => max($scoreCounts),
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Häufigkeit'
+                    ]
+                ],
+                'x' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Punkte'
+                    ]
                 ],
             ],
         ]);
