@@ -1,4 +1,18 @@
 /*!
+ * @kurkle/color v0.3.4
+ * https://github.com/kurkle/color#readme
+ * (c) 2024 Jukka Kurkela
+ * Released under the MIT License
+ */
+
+/*!
+ * Chart.js v4.4.6
+ * https://www.chartjs.org
+ * (c) 2024 Chart.js Contributors
+ * Released under the MIT License
+ */
+
+/*!
  * jQuery UI :data 1.13.3
  * https://jqueryui.com
  *

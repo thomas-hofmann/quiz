@@ -358,6 +358,15 @@ class DashboardController extends AbstractController {
         
     }
 
+    // Funktion zum Erstellen des Charts
+    function createChart($chartBuilder, $type, $data, $options)
+    {
+        $chart = $chartBuilder->createChart($type);
+        $chart->setData($data);
+        $chart->setOptions($options);
+        return $chart;
+    }
+
     #[Route('/leaderboard/{id}', name: 'leaderboard')]
     public function leaderboardAction(Request $request, Quiz $quiz, EntityManagerInterface $entityManager, ChartBuilderInterface $chartBuilder): Response {
         if (!$quiz) {
@@ -386,61 +395,74 @@ class DashboardController extends AbstractController {
             $averageScorePercentage = round(($averageScore / count($quiz->getQuestions())) * 100);
         }
 
-        $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
-        $scoreCounts = [];
-        $questionsCount = count($quiz->getQuestions());
-        $scoreCounts = array_fill(0, $questionsCount, 0);
-        // Iteriere über jedes Leaderboard-Entry
-        foreach ($leaderBoardEntries as $entry) {
-            // Hole den Score
-            $score = $entry->getScore();
-            
-            // Zähle die Häufigkeit des Scores
-            if (isset($scoreCounts[$score])) {
-                $scoreCounts[$score]++; // Wenn der Score schon existiert, erhöhe die Zählung
-            } else {
-                $scoreCounts[$score] = 1; // Wenn der Score noch nicht existiert, setze die Zählung auf 1
+        $barChart = null;
+        $lineChart = null;
+        if (count($quiz->getQuestions())) {
+            $questionsCount = count($quiz->getQuestions());
+            $scoreCounts = array_fill(0, $questionsCount, 0);
+
+            // Berechnung der Score-Häufigkeiten
+            foreach ($leaderBoardEntries as $entry) {
+                $score = $entry->getScore();
+                if (isset($scoreCounts[$score])) {
+                    $scoreCounts[$score]++;
+                } else {
+                    $scoreCounts[$score] = 1;
+                }
             }
+
+            ksort($scoreCounts);
+
+            // Gemeinsame Datenstruktur
+            $chartData = [
+                'datasets' => [
+                    [
+                        'label' => 'Anzahl',
+                        'backgroundColor' => 'rgb(33, 37, 41)',
+                        'borderColor' => 'rgb(33, 37, 41)',
+                        'data' => array_values($scoreCounts),
+                    ],
+                ],
+                'labels' => array_keys($scoreCounts),
+            ];
+            // dd(max($scoreCounts));
+            // Gemeinsame Optionenstruktur
+            $chartOptions = [
+                'plugins' => [
+                    'legend' => [
+                        'display' => false,
+                    ],
+                ],
+                'scales' => [
+                    'y' => [
+                        'suggestedMin' => 0,
+                        'suggestedMax' => max($scoreCounts),
+                        'title' => [
+                            'display' => true,
+                            'text' => 'Häufigkeit',
+                        ],
+                        'ticks' => [
+                            'stepSize' => 1,  // Ganze Zahlen in Schritten von 1
+                            'beginAtZero' => true,  // Beginne bei 0
+                            'precision' => 0,  // Verhindert Dezimalstellen
+                        ],
+                    ],
+                    'x' => [
+                        'title' => [
+                            'display' => true,
+                            'text' => 'Punktezahl',
+                        ],
+                    ],
+                ],
+            ];
+
+            // Erstellung eines Balkendiagramms
+            $barChart = $this->createChart($chartBuilder, Chart::TYPE_BAR, $chartData, $chartOptions);
+
+            // Erstellung eines Liniendiagramms
+            $lineChart = $this->createChart($chartBuilder, Chart::TYPE_LINE, $chartData, $chartOptions);
         }
 
-        $labels = range(0, count($scoreCounts));
-
-        $chart->setData([
-            'labels' => array_keys($scoreCounts),
-            'datasets' => [
-                [
-                    'label' => 'Anzahl',
-                    'backgroundColor' => 'rgb(33, 37, 41)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $scoreCounts,
-                ],
-            ],
-        ]);
-
-        $chart->setOptions([
-            'plugins' => [
-                'legend' => [
-                    'display' => false,
-                ]
-            ],
-            'scales' => [
-                'y' => [
-                    'suggestedMin' => 0,
-                    'suggestedMax' => max($scoreCounts),
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Häufigkeit'
-                    ]
-                ],
-                'x' => [
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Punkte'
-                    ]
-                ],
-            ],
-        ]);
-        
         $session = $request->getSession();
         return $this->render('dashboard/statistics.html.twig', [
             'leaderBoardEntries' => $leaderBoardEntries,
@@ -448,8 +470,57 @@ class DashboardController extends AbstractController {
             'quiz' => $quiz,
             'averageScore' => $averageScore,
             'matrikelnummerHash' => $session->get('matrikelnummerHash'),
-            'chart' => $chart,
+            'chartBar' => $barChart,
+            'chartLine' => $lineChart
         ]);
+    }
+
+    #[Route('/chart-data/{id}', name: 'chart-data')]
+    public function getChartData(Quiz $quiz, EntityManagerInterface $entityManager): JsonResponse
+    {
+        if (!$quiz) {
+            return new JsonResponse(['error' => 'Quiz ID is required'], 400);
+        }
+
+        if (!$quiz) {
+            return new JsonResponse(['error' => 'Quiz not found'], 404);
+        }
+
+        $leaderBoardEntryRepository = $entityManager->getRepository(LeaderBoardEntry::class);
+        $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz]);
+
+        $questionsCount = count($quiz->getQuestions());
+        $scoreCounts = array_fill(0, $questionsCount, 0);
+
+        // Score-Häufigkeiten berechnen
+        foreach ($leaderBoardEntries as $entry) {
+            $score = $entry->getScore();
+            if (isset($scoreCounts[$score])) {
+                $scoreCounts[$score]++;
+            } else {
+                $scoreCounts[$score] = 1;
+            }
+        }
+
+        ksort($scoreCounts);
+
+        // Berechne den maximalen Wert für suggestedMax
+        $maxScore = max(array_keys($scoreCounts));  // Der höchste Punktwert
+
+        $chartData = [
+            'datasets' => [
+                [
+                    'label' => 'Anzahl',
+                    'backgroundColor' => 'rgb(33, 37, 41)',
+                    'borderColor' => 'rgb(33, 37, 41)',
+                    'data' => array_values($scoreCounts),
+                ],
+            ],
+            'labels' => array_keys($scoreCounts),
+            'maxScore' => $maxScore,  // Füge maxScore hinzu
+        ];
+
+        return new JsonResponse($chartData);
     }
 
     #[Route('/clear-leaderboard/{id}', name: 'clear_leaderboard')]

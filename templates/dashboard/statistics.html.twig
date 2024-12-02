@@ -15,7 +15,7 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed p-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <span class="d-block w-100 text-center"><h4 class="m-0 ps-3 fw-bold"><i class="fa-solid fa-chart-simple"></i> Quiz auswerten</h4></span>
+                        <span class="d-block w-100 text-center"><h4 class="m-0 ps-3 fw-bold"><i class="fa-solid fa-chart-simple"></i> Fragen auswerten</h4></span>
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse border-top" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -55,36 +55,42 @@
 <div class="container text-center container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto position-relative">
         <h2>Punkteverteilung</h2>
-        {{ render_chart(chart) }}
-    </div>
-</div>
-<div class="container text-center container--fade-in">
-    <div class="box box--70 border rounded shadow p-3 mx-auto position-relative">
-        <h2>Statistik</h2>
         <p class="text-primary position-absolute top-0 end-0 mt-2 me-3 fs-5"><i class="fa-solid fa-arrows-rotate fa-spin"></i> Live</p>
-        
+        {% if chartBar and chartLine %}
+            <div class="row" data-quiz="{{ quiz.id }}" id="chart-row">
+                <div class="col-12 col-md-6">
+                    {{ render_chart(chartBar, {'id': 'barChart'})  }}
+                </div>
+                <div class="col-12 col-md-6">
+                    {{ render_chart(chartLine, {'id': 'lineChart'})  }}
+                </div>
+            </div>
+        {% endif %}
+        <h2>Statistik</h2>
         <div id="container-stats">
             <ul class="list-group rounded mb-2">
                 <li class="list-group-item">
-                    Fragenanzahl: <strong>{{ quiz.getQuestions|length }}</strong>
+                    Teilnehmerzahl: <strong>{{ leaderBoardEntries|length }}</strong>
                 </li>
                 <li class="list-group-item">
-                    Spieleranzahl: <strong>{{ leaderBoardEntries|length }}</strong>
+                    Maximal erreichbare Punkte: <strong>{{ quiz.getQuestions|length }}</strong>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item border-bottom-0">
                     Punkteschnitt: <strong>{{ averageScore }}</strong>
-                    
                 </li>
-                <li class="list-group-item bg-gradient
-                    {% if averageScorePercentage >= 70 %}
-                        bg-success-subtle text-success-emphasis
-                    {% elseif averageScorePercentage >= 40 %}
-                        bg-warning-subtle text-warning-emphasis
-                    {% else %}
-                        bg-danger-subtle text-danger-emphasis
-                    {% endif %}
-                ">
-                    Kursnote: <strong>{{ averageScorePercentage }}%</strong>
+                <li class="fs-5 list-group-item border-0 p-0">
+                    <div class="bg-gradient p-2 rounded-bottom
+                        {% if averageScorePercentage >= 70 %}
+                            bg-success-subtle text-success-emphasis border border-success
+                        {% elseif averageScorePercentage >= 40 %}
+                            bg-warning-subtle text-warning-emphasis border border-warning
+                        {% else %}
+                            bg-danger-subtle text-danger-emphasis border border-danger
+                        {% endif %}
+                    ">
+                    
+                        <strong>Kursnote: {{ averageScorePercentage }}%</strong>
+                    </div>
                 </li>
             </ul>
             {% if quiz.isWithoutLeaderboard == false %}
@@ -108,8 +114,8 @@
                                 {% set entryScoreTmp = entry.score %}
                             {% endif %}
                             <tr>
-                                <td>{{ place }}</td>
                                 {% if matrikelnummerHash %}
+                                    <td {% if entry.hash == matrikelnummerHash %}class="text-info fs-5"{% endif %}>{{ place }}</td>
                                     <td class="text-start">
                                         <div {% if entry.hash == matrikelnummerHash %}class="d-inline-block fs-5"{% endif %}>
                                             {% if place == 1 %}
@@ -131,6 +137,7 @@
                                     </td>
                                     <td {% if entry.hash == matrikelnummerHash %}class="text-info fs-5"{% endif %}>{{ entry.score }}</td>
                                 {% else %}
+                                    <td>{{ place }}</td>
                                     <td class="text-start">
                                         {% if place == 1 %}
                                             <span style="color: #ffd700"><i class="fa-solid fa-crown"></i></span>

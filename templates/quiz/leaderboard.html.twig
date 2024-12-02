@@ -8,26 +8,26 @@
         <div id="container-stats">
             <ul class="list-group rounded mb-2">
                 <li class="list-group-item">
-                    Fragenanzahl: <strong>{{ quiz.getQuestions|length }}</strong>
-                </li>
-            
-                <li class="list-group-item">
-                    Spieleranzahl: <strong>{{ leaderBoardEntries|length }}</strong>
+                    Teilnehmerzahl: <strong>{{ leaderBoardEntries|length }}</strong>
                 </li>
                 <li class="list-group-item">
+                    Maximal erreichbare Punkte: <strong>{{ quiz.getQuestions|length }}</strong>
+                </li>
+                <li class="list-group-item border-bottom-0">
                     Punkteschnitt: <strong>{{ averageScore }}</strong>
-                    
                 </li>
-                 <li class="list-group-item bg-gradient rounded-bottom-0
-                    {% if averageScorePercentage >= 70 %}
-                        bg-success-subtle text-success-emphasis
-                    {% elseif averageScorePercentage >= 40 %}
-                        bg-warning-subtle text-warning-emphasis
-                    {% else %}
-                        bg-danger-subtle text-danger-emphasis
-                    {% endif %}
-                ">
-                    Kursnote: <strong>{{ averageScorePercentage }}%</strong>
+                <li class="fs-5 list-group-item border-0 p-0">
+                    <div class="bg-gradient p-2 rounded-bottom
+                        {% if averageScorePercentage >= 70 %}
+                            bg-success-subtle text-success-emphasis border border-success
+                        {% elseif averageScorePercentage >= 40 %}
+                            bg-warning-subtle text-warning-emphasis border border-warning
+                        {% else %}
+                            bg-danger-subtle text-danger-emphasis border border-danger
+                        {% endif %}
+                    ">
+                        <strong>Kursnote: {{ averageScorePercentage }}%</strong>
+                    </div>
                 </li>
             </ul>
             <h2>Rangliste</h2>
