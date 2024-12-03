@@ -399,7 +399,7 @@ class DashboardController extends AbstractController {
         $lineChart = null;
         if (count($quiz->getQuestions())) {
             $questionsCount = count($quiz->getQuestions());
-            $scoreCounts = array_fill(0, $questionsCount, 0);
+            $scoreCounts = array_fill(0, $questionsCount + 1, 0);
 
             // Berechnung der Score-Häufigkeiten
             foreach ($leaderBoardEntries as $entry) {
@@ -490,7 +490,7 @@ class DashboardController extends AbstractController {
         $leaderBoardEntries = $leaderBoardEntryRepository->findBy(['quiz' => $quiz]);
 
         $questionsCount = count($quiz->getQuestions());
-        $scoreCounts = array_fill(0, $questionsCount, 0);
+        $scoreCounts = array_fill(0, $questionsCount + 1, 0);
 
         // Score-Häufigkeiten berechnen
         foreach ($leaderBoardEntries as $entry) {
