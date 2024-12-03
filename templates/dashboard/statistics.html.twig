@@ -4,6 +4,14 @@
 <div class="container text-center container--fade-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>{{ quiz.name }}</h1>
+        <div class="form-check form-switch text-start">
+            <input class="form-check-input float-none toggle-quiz" type="checkbox" id="quizToggle{{ quiz.id }}" 
+                {% if quiz.isEnabled %} checked {% endif %} 
+                data-url="{{ path('toggle_quiz', {id: quiz.id}) }}">
+            <label class="form-check-label toggle-quiz-label" for="quizToggle{{ quiz.id }}">
+                {% if quiz.isEnabled %}Quiz ist aktiviert{% else %} Quiz ist deaktiviert {% endif %}
+            </label>
+        </div>
         <ul class="list-group rounded">
             <li class="list-group-item bg-secondary-subtle">
                 Beitrittscode:
