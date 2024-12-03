@@ -4,25 +4,39 @@
 <div id="answer-stats-container">
     {% for entry in sortedEntries %}
         {% set index = loop.index0 %}
-        <h3>Frage {{ index + 1 }}</h3>
-        <h4 class="mb-3">{{ entry.question.text}}</h4>
+        <div class="text-center position-relative rounded bg-gradient p-2 mb-3
+            {% if entry.percent >= 70 %}
+                bg-success-subtle text-success-emphasis border border-success-subtle
+            {% elseif entry.percent >= 40 %}
+                bg-warning-subtle text-warning-emphasis border border-warning-subtle
+            {% else %}
+                bg-danger-subtle text-danger-emphasis border border-danger-subtle
+            {% endif %}
+        ">
+            <h3>Frage {{ index + 1 }}</h3>
+            <strong class="fs-3 position-absolute top-0 end-0 pe-2 pt-1">
+                {{ entry.percent }}%
+            </strong>
+            {# <small>Es haben insgesamt {{ entry.rightCount}} von {{ entry.playerCount}} Teilnehmern die Frage richtig beantwortet.</small> #}
+             <h4 class="mb-3 mt-3">{{ entry.question.text}}</h4>
+        </div>
         <ul class="list-group mb-3">
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerOne.object.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerOne.object.isCorrect %}text-success{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
                 {{ entry.answerOne.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerOne.cnt}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerTwo.object.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerTwo.object.isCorrect %}text-success{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
                 {{ entry.answerTwo.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerTwo.cnt}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerThree.object.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerThree.object.isCorrect %}text-success{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
                 {{ entry.answerThree.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerThree.cnt}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerFour.object.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerFour.object.isCorrect %}text-success{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
                 {{ entry.answerFour.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerFour.cnt}}</span>

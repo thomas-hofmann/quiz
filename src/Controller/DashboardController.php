@@ -597,6 +597,9 @@ class DashboardController extends AbstractController {
         $sortedEntries = [];
         foreach ($quiz->getQuestions() as $index => $question) {
             $sortedEntries[$index]['question'] = $question;
+            $sortedEntries[$index]['rightCount'] = 0;
+            $sortedEntries[$index]['percent'] = 0;
+            $sortedEntries[$index]['playerCount'] = count($quiz->getLeaderBoardEntries());
             $sortedEntries[$index]['answerOne']['object'] = $question->getAnswers()[0];
             $sortedEntries[$index]['answerOne']['cnt'] = 0;
             $sortedEntries[$index]['answerTwo']['object'] = $question->getAnswers()[1];
@@ -607,31 +610,69 @@ class DashboardController extends AbstractController {
             $sortedEntries[$index]['answerFour']['cnt'] = 0;
             $sortedEntries[$index]['count'] = 0;
             foreach ($quiz->getLeaderBoardEntries() as $entry) {
-                
+                $rightIndex = 0;
+                $playerRightIndex = 0;
+                if ($question->getAnswers()[0]->getIsCorrect()) {
+                    $rightIndex++;
+                }
+                if ($question->getAnswers()[1]->getIsCorrect()) {
+                    $rightIndex++;
+                }
+                if ($question->getAnswers()[2]->getIsCorrect()) {
+                    $rightIndex++;
+                }
+                if ($question->getAnswers()[3]->getIsCorrect()) {
+                    $rightIndex++;
+                }
                 if ($entry->getAllAnswers()) {
                     foreach ($entry->getAllAnswers() as $answer) {
-                        
                         if ($question->getId() == $answer['questionId']) {
                             foreach ($answer['answers'] as $playerAnswer) {
                                 if ($playerAnswer == $question->getAnswers()[0]->getId()) {
                                     $sortedEntries[$index]['answerOne']['cnt']++;
+                                    if ($question->getAnswers()[0]->getIsCorrect()) {
+                                        $playerRightIndex++;
+                                    } else {
+                                        $playerRightIndex--;
+                                    }
                                 }
                                 if ($playerAnswer == $question->getAnswers()[1]->getId()) {
                                     $sortedEntries[$index]['answerTwo']['cnt']++;
+                                    if ($question->getAnswers()[1]->getIsCorrect()) {
+                                        $playerRightIndex++;
+                                    } else {
+                                        $playerRightIndex--;
+                                    }
                                 }
                                 if ($playerAnswer == $question->getAnswers()[2]->getId()) {
                                     $sortedEntries[$index]['answerThree']['cnt']++;
+                                    if ($question->getAnswers()[2]->getIsCorrect()) {
+                                        $playerRightIndex++;
+                                    } else {
+                                        $playerRightIndex--;
+                                    }
                                 }
                                 if ($playerAnswer == $question->getAnswers()[3]->getId()) {
                                     $sortedEntries[$index]['answerFour']['cnt']++;
+                                    if ($question->getAnswers()[3]->getIsCorrect()) {
+                                        $playerRightIndex++;
+                                    } else {
+                                        $playerRightIndex--;
+                                    }
                                 }
+                            }
+                            if ($rightIndex ==  $playerRightIndex) {
+                                $sortedEntries[$index]['rightCount']++;
                             }
                         }
                     }
                 }
             }
+            if ($sortedEntries[$index]['playerCount']) {
+                $sortedEntries[$index]['percent'] = round(($sortedEntries[$index]['rightCount'] / $sortedEntries[$index]['playerCount']) * 100, 2);
+            }
         }
-        
+        // dd($sortedEntries);
         return $this->render('dashboard/answer-stats.html.twig', [
             'sortedEntries' => $sortedEntries,
             'quiz' => $quiz,
