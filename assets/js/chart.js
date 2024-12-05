@@ -4,7 +4,6 @@ $(function() {
     const quizId = $('#chart-row').data('quiz');  // Hole die Quiz-ID
 
     if (!quizId) {
-        console.error('Quiz ID fehlt im HTML.');
         return;
     }
 
