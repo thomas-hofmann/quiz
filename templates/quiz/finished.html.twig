@@ -61,37 +61,57 @@
                         {% set letters = ['A', 'B', 'C', 'D'] %}
                         {% for question in quiz.getQuestions %}
                             {% set questionIndex = loop.index0 %}
-                            <h3>Frage {{ questionIndex + 1 }}</h3>
-                            <h4 class="mb-3">{{ question.text }}</h4>
-                            <ul class="list-group mb-3">
                             {% set correctIndex = 0 %}
                             {% set playerCorrectIndex = 0 %}
                             {% for answer in question.getAnswers %}
                                 {% if answer.isCorrect %}
                                     {% set correctIndex = correctIndex + 1 %}
                                 {% endif %}
-                                {% set answerIndex = loop.index0 %}
-                                {% set isAnswerSelected = false %}
                                 {% for playerAnswer in allAnswers[questionIndex].answers %}
-                                    {% if playerAnswer == answer.id %}
-                                        {% if answer.isCorrect %}
-                                            {% set playerCorrectIndex = playerCorrectIndex + 1 %}
-                                        {% endif %}
-                                        {% set isAnswerSelected = true %}
+                                    {% if playerAnswer == answer.id and answer.isCorrect %}
+                                        {% set playerCorrectIndex = playerCorrectIndex + 1 %}
                                     {% endif %}
                                 {% endfor %}
-                                <li class="list-group-item question-stats-finished fs-5 {% if answer.isCorrect %}text-success fw-bold{% endif %}">
-                                    <span class="question__letter question__letter--statistics bg-dark text-light border">{{ letters[answerIndex] }}</span>
-                                    {% if isAnswerSelected %}<i class="fa-regular fa-circle-user text-info answer__logo--right"></i>{% endif %}
-                                    {{ answer.text }}
-                                </li>
                             {% endfor %}
-                            <li class="list-group-item question-stats-count fw-bold">
-                                <span class="{% if (playerCorrectIndex == correctIndex) and (correctIndex == allAnswers[questionIndex].answers|length) %} text-success {% elseif (playerCorrectIndex > 0) and (correctIndex < allAnswers[questionIndex].answers|length) %} text-warning {% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex)%} text-warning {% else %} text-danger {% endif %}">
-                                    {% if (playerCorrectIndex == correctIndex) and (correctIndex == allAnswers[questionIndex].answers|length) %}<i class="fa-regular fs-3 fa-circle-check"></i> {% elseif (playerCorrectIndex > 0) and (correctIndex < allAnswers[questionIndex].answers|length) %}<i class="fa-regular fa-circle-question fs-3"></i>{% elseif (playerCorrectIndex > 0) and (playerCorrectIndex < correctIndex) %}<i class="fa-regular fa-circle-question fs-3"></i>{% else %}<i class="fa-regular fa-circle-xmark fs-3"></i>{% endif %}
-                                    <br>{{ playerCorrectIndex }}/{{ correctIndex }}<br>
-                                </span>
-                            </li>
+
+                            {% set resultClass = "bg-danger-subtle text-danger-emphasis border border-danger-subtle" %}
+
+                            {# Perfekte Übereinstimmung: Alle richtigen Antworten und keine falschen #}
+                            {% if playerCorrectIndex == correctIndex and correctIndex == allAnswers[questionIndex].answers|length %}
+                                {% set resultClass = "bg-success-subtle text-success-emphasis border border-success-subtle" %}
+
+                            {# Gemischte Antworten: Einige richtig, aber auch falsche oder unvollständig #}
+                            {% elseif playerCorrectIndex > 0 and (playerCorrectIndex < correctIndex or allAnswers[questionIndex].answers|length > correctIndex) %}
+                                {% set resultClass = "bg-warning-subtle text-warning-emphasis border border-warning-subtle" %}
+
+                            {# Falsch: Keine richtige Antwort oder nur falsche Antworten gegeben #}
+                            {% else %}
+                                {% set resultClass = "bg-danger-subtle text-danger-emphasis border border-danger-subtle" %}
+                            {% endif %}
+                            <div class="text-center position-relative rounded bg-gradient p-2 mb-3 {{ resultClass }}">
+                                <h3>Frage {{ questionIndex + 1 }}</h3>
+                                <h4 class="mb-3 mt-3">{{ question.text }}</h4>
+                                <strong class="fs-3 position-absolute top-0 end-0 pe-2 pt-1">
+                                    {{ playerCorrectIndex }}/{{ correctIndex }}
+                                </strong>
+                            </div>
+                            <ul class="list-group mb-3">
+                                {% for answer in question.getAnswers %}
+                                    {% set answerIndex = loop.index0 %}
+                                    {% set isAnswerSelected = false %}
+                                    {% for playerAnswer in allAnswers[questionIndex].answers %}
+                                        {% if playerAnswer == answer.id %}
+                                            {% set isAnswerSelected = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <li class="{% if isAnswerSelected and not answer.isCorrect %}text-danger{% endif %} list-group-item question-stats-finished fs-5 {% if answer.isCorrect %}text-success fw-bold{% endif %}">
+                                        <span class="question__letter question__letter--statistics bg-dark text-light border">{{ letters[answerIndex] }}</span>
+                                        {% if isAnswerSelected %}
+                                            <i class="fa-solid answer__logo--right fs-5 {% if answer.isCorrect %}fa-user-check{% else %}fa-user-xmark{% endif %}"></i>
+                                        {% endif %}
+                                        {{ answer.text }}
+                                    </li>
+                                {% endfor %}
                             </ul>
                         {% endfor %}
                     </div>
