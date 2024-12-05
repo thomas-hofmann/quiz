@@ -21,22 +21,22 @@
              <h4 class="mb-3 mt-3">{{ entry.question.text}}</h4>
         </div>
         <ul class="list-group mb-3">
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerOne.object.isCorrect %}text-success{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerOne.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
                 {{ entry.answerOne.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerOne.cnt}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerTwo.object.isCorrect %}text-success{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerTwo.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
                 {{ entry.answerTwo.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerTwo.cnt}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerThree.object.isCorrect %}text-success{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerThree.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
                 {{ entry.answerThree.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerThree.cnt}}</span>
             </li>
-            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerFour.object.isCorrect %}text-success{% endif %}">
+            <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerFour.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
                 {{ entry.answerFour.object.text}}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerFour.cnt}}</span>
