@@ -80,7 +80,7 @@
                                         {% set isAnswerSelected = true %}
                                     {% endif %}
                                 {% endfor %}
-                                <li class="list-group-item question-stats-finished fs-5 bg-gradient {% if answer.isCorrect %}bg-success-subtle text-success-emphasis{% endif %}">
+                                <li class="list-group-item question-stats-finished fs-5 {% if answer.isCorrect %}text-success fw-bold{% endif %}">
                                     <span class="question__letter question__letter--statistics bg-dark text-light border">{{ letters[answerIndex] }}</span>
                                     {% if isAnswerSelected %}<i class="fa-regular fa-circle-user text-info answer__logo--right"></i>{% endif %}
                                     {{ answer.text }}
