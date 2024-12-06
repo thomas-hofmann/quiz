@@ -9,7 +9,7 @@
         </h1>
         <form action="{{ path('quiz-initial') }}" method="post">
             <div class="form-group mt-3">
-                <input type="text" class="form-control mb-3 text-center index__input-code" id="codeInput" name="code" placeholder="Beitrittscode" required>
+                <input type="text" class="form-control mb-3 text-center index__input-code animated-placeholder" id="codeInput" name="code" required>
             </div>
             <button type="submit" id="startQuizBtn" class="btn btn-success bg-gradient btn-lg quiz__button--initial" disabled><span id="loading"><i class="fa-regular fa-circle-play next-icon"></i></span> Quiz starten</button>
         </form>

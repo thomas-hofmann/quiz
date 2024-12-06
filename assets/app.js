@@ -12,3 +12,4 @@ import './js/initial.js';
 import './js/leaderboard.js';
 import './js/dashboard.js';
 import './js/chart.js';
+import './js/index.js';

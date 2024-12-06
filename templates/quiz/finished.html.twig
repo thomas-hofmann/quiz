@@ -41,9 +41,9 @@
         {% set totalQuestions = quiz.getQuestions|length %}
         {% set percentage = (rightIndex / totalQuestions) * 100 %}
         <div class="quiz__finish-message shadow-sm mb-4 fs-5 border p-4 rounded {{ percentage >= 70 ? 'bg-success-subtle text-success-emphasis' : (percentage >= 40 ? 'bg-warning-subtle text-warning-emphasis' : 'bg-danger-subtle text-danger-emphasis') }}">
-            Erzielte Punktzahl:<br>
+            Ihr Ergebnis:<br>
             <strong>
-                {{ rightIndex }} von {{ totalQuestions }}
+                 {{ rightIndex }} von {{ totalQuestions }} ({{ percentage|round }}%)
             </strong>
             <br>
             <em><small>{{ selectedMessage }}</small></em>
