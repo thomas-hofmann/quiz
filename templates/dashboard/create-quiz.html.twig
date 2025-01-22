@@ -6,16 +6,21 @@
         <h1>Quiz erstellen</h1>
         <form action="{{ path('create-quiz') }}" method="post">
             <div class="form-group">
-                <input type="text" class="form-control mb-2" id="quizname" name="quizname" placeholder="Quizname" required>
-                <select class="form-select mb-2" id="category" name="category" required>
-                    <option value="" disabled selected>Ordner wählen</option>
-                    <option value="no-category">Keinen Ordner</option>
-                    {% for category in user.categories %}
-                        <option value="{{ category.id }}">
-                            {{ category.name }}
-                        </option>
-                    {% endfor %}
-                </select>
+                {% if app.request.request.has('quizname') %}
+                    {% set quizNameText = app.request.request.get('quizname') %}
+                {% endif %}
+                <input type="text" class="form-control mb-2" id="quizname" name="quizname" placeholder="Quizname" {% if quizNameText is defined %}value="{{ quizNameText }}"{% endif %} required>
+                {% if user.categories | length > 0 %}
+                    <select class="form-select mb-2" id="category" name="category" required>
+                        <option value="" disabled selected>Ordner wählen</option>
+                        <option value="no-category">Keinen Ordner</option>
+                        {% for category in user.categories %}
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
                 <div class="form-check mb-2">
                     <input class="form-check-input code__bool" type="radio" name="codeBool" id="codeBoolGenerate" value="generate" required checked>
                     <label class="form-check-label" for="codeBoolGenerate">
@@ -25,13 +30,13 @@
                 <div class="form-check mb-2">
                     <input class="form-check-input code__bool" type="radio" name="codeBool" value="self" id="codeBoolSelf">
                     <label class="form-check-label" for="codeBoolSelf">
-                        Beitrittscode selbst erstellen. (Achtung muss eindeutig sein)
+                        Beitrittscode selbst erstellen. <small><i class="fas fa-exclamation-circle"></i> Muss eindeutig sein</small>
                     </label>
                 </div>
-                <input type="text" class="form-control mb-2 {% if error %}is-invalid{% endif %}" id="quizcode" name="quizcode" placeholder="Beitrittscode(Muss eindeutig)" disabled>
+                <input type="text" class="form-control mb-2 {% if error %}is-invalid{% endif %}" id="quizcode" name="quizcode" placeholder="Beitrittscode" disabled>
                 {% if error %}
                     <div id="quizcode" class="invalid-feedback">
-                        Achtung Code wird bereits verwendet. Nutzen Sie einen anderen
+                        Achtung Code wird bereits von jemandem verwendet. Nutzen Sie einen anderen
                     </div>
                 {% endif %}
                 <p class="mb-2 mt-2 fw-bold">Weitere Optionen</p>

@@ -18,6 +18,7 @@
                    <input type="hidden" name="answerId{{ index }}" value="{{ answer.id }}">
                     <div class="input-group mb-3">
                         <div class="input-group-text">
+                            <small class="pe-2">Richtig</small>
                             <input class="form-check-input quiz__edit-checkbox mt-0" id="answer{{ index }}-correct" name="answer{{ index }}-correct" type="checkbox" value="1"{% if answer.isCorrect %} checked {% endif %}>
                         </div>
                         <textarea type="text" class="form-control" id="answer{{ index }}" name="answer{{ index }}" required>{{ answer.text }}</textarea>

@@ -44,6 +44,7 @@ class DashboardController extends AbstractController {
                 $quizRepository = $entityManager->getRepository(Quiz::class);
                 if ($quizRepository->findBy(['code' => $request->get('quizcode')])) {
                     return $this->render('dashboard/create-quiz.html.twig', [
+                        'user' => $this->getUser(),
                         'error' => true,
                     ]);
                 }
@@ -160,7 +161,8 @@ class DashboardController extends AbstractController {
                     'questions' => $quiz->getQuestions(),
                     'quiz' => $quiz,
                     'error'=> false,
-                    'minCorrectError' => true
+                    'minCorrectError' => true,
+                    'user' => $this->getUser(),
                 ]);
             }
 
@@ -331,6 +333,8 @@ class DashboardController extends AbstractController {
                 return $this->render('dashboard/edit-quiz.html.twig', [
                     'questions' => $quiz->getQuestions(),
                     'quiz' => $quiz,
+                    'user' => $this->getUser(),
+                    'minCorrectError' => false,
                     'error'=> true,
                 ]);
             }
