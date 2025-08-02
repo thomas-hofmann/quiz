@@ -21,8 +21,22 @@
         <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
         <script src="https://kit.fontawesome.com/bb7ebab3a0.js" crossorigin="anonymous"></script>
-        {# Umami Tracking #}
-        <script defer src="https://cloud.umami.is/script.js" data-website-id="92daef10-1b3d-4faa-a814-d6f4c58646d9"></script>
+       <!-- Matomo -->
+        <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//analytics.hofmann-thomas.de/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '4']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+        </script>
+        <!-- End Matomo Code -->
+
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
