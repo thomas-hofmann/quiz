@@ -12,23 +12,25 @@
         {% endif %}
         <form action="{{ path('update_question') }}" method="post">
             <div class="form-group">
-                <label for="question">Fragetext</label>
+                <label for="question" class="fw-bold">Fragetext</label>
                 <input type="hidden" name="questionId" value="{{ question.id }}">
                 <textarea type="text" class="form-control" id="question" name="question" rows="3" required>{{ question.text }}</textarea>
                 {% for answer in question.getAnswers %}
                     {% set index = loop.index0 + 1%}
-                   <label for="answer1" class="mt-2">Antwort: {{ index }}</label>
+                   <label for="answer{{ index }}" class="mt-2 fw-bold">Antwort: {{ index }}</label>
                    <input type="hidden" name="answerId{{ index }}" value="{{ answer.id }}">
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <small class="pe-2">Richtig</small>
-                            <input class="form-check-input quiz__edit-checkbox mt-0" id="answer{{ index }}-correct" name="answer{{ index }}-correct" type="checkbox" value="1"{% if answer.isCorrect %} checked {% endif %}>
+                    <div class="quiz__answer-row mb-2">
+                        <textarea type="text" class="form-control quiz__answer-textarea" id="answer{{ index }}" name="answer{{ index }}">{{ answer.text }}</textarea>
+                        <div class="quiz__correct-box">
+                            <label class="mb-0 d-flex align-items-center justify-content-between gap-2" for="answer{{ index }}-correct">
+                                <span class="small fw-bold">Richtig</span>
+                                <input class="form-check-input quiz__edit-checkbox mt-0" id="answer{{ index }}-correct" name="answer{{ index }}-correct" type="checkbox" value="1"{% if answer.isCorrect %} checked {% endif %}>
+                            </label>
                         </div>
-                        <textarea type="text" class="form-control" id="answer{{ index }}" name="answer{{ index }}">{{ answer.text }}</textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="answer{{ index }}-image" class="form-label">Bild-Link zu Antwort {{ index }} (optional)</label>
-                        <input class="form-control" type="url" id="answer{{ index }}-image" name="answer{{ index }}-image" maxlength="2048" placeholder="https://cdn.example.com/answer-{{ index }}.jpg" value="{{ answer.image }}">
+                    <div class="mb-2 quiz__image-link-wrapper">
+                        <label for="answer{{ index }}-image" class="form-label small text-muted mb-1">Bild-Link (optional)</label>
+                        <input class="form-control form-control-sm quiz__image-link-input" type="url" id="answer{{ index }}-image" name="answer{{ index }}-image" maxlength="2048" placeholder="https://cdn.example.com/answer-{{ index }}.jpg" value="{{ answer.image }}">
                         {% if answer.image %}
                             {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
                             <img src="{{ imageSrc }}" alt="Antwortbild {{ index }}" class="img-fluid rounded mt-2" style="max-height: 120px;">

@@ -9,6 +9,8 @@ $(function() {
 
         // Klick-Event für den Speichern-Button
         $('#save-order').on('click', function(event) {
+            event.preventDefault();
+
             // Positionen der Fragen erfassen
             let positions = {};
             $('#sortable li').each(function(index) {
@@ -20,8 +22,8 @@ $(function() {
                 url: '/question-sort',
                 method: 'POST',
                 data: { positions: positions },
-                success: function(response) {
-                    alert(response);
+                success: function() {
+                    window.location.reload();
                 },
                 error: function(xhr, status, error) {
                     alert('Fehler beim Speichern der Sortierung: ' + error);
