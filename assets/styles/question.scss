@@ -4,6 +4,9 @@
     padding: 15px 30px;
     position: relative;
     word-break: break-word;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #f8f9fa;
+    background-image: none !important;
     
     display: flex;
     align-items: center;
@@ -26,14 +29,17 @@
         }
     }
 
-    input[type="checkbox"]:checked + & {
-        background: #212529;
-        color: white; // Matching border color
-        .question__letter {
-            background-color: white !important;
-            color:#212529 !important;
-            border-color: #212529 !important;
-        }
+}
+
+input[type="checkbox"]:checked + .answer__label {
+    background-color: #212529 !important;
+    background-image: none !important;
+    color: white;
+
+    .question__letter {
+        background-color: white !important;
+        color:#212529 !important;
+        border-color: #212529 !important;
     }
 }
 
