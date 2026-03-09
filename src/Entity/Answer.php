@@ -17,6 +17,9 @@ class Answer
     #[ORM\Column(length: 500)]
     private ?string $text = null;
 
+    #[ORM\Column(length: 2048, nullable: true)]
+    private ?string $image = null;
+
     #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $isCorrect = false;
 
@@ -36,6 +39,18 @@ class Answer
     public function setText(string $text): static
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

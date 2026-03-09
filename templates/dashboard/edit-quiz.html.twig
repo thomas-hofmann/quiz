@@ -56,6 +56,12 @@
                                     {% for answer in question.getAnswers %}
                                         <li class="list-group-item{% if answer.isCorrect %} list-group-item-success{% endif %}">
                                             {{ answer.text }}
+                                            {% if answer.image %}
+                                                {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                                                <div class="mt-2">
+                                                    <img src="{{ imageSrc }}" alt="Antwortbild" class="img-fluid rounded" style="max-height: 120px;">
+                                                </div>
+                                            {% endif %}
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -79,18 +85,24 @@
         {% endif %}
         <p>
             <small><i class="fa-solid fa-circle-info"></i> Richtige Antwort bitte markieren. Es muss mindestens eine Antwort richtig sein.</small><br>
-            <small><i class="fa-solid fa-circle-info"></i> Es müssen stets genau vier Antworten vorhanden sein.</small>
+            <small><i class="fa-solid fa-circle-info"></i> Es müssen stets genau vier Antworten vorhanden sein.</small><br>
+            <small><i class="fa-solid fa-circle-info"></i> Es muss immer ein Text <u>oder</u> Bild eingetragen werden.</small>
         </p>
         {% set errorBorder = '' %}
         {% if minCorrectError %}
             <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Es muss mindestens eine Antwort richtig sein! Frage wurde nicht hinzugefügt.</p>
             {% set errorBorder = 'is-invalid' %}
         {% endif %}
-        <form action="{{ path('update_questions') }}" method="get">
+        {% if answerContentError|default(false) %}
+            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Jede Antwort braucht mindestens Text oder Bild-Link.</p>
+        {% endif %}
+        <form action="{{ path('update_questions') }}" method="post">
             <div class="form-group">
                 <input type="hidden" name="quizId" value="{{ quiz.id }}">
                 <label for="question">Fragetext</label>
-                {% if app.request.query.has('question') %}
+                {% if app.request.request.has('question') %}
+                    {% set questionText = app.request.request.get('question') %}
+                {% elseif app.request.query.has('question') %}
                     {% set questionText = app.request.query.get('question') %}
                 {% endif %}
                 <textarea class="form-control" id="question" name="question" rows="3" required>{% if questionText is defined %}{{ questionText }}{% endif %}</textarea>
@@ -100,10 +112,21 @@
                         <small class="pe-2">Richtig</small>
                         <input class="form-check-input quiz__edit-checkbox mt-0 {{ errorBorder }}" id="answer1-correct" name="answer1-correct" type="checkbox" value="1" aria-label="Checkbox for following text input">
                     </div>
-                    {% if app.request.query.has('answer1') %}
+                    {% if app.request.request.has('answer1') %}
+                        {% set answerText1 = app.request.request.get('answer1') %}
+                    {% elseif app.request.query.has('answer1') %}
                         {% set answerText1 = app.request.query.get('answer1') %}
                     {% endif %}
-                    <textarea class="form-control" id="answer1" name="answer1" required>{% if answerText1 is defined %}{{ answerText1 }}{% endif %}</textarea>
+                    <textarea class="form-control" id="answer1" name="answer1">{% if answerText1 is defined %}{{ answerText1 }}{% endif %}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="answer1-image" class="form-label">Bild-Link zu Antwort A (optional)</label>
+                    {% if app.request.request.has('answer1-image') %}
+                        {% set answerImage1 = app.request.request.get('answer1-image') %}
+                    {% elseif app.request.query.has('answer1-image') %}
+                        {% set answerImage1 = app.request.query.get('answer1-image') %}
+                    {% endif %}
+                    <input class="form-control" type="url" id="answer1-image" name="answer1-image" maxlength="2048" placeholder="https://cdn.example.com/answer-a.jpg" value="{% if answerImage1 is defined %}{{ answerImage1 }}{% endif %}">
                 </div>
                 <label for="answer2" class="mt-2">Antwort: B</label>
                 <div class="input-group mb-3">
@@ -111,10 +134,21 @@
                         <small class="pe-2">Richtig</small>
                         <input class="form-check-input quiz__edit-checkbox mt-0 {{ errorBorder }}" id="answer2-correct" name="answer2-correct" type="checkbox" value="1" aria-label="Checkbox for following text input">
                     </div>
-                     {% if app.request.query.has('answer2') %}
+                    {% if app.request.request.has('answer2') %}
+                        {% set answerText2 = app.request.request.get('answer2') %}
+                    {% elseif app.request.query.has('answer2') %}
                         {% set answerText2 = app.request.query.get('answer2') %}
                     {% endif %}
-                    <textarea class="form-control" id="answer2" name="answer2" required>{% if answerText2 is defined %}{{ answerText2 }}{% endif %}</textarea>
+                    <textarea class="form-control" id="answer2" name="answer2">{% if answerText2 is defined %}{{ answerText2 }}{% endif %}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="answer2-image" class="form-label">Bild-Link zu Antwort B (optional)</label>
+                    {% if app.request.request.has('answer2-image') %}
+                        {% set answerImage2 = app.request.request.get('answer2-image') %}
+                    {% elseif app.request.query.has('answer2-image') %}
+                        {% set answerImage2 = app.request.query.get('answer2-image') %}
+                    {% endif %}
+                    <input class="form-control" type="url" id="answer2-image" name="answer2-image" maxlength="2048" placeholder="https://cdn.example.com/answer-b.jpg" value="{% if answerImage2 is defined %}{{ answerImage2 }}{% endif %}">
                 </div>
                 <label for="answer3" class="mt-2">Antwort: C</label>
                 <div class="input-group mb-3">
@@ -122,10 +156,21 @@
                         <small class="pe-2">Richtig</small>
                         <input class="form-check-input quiz__edit-checkbox mt-0 {{ errorBorder }}" id="answer3-correct" name="answer3-correct" type="checkbox" value="1" aria-label="Checkbox for following text input">
                     </div>
-                     {% if app.request.query.has('answer3') %}
+                    {% if app.request.request.has('answer3') %}
+                        {% set answerText3 = app.request.request.get('answer3') %}
+                    {% elseif app.request.query.has('answer3') %}
                         {% set answerText3 = app.request.query.get('answer3') %}
                     {% endif %}
-                    <textarea class="form-control" id="answer3" name="answer3" required>{% if answerText3 is defined %}{{ answerText3 }}{% endif %}</textarea>
+                    <textarea class="form-control" id="answer3" name="answer3">{% if answerText3 is defined %}{{ answerText3 }}{% endif %}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="answer3-image" class="form-label">Bild-Link zu Antwort C (optional)</label>
+                    {% if app.request.request.has('answer3-image') %}
+                        {% set answerImage3 = app.request.request.get('answer3-image') %}
+                    {% elseif app.request.query.has('answer3-image') %}
+                        {% set answerImage3 = app.request.query.get('answer3-image') %}
+                    {% endif %}
+                    <input class="form-control" type="url" id="answer3-image" name="answer3-image" maxlength="2048" placeholder="https://cdn.example.com/answer-c.jpg" value="{% if answerImage3 is defined %}{{ answerImage3 }}{% endif %}">
                 </div>
                 <label for="answer4" class="mt-2">Antwort: D</label>
                 <div class="input-group mb-3">
@@ -133,10 +178,21 @@
                         <small class="pe-2">Richtig</small>
                         <input class="form-check-input quiz__edit-checkbox mt-0 {{ errorBorder }}" id="answer4-correct" name="answer4-correct" type="checkbox" value="1" aria-label="Checkbox for following text input">
                     </div>
-                     {% if app.request.query.has('answer4') %}
+                    {% if app.request.request.has('answer4') %}
+                        {% set answerText4 = app.request.request.get('answer4') %}
+                    {% elseif app.request.query.has('answer4') %}
                         {% set answerText4 = app.request.query.get('answer4') %}
                     {% endif %}
-                    <textarea class="form-control" id="answer4" name="answer4" required>{% if answerText4 is defined %}{{ answerText4 }}{% endif %}</textarea>
+                    <textarea class="form-control" id="answer4" name="answer4">{% if answerText4 is defined %}{{ answerText4 }}{% endif %}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="answer4-image" class="form-label">Bild-Link zu Antwort D (optional)</label>
+                    {% if app.request.request.has('answer4-image') %}
+                        {% set answerImage4 = app.request.request.get('answer4-image') %}
+                    {% elseif app.request.query.has('answer4-image') %}
+                        {% set answerImage4 = app.request.query.get('answer4-image') %}
+                    {% endif %}
+                    <input class="form-control" type="url" id="answer4-image" name="answer4-image" maxlength="2048" placeholder="https://cdn.example.com/answer-d.jpg" value="{% if answerImage4 is defined %}{{ answerImage4 }}{% endif %}">
                 </div>
             </div>
             <p class="mt-3">

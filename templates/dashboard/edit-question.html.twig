@@ -5,9 +5,12 @@
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Frage bearbeiten</h1>
         {% if minCorrectError %}
-            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Es muss mindestens eine Frage richtig sein!</p>
+            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Es muss mindestens eine Antwort richtig sein!</p>
         {% endif %}
-        <form action="{{ path('update_question') }}" method="get">
+        {% if answerContentError|default(false) %}
+            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Jede Antwort braucht mindestens Text oder Bild-Link.</p>
+        {% endif %}
+        <form action="{{ path('update_question') }}" method="post">
             <div class="form-group">
                 <label for="question">Fragetext</label>
                 <input type="hidden" name="questionId" value="{{ question.id }}">
@@ -21,7 +24,15 @@
                             <small class="pe-2">Richtig</small>
                             <input class="form-check-input quiz__edit-checkbox mt-0" id="answer{{ index }}-correct" name="answer{{ index }}-correct" type="checkbox" value="1"{% if answer.isCorrect %} checked {% endif %}>
                         </div>
-                        <textarea type="text" class="form-control" id="answer{{ index }}" name="answer{{ index }}" required>{{ answer.text }}</textarea>
+                        <textarea type="text" class="form-control" id="answer{{ index }}" name="answer{{ index }}">{{ answer.text }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="answer{{ index }}-image" class="form-label">Bild-Link zu Antwort {{ index }} (optional)</label>
+                        <input class="form-control" type="url" id="answer{{ index }}-image" name="answer{{ index }}-image" maxlength="2048" placeholder="https://cdn.example.com/answer-{{ index }}.jpg" value="{{ answer.image }}">
+                        {% if answer.image %}
+                            {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                            <img src="{{ imageSrc }}" alt="Antwortbild {{ index }}" class="img-fluid rounded mt-2" style="max-height: 120px;">
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

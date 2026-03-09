@@ -21,8 +21,20 @@
                                     <div class="accordion-body rounded border-success-subtle border mt-2 bg-white p-2">
                                         <p class="fw-bold">{{ shuffledQuestions[index - 1].question.text }}</p>
                                         <ul class="list-group mt-2">
-                                            {% for answerText in rightAnswers %}
-                                                <li class="list-group-item">{{ answerText }}</li>
+                                            {% for answer in shuffledQuestions[index - 1].question.getAnswers %}
+                                                {% if answer.isCorrect %}
+                                                    <li class="list-group-item">
+                                                        {% if answer.text|trim is not empty %}
+                                                            {{ answer.text }}
+                                                        {% endif %}
+                                                        {% if answer.image %}
+                                                            {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                                                            <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
+                                                                <img src="{{ imageSrc }}" alt="Richtige Antwort" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                                                            </div>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -52,8 +64,20 @@
                                     <div class="accordion-body rounded {% if alert %}border-warning-subtle{% else %}border-danger-subtle{% endif %} bg-white mt-2 border p-2">
                                         <p class="fw-bold">{{ shuffledQuestions[index - 1].question.text }}</p>
                                         <ul class="list-group mt-2">
-                                            {% for answerText in rightAnswers %}
-                                                <li class="list-group-item">{{ answerText }}</li>
+                                            {% for answer in shuffledQuestions[index - 1].question.getAnswers %}
+                                                {% if answer.isCorrect %}
+                                                    <li class="list-group-item">
+                                                        {% if answer.text|trim is not empty %}
+                                                            {{ answer.text }}
+                                                        {% endif %}
+                                                        {% if answer.image %}
+                                                            {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                                                            <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
+                                                                <img src="{{ imageSrc }}" alt="Richtige Antwort" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                                                            </div>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -81,25 +105,61 @@
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[0].index }}" name="answer{{ question.answers[0].index }}" value="{{ question.answers[0].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-1 bg-gradient" for="answer{{ question.answers[0].index }}">
-                                <span class="question__letter bg-dark text-light border">A</span> {{ question.answers[0].answerObject.text }}
+                                <span class="question__letter bg-dark text-light border">A</span>
+                                <span class="answer__content">
+                                    {% if question.answers[0].answerObject.text|trim is not empty %}
+                                        <span class="answer__text">{{ question.answers[0].answerObject.text }}</span>
+                                    {% endif %}
+                                    {% if question.answers[0].answerObject.image %}
+                                        {% set imageSrcA = question.answers[0].answerObject.image starts with 'http' ? question.answers[0].answerObject.image : asset(question.answers[0].answerObject.image) %}
+                                        <img src="{{ imageSrcA }}" alt="Antwortbild A" class="answer__image img-fluid rounded">
+                                    {% endif %}
+                                </span>
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">  
                             <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[1].index }}" name="answer{{ question.answers[1].index }}" value="{{ question.answers[1].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-2 bg-gradient" for="answer{{ question.answers[1].index }}">
-                                <span class="question__letter bg-dark text-light border">B</span> {{ question.answers[1].answerObject.text }}
+                                <span class="question__letter bg-dark text-light border">B</span>
+                                <span class="answer__content">
+                                    {% if question.answers[1].answerObject.text|trim is not empty %}
+                                        <span class="answer__text">{{ question.answers[1].answerObject.text }}</span>
+                                    {% endif %}
+                                    {% if question.answers[1].answerObject.image %}
+                                        {% set imageSrcB = question.answers[1].answerObject.image starts with 'http' ? question.answers[1].answerObject.image : asset(question.answers[1].answerObject.image) %}
+                                        <img src="{{ imageSrcB }}" alt="Antwortbild B" class="answer__image img-fluid rounded">
+                                    {% endif %}
+                                </span>
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[2].index }}" name="answer{{ question.answers[2].index }}" value="{{ question.answers[2].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-3 bg-gradient" for="answer{{ question.answers[2].index }}">
-                                <span class="question__letter bg-dark text-light border">C</span> {{ question.answers[2].answerObject.text }}
+                                <span class="question__letter bg-dark text-light border">C</span>
+                                <span class="answer__content">
+                                    {% if question.answers[2].answerObject.text|trim is not empty %}
+                                        <span class="answer__text">{{ question.answers[2].answerObject.text }}</span>
+                                    {% endif %}
+                                    {% if question.answers[2].answerObject.image %}
+                                        {% set imageSrcC = question.answers[2].answerObject.image starts with 'http' ? question.answers[2].answerObject.image : asset(question.answers[2].answerObject.image) %}
+                                        <img src="{{ imageSrcC }}" alt="Antwortbild C" class="answer__image img-fluid rounded">
+                                    {% endif %}
+                                </span>
                             </label>
                         </div>
                         <div class="col-12 col-lg-6 p-0 d-flex">
                             <input class="answer__radio visually-hidden" type="checkbox" id="answer{{ question.answers[3].index }}" name="answer{{ question.answers[3].index }}" value="{{ question.answers[3].answerObject.id }}"/>
                             <label class="answer__label fs-5 question__answer-4 bg-gradient" for="answer{{ question.answers[3].index }}">
-                                <span class="question__letter bg-dark text-light border">D</span> {{ question.answers[3].answerObject.text }}
+                                <span class="question__letter bg-dark text-light border">D</span>
+                                <span class="answer__content">
+                                    {% if question.answers[3].answerObject.text|trim is not empty %}
+                                        <span class="answer__text">{{ question.answers[3].answerObject.text }}</span>
+                                    {% endif %}
+                                    {% if question.answers[3].answerObject.image %}
+                                        {% set imageSrcD = question.answers[3].answerObject.image starts with 'http' ? question.answers[3].answerObject.image : asset(question.answers[3].answerObject.image) %}
+                                        <img src="{{ imageSrcD }}" alt="Antwortbild D" class="answer__image img-fluid rounded">
+                                    {% endif %}
+                                </span>
                             </label>
                         </div>
                     </div>

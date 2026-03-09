@@ -89,56 +89,49 @@ class DashboardController extends AbstractController {
 
     #[Route('/update-questions', name: 'update_questions')]
     public function updateQuestionsAction(Request $request, EntityManagerInterface $entityManager): Response {
-        if($request->get('quizId')) {
+        $quizId = $request->request->get('quizId') ?? $request->query->get('quizId');
+        $questionText = trim((string) ($request->request->get('question') ?? $request->query->get('question')));
+        $quiz = null;
+
+        if($quizId) {
             $quizRepository = $entityManager->getRepository(Quiz::class);
-            $quiz = $quizRepository->findOneBy(['id' => $request->get('quizId')]);
+            $quiz = $quizRepository->findOneBy(['id' => $quizId]);
         }
 
-        if($quiz && $request->get('question')) {
+        if (!$quiz) {
+            return $this->redirectToRoute('dashboard');
+        }
+
+        if($quiz && $questionText) {
             if ($quiz->getUser() !== $this->getUser()) {
                 throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
             }
 
             $question = new Question();
-            $question->setText($request->get('question'));
+            $question->setText($questionText);
             $minCorrect = 0;
-            if ($request->get('answer1')) {
-                $answer = new Answer();
-                $answer->setText($request->get('answer1'));
-                if ($request->get('answer1-correct')) {
-                    $minCorrect++;
-                    $answer->setIsCorrect(true);
-                }
-                $question->addAnswer($answer);
-            }
-            
-            if ($request->get('answer2')) {
-                $answer = new Answer();
-                $answer->setText($request->get('answer2'));
-                if ($request->get('answer2-correct')) {
-                    $minCorrect++;
-                    $answer->setIsCorrect(true);
-                }
-                $question->addAnswer($answer);
-            }
+            for ($i = 1; $i <= 4; $i++) {
+                $answerText = trim((string) ($request->request->get('answer' . $i) ?? $request->query->get('answer' . $i)));
+                $answerImage = $this->normalizeImageUrl($request->request->get('answer' . $i . '-image') ?? $request->query->get('answer' . $i . '-image'));
 
-            if ($request->get('answer3')) {
-                $answer = new Answer();
-                $answer->setText($request->get('answer3'));
-                if ($request->get('answer3-correct')) {
-                    $minCorrect++;
-                    $answer->setIsCorrect(true);
+                if ($answerText === '' && $answerImage === null) {
+                    return $this->render('dashboard/edit-quiz.html.twig', [
+                        'questions' => $quiz->getQuestions(),
+                        'quiz' => $quiz,
+                        'error'=> false,
+                        'minCorrectError' => false,
+                        'answerContentError' => true,
+                        'user' => $this->getUser(),
+                    ]);
                 }
-                $question->addAnswer($answer);
-            }
 
-            if ($request->get('answer4')) {
                 $answer = new Answer();
-                $answer->setText($request->get('answer4'));
-                if ($request->get('answer4-correct')) {
+                $answer->setText($answerText);
+                if ($request->request->get('answer' . $i . '-correct') ?? $request->query->get('answer' . $i . '-correct')) {
                     $minCorrect++;
                     $answer->setIsCorrect(true);
                 }
+                $answer->setImage($answerImage);
                 $question->addAnswer($answer);
             }
 
@@ -162,6 +155,7 @@ class DashboardController extends AbstractController {
                     'quiz' => $quiz,
                     'error'=> false,
                     'minCorrectError' => true,
+                    'answerContentError' => false,
                     'user' => $this->getUser(),
                 ]);
             }
@@ -176,6 +170,34 @@ class DashboardController extends AbstractController {
 
             return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
         }
+
+        return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
+    }
+
+    private function normalizeImageUrl(?string $url): ?string
+    {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return null;
+        }
+
+        if (mb_strlen($url) > 2048) {
+            $this->addFlash('danger', 'Bild-Link ist zu lang (maximal 2048 Zeichen) und wurde ignoriert.');
+            return null;
+        }
+
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            $this->addFlash('danger', 'Bild-Link ist ungueltig und wurde ignoriert.');
+            return null;
+        }
+
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+        if (!in_array($scheme, ['http', 'https'], true)) {
+            $this->addFlash('danger', 'Bild-Link muss mit http:// oder https:// starten.');
+            return null;
+        }
+
+        return $url;
     }
 
     #[Route('/delete-quiz/{id}', name: 'delete_quiz')]
@@ -225,51 +247,41 @@ class DashboardController extends AbstractController {
 
     #[Route('/update-question', name: 'update_question')]
     public function updateQuestionAction(Request $request, EntityManagerInterface $entityManager): Response {
-        if($request->get('questionId')) {
+        $questionId = $request->request->get('questionId') ?? $request->query->get('questionId');
+        $questionText = $request->request->get('question') ?? $request->query->get('question');
+        $question = null;
+
+        if($questionId) {
             $questionRepository = $entityManager->getRepository(Question::class);
-            $question = $questionRepository->findOneBy(['id' => $request->get('questionId')]);
+            $question = $questionRepository->findOneBy(['id' => $questionId]);
+            if (!$question) {
+                return $this->redirectToRoute('dashboard');
+            }
             if ($question->getQuiz()->getUser() !== $this->getUser()) {
                 throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
             }
-            $question->setText($request->get('question'));
+            $question->setText((string) $questionText);
             $minCorrect = 0;
-            if ($request->get('answer1')) {
-                $answer = $question->getAnswer($request->get('answerId1'));
-                $answer->setText($request->get('answer1'));
-                if ($request->get('answer1-correct')) {
-                    $minCorrect++;
-                    $answer->setIsCorrect(true);
-                } else {
-                    $answer->setIsCorrect(false);
+            for ($i = 1; $i <= 4; $i++) {
+                $answer = $question->getAnswer($request->request->get('answerId' . $i) ?? $request->query->get('answerId' . $i));
+                if (!$answer) {
+                    $this->addFlash('danger', 'Antwort konnte nicht gefunden werden. Bitte Seite neu laden und erneut versuchen.');
+                    return $this->redirectToRoute('edit_question', ['id' => $question->getId()]);
                 }
-            }
-            
-            if ($request->get('answer2')) {
-                $answer = $question->getAnswer($request->get('answerId2'));
-                $answer->setText($request->get('answer2'));
-                if ($request->get('answer2-correct')) {
-                    $minCorrect++;
-                    $answer->setIsCorrect(true);
-                } else {
-                    $answer->setIsCorrect(false);
-                }
-            }
+                $answerText = trim((string) ($request->request->get('answer' . $i) ?? $request->query->get('answer' . $i)));
+                $answerImage = $this->normalizeImageUrl($request->request->get('answer' . $i . '-image') ?? $request->query->get('answer' . $i . '-image'));
 
-            if ($request->get('answer3')) {
-                $answer = $question->getAnswer($request->get('answerId3'));
-                $answer->setText($request->get('answer3'));
-                if ($request->get('answer3-correct')) {
-                    $minCorrect++;
-                    $answer->setIsCorrect(true);
-                } else {
-                    $answer->setIsCorrect(false);
+                if ($answerText === '' && $answerImage === null) {
+                    return $this->render('dashboard/edit-question.html.twig', [
+                        'question' => $question,
+                        'minCorrectError' => false,
+                        'answerContentError' => true
+                    ]);
                 }
-            }
 
-            if ($request->get('answer4')) {
-                $answer = $question->getAnswer($request->get('answerId4'));
-                $answer->setText($request->get('answer4'));
-                if ($request->get('answer4-correct')) {
+                $answer->setText($answerText);
+                $answer->setImage($answerImage);
+                if ($request->request->get('answer' . $i . '-correct') ?? $request->query->get('answer' . $i . '-correct')) {
                     $minCorrect++;
                     $answer->setIsCorrect(true);
                 } else {
@@ -280,7 +292,8 @@ class DashboardController extends AbstractController {
             if ($minCorrect == 0) {
                 return $this->render('dashboard/edit-question.html.twig', [
                     'question' => $question,
-                    'minCorrectError' => true
+                    'minCorrectError' => true,
+                    'answerContentError' => false
                 ]);
             }
 
@@ -293,7 +306,9 @@ class DashboardController extends AbstractController {
             );
 
             return $this->redirectToRoute('edit_question', ['id' => $question->getId()]);
-        }  
+        }
+
+        return $this->redirectToRoute('dashboard');
     }
 
     #[Route('/edit-quiz/{id}', name: 'edit_quiz')]

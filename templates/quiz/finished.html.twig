@@ -109,7 +109,15 @@
                                         {% if isAnswerSelected %}
                                             <i class="fa-solid answer__logo--right fs-5 {% if answer.isCorrect %}fa-user-check{% else %}fa-user-xmark{% endif %}"></i>
                                         {% endif %}
-                                        {{ answer.text }}
+                                        {% if answer.text|trim is not empty %}
+                                            {{ answer.text }}
+                                        {% endif %}
+                                        {% if answer.image %}
+                                            {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                                            <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
+                                                <img src="{{ imageSrc }}" alt="Antwortbild {{ letters[answerIndex] }}" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                                            </div>
+                                        {% endif %}
                                     </li>
                                 {% endfor %}
                             </ul>
