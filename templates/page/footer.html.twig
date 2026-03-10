@@ -1,5 +1,4 @@
-</main>
-<footer class="text-light bg-dark container-fluid">
+<footer class="text-light bg-dark container-fluid"{% if app.request.attributes.get('_route') == 'home' %} data-aos="fade-up" data-aos-anchor-placement="top-bottom"{% endif %}>
     <nav class="navbar navbar-expand navbar-dark bg-dark p-0">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -14,5 +13,3 @@
         </ul>
     </nav>
 </footer>
-</body>
-</html>

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block title %}Quiz läuft...{% endblock %}
 {% block content %}
-<div class="container text-center quiz-container container--fade-in">
+<div class="container text-center quiz-container">
     <div class="quiz__overlay {% if index > 0 %}{% if rightAnswer %}container--correct{% elseif alert %}container--almost{% else %}container--wrong{% endif %}{% endif %}"></div>
-        <div class="box shadow mx-auto rounded shake-on-load">
+        <div class="box shadow mx-auto rounded" data-aos="zoom-in">
             {% if index > 0 %}
                 {% if rightAnswer %}
                     <div class="alert quiz__overlay--z-index alert-success m-0 p-2">
@@ -94,7 +94,7 @@
         </div>
         {% if shuffledQuestions[index] is defined %}
             {% set question = shuffledQuestions[index] %}
-            <div class="question p-3 border rounded shadow quiz__overlay--z-index">
+            <div class="question p-3 border rounded shadow quiz__overlay--z-index" data-aos="zoom-in">
                 <p class="text-center mb-0 fw-bold">{{ quiz.name }}</p>
                 <p class="text-center mb-0"><small>{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></small></p>
                 <div class="fs-2 lead question__text mt-3 mb-4">

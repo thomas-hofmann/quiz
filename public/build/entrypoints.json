@@ -2,26 +2,26 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.8ab7f0c8.js",
+        "/build/runtime.2929002b.js",
         "/build/554.a87074fe.js",
         "/build/350.1ff27e2d.js",
-        "/build/340.299b4168.js",
-        "/build/app.3c91489a.js"
+        "/build/app.efbc2c95.js"
       ],
       "css": [
-        "/build/app.1f3715d6.css"
+        "/build/381.d3a65e4b.css",
+        "/build/app.34970e11.css"
       ]
     },
     "quiz": {
       "js": [
-        "/build/runtime.8ab7f0c8.js",
+        "/build/runtime.2929002b.js",
         "/build/554.a87074fe.js",
         "/build/quiz.e1017de4.js"
       ]
     },
     "backend": {
       "js": [
-        "/build/runtime.8ab7f0c8.js",
+        "/build/runtime.2929002b.js",
         "/build/554.a87074fe.js",
         "/build/350.1ff27e2d.js",
         "/build/977.0dcf075d.js",

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Quiz abgeschlossen{% endblock %}
 {% block content %}
-<div class="container text-center quiz-container container--fade-in">
+<div class="container text-center quiz-container" data-aos="zoom-in">
     <div class="box shadow mx-auto rounded">
         <ul class="list-group">
             {% if rightAnswer %}
@@ -32,7 +32,7 @@
         </ul>
     </div>
 </div>
-<div class="container text-center container--fade-in">
+<div class="container text-center" data-aos="zoom-in">
     <div class="box box--100 border rounded shadow p-3 mx-auto">
         <p class="text-center mb-0 fw-bold">{{ quiz.name }}</p>
         <div class="fs-2 lead question__text mt-1 mb-3">
@@ -136,7 +136,7 @@
         </div>
     </div>
 </div>
-<div class="container text-center container--fade-in">
+<div class="container text-center" data-aos="zoom-in">
     <div class="box box--70 mx-auto shadow border rounded p-3 position-relative">
         <h2>Quizstatistik</h2>
         <p class="text-primary position-absolute top-0 end-0 mt-2 me-3 fs-5"><i class="fa-solid fa-arrows-rotate fa-spin"></i> Live</p>

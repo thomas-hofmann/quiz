@@ -1,5 +1,5 @@
 <body class="bg-body-tertiary">
-        <header>
+        <header{% if app.request.attributes.get('_route') == 'home' %} data-aos="fade-down"{% endif %}>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{ path('home') }}" {% if app.request.attributes.get('_route') == 'quiz' %}onclick="return confirm('Sind Sie sicher, dass Sie das Quiz verlassen wollen?')"{% endif %}>h_da Quiz</a>
@@ -60,4 +60,3 @@
             </div>
         </noscript>
         <main class="main-content">
-        {% include ('page/background-svgs.html.twig') %}

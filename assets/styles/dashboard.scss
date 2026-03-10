@@ -7,6 +7,10 @@
     }
 }
 
+.quiz-edit-container[data-aos="zoom-in"].aos-animate {
+    transform: none !important;
+}
+
 .edit-question-list-item {
     cursor: grab;
 
@@ -42,6 +46,16 @@
     padding-left: 30px;
     padding-top: 15px;
     padding-bottom: 15px;
+}
+
+.statistics-chart-col {
+    min-height: 280px;
+}
+
+@include media-breakpoint-down(md) {
+    .statistics-chart-col {
+        min-height: 220px;
+    }
 }
 
 .quiz__edit-checkbox:checked {

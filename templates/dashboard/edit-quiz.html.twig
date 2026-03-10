@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Quiz bearbeiten{% endblock %}
 {% block content %}
-<div class="container container--fade-in">
+<div class="container quiz-edit-container" data-aos="zoom-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto">
         <h1>Quiz bearbeiten</h1>
          {% if questions|length == 0 %}
@@ -43,7 +43,10 @@
         </form>
         {% if questions|length %}
             <h2>Fragen bearbeiten</h2>
-            <p><i class="fa-solid fa-circle-info"></i> Die Reihenfolge der Fragen kann durch Drag-and-Drop geändert werden.</p>
+            <p>
+                <span><i class="fa-solid fa-circle-info"></i> Die Reihenfolge der Fragen kann durch Drag-and-Drop geändert werden.</span><br>
+                <span><i class="fa-solid fa-circle-info"></i> Danach auf "Sortierung aktualisieren" klicken.</span>
+            </p>
             <ul class="list-group mb-2" id="sortable">
                 {% for question in questions %}
                     <li class="list-group-item edit-question-list-item" data-id="{{ question.id }}">
