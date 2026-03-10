@@ -2,12 +2,13 @@ const $ = require('jquery');
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-$(window).on('load', function() {
+$(function() {
     $('.container--fade-in').fadeIn(300);
+
     AOS.init({
         once: true,
         duration: 500,
-        easing: "ease-out-cubic",
+        easing: 'ease-out-cubic',
     });
 });
 
