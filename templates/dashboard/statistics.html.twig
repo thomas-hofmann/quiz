@@ -16,7 +16,7 @@
             <li class="list-group-item bg-secondary-subtle">
                 Beitrittscode:
                 <h3>{{ quiz.code}}</h3>
-                <img class="border border-secondary-subtle  mb-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200px" style="max-width: 100%; height: auto;">
+                <img class="border border-secondary-subtle mb-2" src="{{ qr_code_url(url('home', { 'quizcode': quiz.code })) }}" width="200" height="200" style="max-width: 100%; height: auto;">
             </li>
         </ul>
         <div class="accordion mt-3" id="accordionExample">
