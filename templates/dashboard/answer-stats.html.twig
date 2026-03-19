@@ -23,22 +23,54 @@
         <ul class="list-group mb-3">
             <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerOne.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">A</span>
-                {{ entry.answerOne.object.text}}
+                {% if entry.answerOne.object.text|trim is not empty %}
+                    {{ entry.answerOne.object.text }}
+                {% endif %}
+                {% if entry.answerOne.object.image %}
+                    {% set imageSrcA = entry.answerOne.object.image starts with 'http' ? entry.answerOne.object.image : asset(entry.answerOne.object.image) %}
+                    <div class="{% if entry.answerOne.object.text|trim is not empty %}mt-2{% endif %}">
+                        <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                    </div>
+                {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerOne.cnt}}</span>
             </li>
             <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerTwo.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">B</span>
-                {{ entry.answerTwo.object.text}}
+                {% if entry.answerTwo.object.text|trim is not empty %}
+                    {{ entry.answerTwo.object.text }}
+                {% endif %}
+                {% if entry.answerTwo.object.image %}
+                    {% set imageSrcB = entry.answerTwo.object.image starts with 'http' ? entry.answerTwo.object.image : asset(entry.answerTwo.object.image) %}
+                    <div class="{% if entry.answerTwo.object.text|trim is not empty %}mt-2{% endif %}">
+                        <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                    </div>
+                {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerTwo.cnt}}</span>
             </li>
             <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerThree.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">C</span>
-                {{ entry.answerThree.object.text}}
+                {% if entry.answerThree.object.text|trim is not empty %}
+                    {{ entry.answerThree.object.text }}
+                {% endif %}
+                {% if entry.answerThree.object.image %}
+                    {% set imageSrcC = entry.answerThree.object.image starts with 'http' ? entry.answerThree.object.image : asset(entry.answerThree.object.image) %}
+                    <div class="{% if entry.answerThree.object.text|trim is not empty %}mt-2{% endif %}">
+                        <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                    </div>
+                {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerThree.cnt}}</span>
             </li>
             <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerFour.object.isCorrect %}text-success fw-bold{% endif %}">
                 <span class="question__letter question__letter--statistics bg-dark text-light border">D</span>
-                {{ entry.answerFour.object.text}}
+                {% if entry.answerFour.object.text|trim is not empty %}
+                    {{ entry.answerFour.object.text }}
+                {% endif %}
+                {% if entry.answerFour.object.image %}
+                    {% set imageSrcD = entry.answerFour.object.image starts with 'http' ? entry.answerFour.object.image : asset(entry.answerFour.object.image) %}
+                    <div class="{% if entry.answerFour.object.text|trim is not empty %}mt-2{% endif %}">
+                        <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                    </div>
+                {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerFour.cnt}}</span>
             </li>
         </ul>
