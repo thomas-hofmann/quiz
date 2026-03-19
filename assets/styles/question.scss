@@ -79,22 +79,6 @@ input[type="checkbox"]:checked + .answer__label {
     transform-origin: center;
 }
 
-.answer-option-image {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    max-width: 420px;
-    height: auto;
-    max-height: 140px;
-    object-fit: contain;
-}
-
-.answer-option-image--preview {
-    max-width: 320px;
-    max-height: 120px;
-}
-
 .question {
     background: #fff;
 }

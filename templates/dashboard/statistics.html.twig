@@ -45,7 +45,7 @@
                                         {% if question.getAnswers.0.image %}
                                             {% set imageSrcA = question.getAnswers.0.image starts with 'http' ? question.getAnswers.0.image : asset(question.getAnswers.0.image) %}
                                             <div class="{% if question.getAnswers.0.text|trim is not empty %}mt-2{% endif %}">
-                                                <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid answer-option-image">
+                                                <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                             </div>
                                         {% endif %}
                                     </li>
@@ -57,7 +57,7 @@
                                         {% if question.getAnswers.1.image %}
                                             {% set imageSrcB = question.getAnswers.1.image starts with 'http' ? question.getAnswers.1.image : asset(question.getAnswers.1.image) %}
                                             <div class="{% if question.getAnswers.1.text|trim is not empty %}mt-2{% endif %}">
-                                                <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid answer-option-image">
+                                                <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                             </div>
                                         {% endif %}
                                     </li>
@@ -69,7 +69,7 @@
                                         {% if question.getAnswers.2.image %}
                                             {% set imageSrcC = question.getAnswers.2.image starts with 'http' ? question.getAnswers.2.image : asset(question.getAnswers.2.image) %}
                                             <div class="{% if question.getAnswers.2.text|trim is not empty %}mt-2{% endif %}">
-                                                <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid answer-option-image">
+                                                <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                             </div>
                                         {% endif %}
                                     </li>
@@ -81,7 +81,7 @@
                                         {% if question.getAnswers.3.image %}
                                             {% set imageSrcD = question.getAnswers.3.image starts with 'http' ? question.getAnswers.3.image : asset(question.getAnswers.3.image) %}
                                             <div class="{% if question.getAnswers.3.text|trim is not empty %}mt-2{% endif %}">
-                                                <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid answer-option-image">
+                                                <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                             </div>
                                         {% endif %}
                                     </li>
