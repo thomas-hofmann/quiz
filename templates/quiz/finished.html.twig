@@ -115,7 +115,7 @@
                                         {% if answer.image %}
                                             {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
                                             <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
-                                                <img src="{{ imageSrc }}" alt="Antwortbild {{ letters[answerIndex] }}" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                                                <img src="{{ imageSrc }}" alt="Antwortbild {{ letters[answerIndex] }}" class="img-fluid answer-option-image">
                                             </div>
                                         {% endif %}
                                     </li>

@@ -30,7 +30,7 @@
                                                         {% if answer.image %}
                                                             {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
                                                             <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
-                                                                <img src="{{ imageSrc }}" alt="Richtige Antwort" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                                                                <img src="{{ imageSrc }}" alt="Richtige Antwort" class="img-fluid answer-option-image">
                                                             </div>
                                                         {% endif %}
                                                     </li>
@@ -73,7 +73,7 @@
                                                         {% if answer.image %}
                                                             {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
                                                             <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
-                                                                <img src="{{ imageSrc }}" alt="Richtige Antwort" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                                                                <img src="{{ imageSrc }}" alt="Richtige Antwort" class="img-fluid answer-option-image">
                                                             </div>
                                                         {% endif %}
                                                     </li>
@@ -112,7 +112,7 @@
                                     {% endif %}
                                     {% if question.answers[0].answerObject.image %}
                                         {% set imageSrcA = question.answers[0].answerObject.image starts with 'http' ? question.answers[0].answerObject.image : asset(question.answers[0].answerObject.image) %}
-                                        <img src="{{ imageSrcA }}" alt="Antwortbild A" class="answer__image img-fluid rounded">
+                                        <img src="{{ imageSrcA }}" alt="Antwortbild A" class="answer__image img-fluid">
                                     {% endif %}
                                 </span>
                             </label>
@@ -127,7 +127,7 @@
                                     {% endif %}
                                     {% if question.answers[1].answerObject.image %}
                                         {% set imageSrcB = question.answers[1].answerObject.image starts with 'http' ? question.answers[1].answerObject.image : asset(question.answers[1].answerObject.image) %}
-                                        <img src="{{ imageSrcB }}" alt="Antwortbild B" class="answer__image img-fluid rounded">
+                                        <img src="{{ imageSrcB }}" alt="Antwortbild B" class="answer__image img-fluid">
                                     {% endif %}
                                 </span>
                             </label>
@@ -142,7 +142,7 @@
                                     {% endif %}
                                     {% if question.answers[2].answerObject.image %}
                                         {% set imageSrcC = question.answers[2].answerObject.image starts with 'http' ? question.answers[2].answerObject.image : asset(question.answers[2].answerObject.image) %}
-                                        <img src="{{ imageSrcC }}" alt="Antwortbild C" class="answer__image img-fluid rounded">
+                                        <img src="{{ imageSrcC }}" alt="Antwortbild C" class="answer__image img-fluid">
                                     {% endif %}
                                 </span>
                             </label>
@@ -157,7 +157,7 @@
                                     {% endif %}
                                     {% if question.answers[3].answerObject.image %}
                                         {% set imageSrcD = question.answers[3].answerObject.image starts with 'http' ? question.answers[3].answerObject.image : asset(question.answers[3].answerObject.image) %}
-                                        <img src="{{ imageSrcD }}" alt="Antwortbild D" class="answer__image img-fluid rounded">
+                                        <img src="{{ imageSrcD }}" alt="Antwortbild D" class="answer__image img-fluid">
                                     {% endif %}
                                 </span>
                             </label>

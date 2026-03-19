@@ -33,7 +33,7 @@
                         <input class="form-control form-control-sm quiz__image-link-input" type="url" id="answer{{ index }}-image" name="answer{{ index }}-image" maxlength="2048" placeholder="https://cdn.example.com/answer-{{ index }}.jpg" value="{{ answer.image }}">
                         {% if answer.image %}
                             {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
-                            <img src="{{ imageSrc }}" alt="Antwortbild {{ index }}" class="img-fluid rounded mt-2" style="max-height: 120px;">
+                            <img src="{{ imageSrc }}" alt="Antwortbild {{ index }}" class="img-fluid mt-2 answer-option-image answer-option-image--preview">
                         {% endif %}
                     </div>
                 {% endfor %}

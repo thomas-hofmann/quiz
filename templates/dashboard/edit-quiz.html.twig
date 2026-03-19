@@ -62,7 +62,7 @@
                                             {% if answer.image %}
                                                 {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
                                                 <div class="mt-2">
-                                                    <img src="{{ imageSrc }}" alt="Antwortbild" class="img-fluid rounded" style="max-height: 120px;">
+                                                    <img src="{{ imageSrc }}" alt="Antwortbild" class="img-fluid answer-option-image answer-option-image--preview">
                                                 </div>
                                             {% endif %}
                                         </li>
