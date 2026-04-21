@@ -29,7 +29,7 @@
                 {% if entry.answerOne.object.image %}
                     {% set imageSrcA = entry.answerOne.object.image starts with 'http' ? entry.answerOne.object.image : asset(entry.answerOne.object.image) %}
                     <div class="{% if entry.answerOne.object.text|trim is not empty %}mt-2{% endif %}">
-                        <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                        <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid rounded answer-result-image {% if entry.answerOne.object.isCorrect %}answer-result-image--correct{% endif %}">
                     </div>
                 {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerOne.cnt}}</span>
@@ -42,7 +42,7 @@
                 {% if entry.answerTwo.object.image %}
                     {% set imageSrcB = entry.answerTwo.object.image starts with 'http' ? entry.answerTwo.object.image : asset(entry.answerTwo.object.image) %}
                     <div class="{% if entry.answerTwo.object.text|trim is not empty %}mt-2{% endif %}">
-                        <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                        <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid rounded answer-result-image {% if entry.answerTwo.object.isCorrect %}answer-result-image--correct{% endif %}">
                     </div>
                 {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerTwo.cnt}}</span>
@@ -55,7 +55,7 @@
                 {% if entry.answerThree.object.image %}
                     {% set imageSrcC = entry.answerThree.object.image starts with 'http' ? entry.answerThree.object.image : asset(entry.answerThree.object.image) %}
                     <div class="{% if entry.answerThree.object.text|trim is not empty %}mt-2{% endif %}">
-                        <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                        <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid rounded answer-result-image {% if entry.answerThree.object.isCorrect %}answer-result-image--correct{% endif %}">
                     </div>
                 {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerThree.cnt}}</span>
@@ -68,7 +68,7 @@
                 {% if entry.answerFour.object.image %}
                     {% set imageSrcD = entry.answerFour.object.image starts with 'http' ? entry.answerFour.object.image : asset(entry.answerFour.object.image) %}
                     <div class="{% if entry.answerFour.object.text|trim is not empty %}mt-2{% endif %}">
-                        <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
+                        <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid rounded answer-result-image {% if entry.answerFour.object.isCorrect %}answer-result-image--correct{% endif %}">
                     </div>
                 {% endif %}
                 <span style="min-width: 50px" class="position-absolute end-0 border-start p-2 top-0 bottom-0">{{ entry.answerFour.cnt}}</span>

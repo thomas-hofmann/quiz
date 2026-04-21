@@ -185,8 +185,19 @@ footer {
 }
   
   /* Anwenden der Animation */
-  .shake-on-load {
-    position: relative; /* Ermöglicht die Anwendung des z-index */
-    z-index: 99; /* Setzt das Element in den Vordergrund */
-    animation: tilt-shaking 0.6s ease;
+.shake-on-load {
+  position: relative; /* Ermöglicht die Anwendung des z-index */
+  z-index: 99; /* Setzt das Element in den Vordergrund */
+  animation: tilt-shaking 0.6s ease;
+}
+
+.answer-result-image {
+    max-height: 140px;
+    width: auto;
+    object-fit: contain;
+}
+
+.answer-result-image--correct {
+    border: 2px solid var(--bs-success);
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.55), 0 8px 18px rgba(25, 135, 84, 0.35);
 }
