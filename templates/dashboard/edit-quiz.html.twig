@@ -51,8 +51,15 @@
                 {% for question in questions %}
                     <li class="list-group-item edit-question-list-item" data-id="{{ question.id }}">
                         <p class="mb-2 fw-bold">
-                            {{ loop.index }}. {{ question.text}}
+                            {{ loop.index }}.
+                            {% if question.text|trim is not empty %}
+                                {{ question.text }}
+                            {% endif %}
                         </p>
+                        {% if question.image %}
+                            {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                            <img src="{{ questionImageSrc }}" alt="Fragebild {{ loop.index }}" class="img-fluid rounded mb-2" style="max-height: 140px; width: auto; object-fit: contain;">
+                        {% endif %}
                         <div class="row">
                             <div class="col-12 col-md-8">
                                 <ul class="list-group mb-2 dashboard__quiz-answer-list">
@@ -87,7 +94,8 @@
         <p>
             <small><i class="fa-solid fa-circle-info"></i> Richtige Antwort bitte markieren. Es muss mindestens eine Antwort richtig sein.</small><br>
             <small><i class="fa-solid fa-circle-info"></i> Es müssen stets genau vier Antworten vorhanden sein.</small><br>
-            <small><i class="fa-solid fa-circle-info"></i> Es muss immer ein Text <u>oder</u> Bild eingetragen werden.</small>
+            <small><i class="fa-solid fa-circle-info"></i> Die Frage braucht Text <u>oder</u> Bild-Link.</small><br>
+            <small><i class="fa-solid fa-circle-info"></i> Jede Antwort braucht Text <u>oder</u> Bild-Link.</small>
         </p>
         {% set errorBorder = '' %}
         {% if minCorrectError %}
@@ -96,6 +104,9 @@
         {% endif %}
         {% if answerContentError|default(false) %}
             <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Jede Antwort braucht mindestens Text oder Bild-Link.</p>
+        {% endif %}
+        {% if questionContentError|default(false) %}
+            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Die Frage braucht mindestens Text oder Bild-Link.</p>
         {% endif %}
         <form action="{{ path('update_questions') }}" method="post">
             <div class="form-group">
@@ -106,7 +117,16 @@
                 {% elseif app.request.query.has('question') %}
                     {% set questionText = app.request.query.get('question') %}
                 {% endif %}
-                <textarea class="form-control" id="question" name="question" rows="3" required>{% if questionText is defined %}{{ questionText }}{% endif %}</textarea>
+                <textarea class="form-control" id="question" name="question" rows="3">{% if questionText is defined %}{{ questionText }}{% endif %}</textarea>
+                <div class="mb-2 mt-2 quiz__image-link-wrapper">
+                    <label for="question-image" class="form-label small text-muted mb-1">Fragebild-Link (optional)</label>
+                    {% if app.request.request.has('question-image') %}
+                        {% set questionImage = app.request.request.get('question-image') %}
+                    {% elseif app.request.query.has('question-image') %}
+                        {% set questionImage = app.request.query.get('question-image') %}
+                    {% endif %}
+                    <input class="form-control form-control-sm quiz__image-link-input" type="url" id="question-image" name="question-image" maxlength="2048" placeholder="https://cdn.example.com/question.jpg" value="{% if questionImage is defined %}{{ questionImage }}{% endif %}">
+                </div>
                 <label for="answer1" class="mt-2 fw-bold">Antwort: A</label>
                 <div class="quiz__answer-row mb-2">
                     {% if app.request.request.has('answer1') %}

@@ -34,7 +34,13 @@
                                 {% set index = loop.index0 %}
                                 <div class="text-center border rounded bg-gradient p-2 mb-3">
                                     <h3>Frage {{ index + 1 }}</h3>
-                                    <h4 class="mb-3 mt-3">{{ question.text }}</h4>
+                                    {% if question.text|trim is not empty %}
+                                        <h4 class="mb-3 mt-3">{{ question.text }}</h4>
+                                    {% endif %}
+                                    {% if question.image %}
+                                        {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                                        <img src="{{ questionImageSrc }}" alt="Fragebild {{ index + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
+                                    {% endif %}
                                 </div>
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item question-stats-li fs-5 pt-2 pb-2">

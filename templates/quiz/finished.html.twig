@@ -90,7 +90,13 @@
                             {% endif %}
                             <div class="text-center position-relative rounded bg-gradient p-2 mb-3 {{ resultClass }}">
                                 <h3>Frage {{ questionIndex + 1 }}</h3>
-                                <h4 class="mb-3 mt-3">{{ question.text }}</h4>
+                                {% if question.text|trim is not empty %}
+                                    <h4 class="mb-3 mt-3">{{ question.text }}</h4>
+                                {% endif %}
+                                {% if question.image %}
+                                    {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                                    <img src="{{ questionImageSrc }}" alt="Fragebild {{ questionIndex + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
+                                {% endif %}
                                 <strong class="fs-3 position-absolute top-0 end-0 pe-2 pt-1">
                                     {{ playerCorrectIndex }}/{{ correctIndex }}
                                 </strong>

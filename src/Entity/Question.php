@@ -19,6 +19,9 @@ class Question
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
+    #[ORM\Column(length: 2048, nullable: true)]
+    private ?string $image = null;
+
     #[ORM\ManyToOne(targetEntity: Quiz::class, inversedBy: 'questions')]
     private ?Quiz $quiz = null;
 
@@ -46,6 +49,18 @@ class Question
     public function setText(string $text): static
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

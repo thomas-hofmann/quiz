@@ -19,7 +19,13 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse bg-success-subtle collapse box box--70 mx-auto" aria-labelledby="headingOne" data-bs-parent="#accordion-right-answers">
                                     <div class="accordion-body rounded border-success-subtle border mt-2 bg-white p-2">
-                                        <p class="fw-bold">{{ shuffledQuestions[index - 1].question.text }}</p>
+                                        {% if shuffledQuestions[index - 1].question.text|trim is not empty %}
+                                            <p class="fw-bold mb-2">{{ shuffledQuestions[index - 1].question.text }}</p>
+                                        {% endif %}
+                                        {% if shuffledQuestions[index - 1].question.image %}
+                                            {% set questionImageSrc = shuffledQuestions[index - 1].question.image starts with 'http' ? shuffledQuestions[index - 1].question.image : asset(shuffledQuestions[index - 1].question.image) %}
+                                            <img src="{{ questionImageSrc }}" alt="Fragebild" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
+                                        {% endif %}
                                         <ul class="list-group mt-2">
                                             {% for answer in shuffledQuestions[index - 1].question.getAnswers %}
                                                 {% if answer.isCorrect %}
@@ -62,7 +68,13 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse {% if alert %}alert-warning{% else %}alert-danger{% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordion-right-answers">
                                     <div class="accordion-body rounded {% if alert %}border-warning-subtle{% else %}border-danger-subtle{% endif %} bg-white mt-2 border p-2">
-                                        <p class="fw-bold">{{ shuffledQuestions[index - 1].question.text }}</p>
+                                        {% if shuffledQuestions[index - 1].question.text|trim is not empty %}
+                                            <p class="fw-bold mb-2">{{ shuffledQuestions[index - 1].question.text }}</p>
+                                        {% endif %}
+                                        {% if shuffledQuestions[index - 1].question.image %}
+                                            {% set questionImageSrc = shuffledQuestions[index - 1].question.image starts with 'http' ? shuffledQuestions[index - 1].question.image : asset(shuffledQuestions[index - 1].question.image) %}
+                                            <img src="{{ questionImageSrc }}" alt="Fragebild" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
+                                        {% endif %}
                                         <ul class="list-group mt-2">
                                             {% for answer in shuffledQuestions[index - 1].question.getAnswers %}
                                                 {% if answer.isCorrect %}
@@ -98,7 +110,13 @@
                 <p class="text-center mb-0 fw-bold">{{ quiz.name }}</p>
                 <p class="text-center mb-0"><small>{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></small></p>
                 <div class="fs-2 lead question__text mt-3 mb-4">
-                    {{ question.question.text }}
+                    {% if question.question.text|trim is not empty %}
+                        <div>{{ question.question.text }}</div>
+                    {% endif %}
+                    {% if question.question.image %}
+                        {% set questionImageSrc = question.question.image starts with 'http' ? question.question.image : asset(question.question.image) %}
+                        <img src="{{ questionImageSrc }}" alt="Fragebild" class="img-fluid rounded mt-2" style="max-height: 240px; width: auto; object-fit: contain;">
+                    {% endif %}
                 </div>
                 <form action="{{ path('quiz') }}" method="post" id="quiz-form">
                     <div class="row mb-3 ms-0 me-0">

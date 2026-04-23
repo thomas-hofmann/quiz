@@ -18,7 +18,13 @@
                 {{ entry.percent }}%
             </strong>
             {# <small>Es haben insgesamt {{ entry.rightCount}} von {{ entry.playerCount}} Teilnehmern die Frage richtig beantwortet.</small> #}
-             <h4 class="mb-3 mt-3">{{ entry.question.text}}</h4>
+            {% if entry.question.text|trim is not empty %}
+                <h4 class="mb-3 mt-3">{{ entry.question.text }}</h4>
+            {% endif %}
+            {% if entry.question.image %}
+                {% set questionImageSrc = entry.question.image starts with 'http' ? entry.question.image : asset(entry.question.image) %}
+                <img src="{{ questionImageSrc }}" alt="Fragebild {{ index + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
+            {% endif %}
         </div>
         <ul class="list-group mb-3">
             <li class="list-group-item position-relative question-stats-li fs-5 pt-2 pb-2 {% if entry.answerOne.object.isCorrect %}text-success fw-bold{% endif %}">

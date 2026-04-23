@@ -91,6 +91,7 @@ class DashboardController extends AbstractController {
     public function updateQuestionsAction(Request $request, EntityManagerInterface $entityManager): Response {
         $quizId = $request->request->get('quizId') ?? $request->query->get('quizId');
         $questionText = trim((string) ($request->request->get('question') ?? $request->query->get('question')));
+        $questionImage = $this->normalizeImageUrl($request->request->get('question-image') ?? $request->query->get('question-image'));
         $quiz = null;
 
         if($quizId) {
@@ -102,13 +103,26 @@ class DashboardController extends AbstractController {
             return $this->redirectToRoute('dashboard');
         }
 
-        if($quiz && $questionText) {
-            if ($quiz->getUser() !== $this->getUser()) {
-                throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
-            }
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
 
+        if ($questionText === '' && $questionImage === null) {
+            return $this->render('dashboard/edit-quiz.html.twig', [
+                'questions' => $quiz->getQuestions(),
+                'quiz' => $quiz,
+                'error'=> false,
+                'minCorrectError' => false,
+                'answerContentError' => false,
+                'questionContentError' => true,
+                'user' => $this->getUser(),
+            ]);
+        }
+
+        if($quiz) {
             $question = new Question();
             $question->setText($questionText);
+            $question->setImage($questionImage);
             $minCorrect = 0;
             for ($i = 1; $i <= 4; $i++) {
                 $answerText = trim((string) ($request->request->get('answer' . $i) ?? $request->query->get('answer' . $i)));
@@ -121,6 +135,7 @@ class DashboardController extends AbstractController {
                         'error'=> false,
                         'minCorrectError' => false,
                         'answerContentError' => true,
+                        'questionContentError' => false,
                         'user' => $this->getUser(),
                     ]);
                 }
@@ -156,6 +171,7 @@ class DashboardController extends AbstractController {
                     'error'=> false,
                     'minCorrectError' => true,
                     'answerContentError' => false,
+                    'questionContentError' => false,
                     'user' => $this->getUser(),
                 ]);
             }
@@ -241,14 +257,17 @@ class DashboardController extends AbstractController {
         }
         return $this->render('dashboard/edit-question.html.twig', [
             'question' => $question,
-            'minCorrectError' => false
+            'minCorrectError' => false,
+            'answerContentError' => false,
+            'questionContentError' => false,
         ]);
     }
 
     #[Route('/update-question', name: 'update_question')]
     public function updateQuestionAction(Request $request, EntityManagerInterface $entityManager): Response {
         $questionId = $request->request->get('questionId') ?? $request->query->get('questionId');
-        $questionText = $request->request->get('question') ?? $request->query->get('question');
+        $questionText = trim((string) ($request->request->get('question') ?? $request->query->get('question')));
+        $questionImage = $this->normalizeImageUrl($request->request->get('question-image') ?? $request->query->get('question-image'));
         $question = null;
 
         if($questionId) {
@@ -260,7 +279,17 @@ class DashboardController extends AbstractController {
             if ($question->getQuiz()->getUser() !== $this->getUser()) {
                 throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
             }
-            $question->setText((string) $questionText);
+            if ($questionText === '' && $questionImage === null) {
+                return $this->render('dashboard/edit-question.html.twig', [
+                    'question' => $question,
+                    'minCorrectError' => false,
+                    'answerContentError' => false,
+                    'questionContentError' => true,
+                ]);
+            }
+
+            $question->setText($questionText);
+            $question->setImage($questionImage);
             $minCorrect = 0;
             for ($i = 1; $i <= 4; $i++) {
                 $answer = $question->getAnswer($request->request->get('answerId' . $i) ?? $request->query->get('answerId' . $i));
@@ -275,7 +304,8 @@ class DashboardController extends AbstractController {
                     return $this->render('dashboard/edit-question.html.twig', [
                         'question' => $question,
                         'minCorrectError' => false,
-                        'answerContentError' => true
+                        'answerContentError' => true,
+                        'questionContentError' => false,
                     ]);
                 }
 
@@ -293,7 +323,8 @@ class DashboardController extends AbstractController {
                 return $this->render('dashboard/edit-question.html.twig', [
                     'question' => $question,
                     'minCorrectError' => true,
-                    'answerContentError' => false
+                    'answerContentError' => false,
+                    'questionContentError' => false,
                 ]);
             }
 
@@ -322,6 +353,8 @@ class DashboardController extends AbstractController {
             'user' => $this->getUser(),
             'error'=> false,
             'minCorrectError' => false,
+            'answerContentError' => false,
+            'questionContentError' => false,
         ]);
     }
 

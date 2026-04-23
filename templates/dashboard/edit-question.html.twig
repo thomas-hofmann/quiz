@@ -10,11 +10,22 @@
         {% if answerContentError|default(false) %}
             <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Jede Antwort braucht mindestens Text oder Bild-Link.</p>
         {% endif %}
+        {% if questionContentError|default(false) %}
+            <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Die Frage braucht mindestens Text oder Bild-Link.</p>
+        {% endif %}
         <form action="{{ path('update_question') }}" method="post">
             <div class="form-group">
                 <label for="question" class="fw-bold">Fragetext</label>
                 <input type="hidden" name="questionId" value="{{ question.id }}">
-                <textarea type="text" class="form-control" id="question" name="question" rows="3" required>{{ question.text }}</textarea>
+                <textarea type="text" class="form-control" id="question" name="question" rows="3">{{ question.text }}</textarea>
+                <div class="mb-2 mt-2 quiz__image-link-wrapper">
+                    <label for="question-image" class="form-label small text-muted mb-1">Fragebild-Link (optional)</label>
+                    <input class="form-control form-control-sm quiz__image-link-input" type="url" id="question-image" name="question-image" maxlength="2048" placeholder="https://cdn.example.com/question.jpg" value="{{ question.image }}">
+                    {% if question.image %}
+                        {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                        <img src="{{ questionImageSrc }}" alt="Fragebild" class="img-fluid rounded mt-2" style="max-height: 160px; width: auto; object-fit: contain;">
+                    {% endif %}
+                </div>
                 {% for answer in question.getAnswers %}
                     {% set index = loop.index0 + 1%}
                    <label for="answer{{ index }}" class="mt-2 fw-bold">Antwort: {{ index }}</label>
