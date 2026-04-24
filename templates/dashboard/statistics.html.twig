@@ -102,10 +102,10 @@
 </div>
 <div class="container text-center" data-aos="zoom-in">
     <div class="box box--70 border rounded shadow p-3 mx-auto position-relative">
-        <h2>Punkteverteilung</h2>
+        <h2>Statistik</h2>
         <p class="text-primary position-absolute top-0 end-0 mt-2 me-3 fs-5"><i class="fa-solid fa-arrows-rotate fa-spin"></i> Live</p>
         {% if chartBar and chartLine %}
-            <div class="row" data-quiz="{{ quiz.id }}" id="chart-row">
+            <div class="row statistics-chart-row" data-quiz="{{ quiz.id }}" id="chart-row">
                 <div class="col-12 col-md-6 statistics-chart-col">
                     {{ render_chart(chartBar, {'id': 'barChart'})  }}
                 </div>
@@ -114,7 +114,6 @@
                 </div>
             </div>
         {% endif %}
-        <h2>Statistik</h2>
         <div id="container-stats">
             <ul class="list-group rounded mb-2">
                 <li class="list-group-item">
