@@ -14,9 +14,14 @@
             {% endif %}
         ">
             <h3>Frage {{ index + 1 }}</h3>
-            <strong class="fs-3 position-absolute top-0 end-0 pe-2 pt-1">
-                {{ entry.percent }}%
-            </strong>
+            <div class="position-absolute top-0 end-0 pe-2 pt-1 text-end lh-sm">
+                <span class="fs-5 fw-bold d-block">
+                    <i class="fa-regular fa-circle-check"></i> {{ entry.rightCount }}/{{ entry.playerCount }}
+                </span>
+                <span class="fs-6 fw-bold d-block">
+                    {{ entry.percent|round }}%
+                </span>
+            </div>
             {# <small>Es haben insgesamt {{ entry.rightCount}} von {{ entry.playerCount}} Teilnehmern die Frage richtig beantwortet.</small> #}
             {% if entry.question.text|trim is not empty %}
                 <h4 class="mb-3 mt-3">{{ entry.question.text }}</h4>
