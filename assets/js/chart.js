@@ -8,9 +8,8 @@ $(function() {
     }
 
     const barChart = Chart.getChart('barChart');  // Hole das bestehende Diagramm für das Balkendiagramm
-    const lineChart = Chart.getChart('lineChart');  // Hole das bestehende Diagramm für das Liniendiagramm
 
-    if (!barChart || !lineChart) {
+    if (!barChart) {
         console.error('Das Diagramm konnte nicht gefunden werden.');
         return;
     }
@@ -34,12 +33,6 @@ $(function() {
                 barChart.data.datasets[0].data = response.datasets[0].data;  // Daten aktualisieren
                 barChart.options.scales.y.suggestedMax = maxScore;  // Setze den neuen suggestedMax
                 barChart.update();  // Balkendiagramm aktualisieren
-
-                // Aktualisiere das Liniendiagramm mit den neuen Daten
-                lineChart.data.labels = response.labels;  // Labels aktualisieren
-                lineChart.data.datasets[0].data = response.datasets[0].data;  // Daten aktualisieren
-                lineChart.options.scales.y.suggestedMax = maxScore;  // Setze den neuen suggestedMax
-                lineChart.update();  // Liniendiagramm aktualisieren
             },
             error: function(xhr) {
                 console.error('Fehler beim Abrufen der Daten:', xhr.responseJSON || xhr.responseText);

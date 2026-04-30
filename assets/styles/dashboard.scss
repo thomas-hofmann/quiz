@@ -19,6 +19,19 @@
     }
 }
 
+.statistics-chart-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+
+    canvas {
+        max-width: 100%;
+    }
+}
+
 .accordion-button {
     box-shadow: $box-shadow-inset;
 }
@@ -48,10 +61,6 @@
     padding-bottom: 15px;
 }
 
-.statistics-chart-col {
-    min-height: 0;
-}
-
 .statistics-chart-row {
     margin-bottom: 1rem;
 }
@@ -60,25 +69,9 @@
     margin-top: 0;
 }
 
-.statistics-chart-col .chartjs-render-monitor,
-.statistics-chart-col canvas {
-    height: 240px !important;
-    max-height: 300px;
-}
-
 @include media-breakpoint-down(md) {
-    .statistics-chart-col {
-        min-height: 0;
-    }
-
     .statistics-chart-row {
         margin-bottom: 1rem;
-    }
-
-    .statistics-chart-col .chartjs-render-monitor,
-    .statistics-chart-col canvas {
-        height: 220px !important;
-        max-height: 240px;
     }
 }
 
