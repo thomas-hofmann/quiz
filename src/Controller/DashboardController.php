@@ -177,6 +177,7 @@ class DashboardController extends AbstractController {
                 ]);
             }
 
+            $quiz->setUpdatedAtValue();
             $entityManager->persist($question);
             $entityManager->flush();
 
@@ -240,6 +241,8 @@ class DashboardController extends AbstractController {
             throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
         }
 
+        $quiz = $question->getQuiz();
+        $quiz->setUpdatedAtValue();
         $entityManager->remove($question);
         $entityManager->flush();
 
@@ -248,7 +251,7 @@ class DashboardController extends AbstractController {
             'Frage erfolgreich gelöscht!'
         );
 
-        return $this->redirectToRoute('edit_quiz', ['id' => $question->getQuiz()->getId()]);
+        return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
     }
 
     #[Route('/edit-question/{id}', name: 'edit_question')]
@@ -329,6 +332,7 @@ class DashboardController extends AbstractController {
                 ]);
             }
 
+            $question->getQuiz()->setUpdatedAtValue();
             $entityManager->persist($question);
             $entityManager->flush();
 
@@ -409,6 +413,23 @@ class DashboardController extends AbstractController {
             return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
         }
         
+    }
+
+    #[Route('/refresh-quiz-image-cache/{id}', name: 'refresh_quiz_image_cache', methods: ['POST'])]
+    public function refreshQuizImageCacheAction(Quiz $quiz, EntityManagerInterface $entityManager): Response {
+        if ($quiz->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Das ist dir nicht erlaubt. Sollte es sich um ein Fehler handeln, kontaktiere den Admin.');
+        }
+
+        $quiz->setUpdatedAtValue();
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Bildcache wurde aktualisiert!'
+        );
+
+        return $this->redirectToRoute('dashboard');
     }
 
     // Funktion zum Erstellen des Charts

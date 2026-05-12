@@ -54,7 +54,7 @@
                                                     <h4 class="mb-3 mt-3">{{ question.text }}</h4>
                                                 {% endif %}
                                                 {% if question.image %}
-                                                    {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                                                    {% set questionImageSrc = versioned_image_url(question.image, quiz) %}
                                                     <img src="{{ questionImageSrc }}" alt="Fragebild {{ index + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
                                                 {% endif %}
                                             </div>
@@ -65,7 +65,7 @@
                                                         {{ question.getAnswers.0.text }}
                                                     {% endif %}
                                                     {% if question.getAnswers.0.image %}
-                                                        {% set imageSrcA = question.getAnswers.0.image starts with 'http' ? question.getAnswers.0.image : asset(question.getAnswers.0.image) %}
+                                                        {% set imageSrcA = versioned_image_url(question.getAnswers.0.image, quiz) %}
                                                         <div class="{% if question.getAnswers.0.text|trim is not empty %}mt-2{% endif %}">
                                                             <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                                         </div>
@@ -77,7 +77,7 @@
                                                         {{ question.getAnswers.1.text }}
                                                     {% endif %}
                                                     {% if question.getAnswers.1.image %}
-                                                        {% set imageSrcB = question.getAnswers.1.image starts with 'http' ? question.getAnswers.1.image : asset(question.getAnswers.1.image) %}
+                                                        {% set imageSrcB = versioned_image_url(question.getAnswers.1.image, quiz) %}
                                                         <div class="{% if question.getAnswers.1.text|trim is not empty %}mt-2{% endif %}">
                                                             <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                                         </div>
@@ -89,7 +89,7 @@
                                                         {{ question.getAnswers.2.text }}
                                                     {% endif %}
                                                     {% if question.getAnswers.2.image %}
-                                                        {% set imageSrcC = question.getAnswers.2.image starts with 'http' ? question.getAnswers.2.image : asset(question.getAnswers.2.image) %}
+                                                        {% set imageSrcC = versioned_image_url(question.getAnswers.2.image, quiz) %}
                                                         <div class="{% if question.getAnswers.2.text|trim is not empty %}mt-2{% endif %}">
                                                             <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                                         </div>
@@ -101,7 +101,7 @@
                                                         {{ question.getAnswers.3.text }}
                                                     {% endif %}
                                                     {% if question.getAnswers.3.image %}
-                                                        {% set imageSrcD = question.getAnswers.3.image starts with 'http' ? question.getAnswers.3.image : asset(question.getAnswers.3.image) %}
+                                                        {% set imageSrcD = versioned_image_url(question.getAnswers.3.image, quiz) %}
                                                         <div class="{% if question.getAnswers.3.text|trim is not empty %}mt-2{% endif %}">
                                                             <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid rounded" style="max-height: 140px; width: auto; object-fit: contain;">
                                                         </div>

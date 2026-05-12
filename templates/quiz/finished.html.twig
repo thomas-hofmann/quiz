@@ -94,7 +94,7 @@
                                     <h4 class="mb-3 mt-3">{{ question.text }}</h4>
                                 {% endif %}
                                 {% if question.image %}
-                                    {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                                    {% set questionImageSrc = versioned_image_url(question.image, quiz) %}
                                     <img src="{{ questionImageSrc }}" alt="Fragebild {{ questionIndex + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
                                 {% endif %}
                                 <strong class="fs-3 position-absolute top-0 end-0 pe-2 pt-1">
@@ -119,7 +119,7 @@
                                             {{ answer.text }}
                                         {% endif %}
                                         {% if answer.image %}
-                                            {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                                            {% set imageSrc = versioned_image_url(answer.image, quiz) %}
                                             <div class="{% if answer.text|trim is not empty %}mt-2{% endif %}">
                                                 <img src="{{ imageSrc }}" alt="Antwortbild {{ letters[answerIndex] }}" class="img-fluid rounded answer-result-image {% if answer.isCorrect %}answer-result-image--correct{% endif %}">
                                             </div>

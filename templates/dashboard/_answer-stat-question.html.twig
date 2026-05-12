@@ -21,7 +21,7 @@
             <h4 class="mb-3 mt-3">{{ entry.question.text }}</h4>
         {% endif %}
         {% if entry.question.image %}
-            {% set questionImageSrc = entry.question.image starts with 'http' ? entry.question.image : asset(entry.question.image) %}
+            {% set questionImageSrc = versioned_image_url(entry.question.image, quiz) %}
             <img src="{{ questionImageSrc }}" alt="Fragebild {{ index + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
         {% endif %}
     </div>
@@ -32,7 +32,7 @@
                 {{ entry.answerOne.object.text }}
             {% endif %}
             {% if entry.answerOne.object.image %}
-                {% set imageSrcA = entry.answerOne.object.image starts with 'http' ? entry.answerOne.object.image : asset(entry.answerOne.object.image) %}
+                {% set imageSrcA = versioned_image_url(entry.answerOne.object.image, quiz) %}
                 <div class="{% if entry.answerOne.object.text|trim is not empty %}mt-2{% endif %}">
                     <img src="{{ imageSrcA }}" alt="Antwortbild A" class="img-fluid rounded answer-result-image {% if entry.answerOne.object.isCorrect %}answer-result-image--correct{% endif %}">
                 </div>
@@ -45,7 +45,7 @@
                 {{ entry.answerTwo.object.text }}
             {% endif %}
             {% if entry.answerTwo.object.image %}
-                {% set imageSrcB = entry.answerTwo.object.image starts with 'http' ? entry.answerTwo.object.image : asset(entry.answerTwo.object.image) %}
+                {% set imageSrcB = versioned_image_url(entry.answerTwo.object.image, quiz) %}
                 <div class="{% if entry.answerTwo.object.text|trim is not empty %}mt-2{% endif %}">
                     <img src="{{ imageSrcB }}" alt="Antwortbild B" class="img-fluid rounded answer-result-image {% if entry.answerTwo.object.isCorrect %}answer-result-image--correct{% endif %}">
                 </div>
@@ -58,7 +58,7 @@
                 {{ entry.answerThree.object.text }}
             {% endif %}
             {% if entry.answerThree.object.image %}
-                {% set imageSrcC = entry.answerThree.object.image starts with 'http' ? entry.answerThree.object.image : asset(entry.answerThree.object.image) %}
+                {% set imageSrcC = versioned_image_url(entry.answerThree.object.image, quiz) %}
                 <div class="{% if entry.answerThree.object.text|trim is not empty %}mt-2{% endif %}">
                     <img src="{{ imageSrcC }}" alt="Antwortbild C" class="img-fluid rounded answer-result-image {% if entry.answerThree.object.isCorrect %}answer-result-image--correct{% endif %}">
                 </div>
@@ -71,7 +71,7 @@
                 {{ entry.answerFour.object.text }}
             {% endif %}
             {% if entry.answerFour.object.image %}
-                {% set imageSrcD = entry.answerFour.object.image starts with 'http' ? entry.answerFour.object.image : asset(entry.answerFour.object.image) %}
+                {% set imageSrcD = versioned_image_url(entry.answerFour.object.image, quiz) %}
                 <div class="{% if entry.answerFour.object.text|trim is not empty %}mt-2{% endif %}">
                     <img src="{{ imageSrcD }}" alt="Antwortbild D" class="img-fluid rounded answer-result-image {% if entry.answerFour.object.isCorrect %}answer-result-image--correct{% endif %}">
                 </div>

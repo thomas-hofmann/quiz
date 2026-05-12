@@ -57,7 +57,7 @@
                             {% endif %}
                         </p>
                         {% if question.image %}
-                            {% set questionImageSrc = question.image starts with 'http' ? question.image : asset(question.image) %}
+                            {% set questionImageSrc = versioned_image_url(question.image, quiz) %}
                             <img src="{{ questionImageSrc }}" alt="Fragebild {{ loop.index }}" class="img-fluid rounded mb-2" style="max-height: 140px; width: auto; object-fit: contain;">
                         {% endif %}
                         <div class="row">
@@ -67,7 +67,7 @@
                                         <li class="list-group-item{% if answer.isCorrect %} list-group-item-success{% endif %}">
                                             {{ answer.text }}
                                             {% if answer.image %}
-                                                {% set imageSrc = answer.image starts with 'http' ? answer.image : asset(answer.image) %}
+                                                {% set imageSrc = versioned_image_url(answer.image, quiz) %}
                                                 <img src="{{ imageSrc }}" alt="Antwortbild" class="img-fluid rounded" style="max-height: 120px;">
                                             {% endif %}
                                         </li>
