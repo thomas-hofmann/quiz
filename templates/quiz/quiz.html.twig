@@ -109,13 +109,13 @@
             <div class="question p-3 border rounded shadow quiz__overlay--z-index" data-aos="zoom-in">
                 <p class="text-center mb-0 fw-bold">{{ quiz.name }}</p>
                 <p class="text-center mb-0"><small>{{ index + 1 }} von {{ shuffledQuestions|length }} | <span class="{% if rightIndex > 0 %}text-success{% else %}text-danger{% endif %}"><i class="fa-regular fa-circle-check "></i> {{ rightIndex }}</span></small></p>
-                <div class="fs-2 lead question__text mt-3 mb-4">
+                <div class="fs-2 lead question__text {% if question.question.text|length > 120 %}question__text--long{% endif %} mt-3 mb-4">
                     {% if question.question.text|trim is not empty %}
                         <div>{{ question.question.text }}</div>
                     {% endif %}
                     {% if question.question.image %}
                         {% set questionImageSrc = versioned_image_url(question.question.image, quiz) %}
-                        <img src="{{ questionImageSrc }}" alt="Fragebild" class="img-fluid rounded mt-2" style="max-height: 240px; width: auto; object-fit: contain;">
+                        <img src="{{ questionImageSrc }}" alt="Fragebild" class="question__image img-fluid rounded mt-2">
                     {% endif %}
                 </div>
                 <form action="{{ path('quiz') }}" method="post" id="quiz-form">

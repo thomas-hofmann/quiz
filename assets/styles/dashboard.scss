@@ -86,6 +86,22 @@
     }
 }
 
+.dashboard-question-preview-image {
+    display: block;
+    width: auto;
+    max-width: min(100%, 520px);
+    max-height: 220px;
+    object-fit: contain;
+}
+
+.dashboard-answer-preview-image {
+    display: block;
+    width: auto;
+    max-width: min(100%, 320px);
+    max-height: 120px;
+    object-fit: contain;
+}
+
 .quiz__image-link-wrapper {
     max-width: 620px;
 }

@@ -64,9 +64,9 @@ input[type="checkbox"]:checked + .answer__label {
 
 .answer__image {
     display: block;
-    width: min(100%, 320px);
-    height: 220px;
-    max-width: 320px;
+    width: auto;
+    height: auto;
+    max-width: min(92%, 520px);
     max-height: 220px;
     object-fit: contain;
     user-select: none;
@@ -132,6 +132,23 @@ input[type="checkbox"]:checked + .answer__label {
 .question__text {
     font-weight: 600;
     line-height: 1.1;
+}
+
+.question__image {
+    display: block;
+    width: auto;
+    max-width: min(100%, 820px);
+    max-height: 320px;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.question__text--long {
+    .question__image {
+        max-width: min(100%, 620px);
+        max-height: 240px;
+    }
 }
 
 .question__answer-1 {
@@ -319,6 +336,32 @@ input[type="checkbox"]:checked + .answer__label {
 
 .question-stats-finished {
     padding: .5rem 35px .5rem 30px;
+}
+
+.finished-question-image {
+    display: block;
+    width: auto;
+    max-width: min(100%, 780px);
+    max-height: 300px;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.finished-question-image--long-text {
+    max-width: min(100%, 620px);
+    max-height: 220px;
+}
+
+.question-stats-finished .answer-result-image,
+.question-stats-li .answer-result-image {
+    display: block;
+    width: auto;
+    max-width: min(86%, 520px);
+    max-height: 150px;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .finished__button-row {

@@ -17,12 +17,13 @@
                 {{ entry.percent|round }}%
             </span>
         </div>
+        {% set hasLongQuestionText = entry.question.text|length > 120 %}
         {% if entry.question.text|trim is not empty %}
             <h4 class="mb-3 mt-3">{{ entry.question.text }}</h4>
         {% endif %}
         {% if entry.question.image %}
             {% set questionImageSrc = versioned_image_url(entry.question.image, quiz) %}
-            <img src="{{ questionImageSrc }}" alt="Fragebild {{ index + 1 }}" class="img-fluid rounded mb-2" style="max-height: 180px; width: auto; object-fit: contain;">
+            <img src="{{ questionImageSrc }}" alt="Fragebild {{ index + 1 }}" class="finished-question-image {% if hasLongQuestionText %}finished-question-image--long-text{% endif %} img-fluid rounded mb-2">
         {% endif %}
     </div>
     <ul class="list-group mb-3">

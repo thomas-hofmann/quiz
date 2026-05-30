@@ -23,7 +23,7 @@
                     <input class="form-control form-control-sm quiz__image-link-input" type="url" id="question-image" name="question-image" maxlength="2048" placeholder="https://cdn.example.com/question.jpg" value="{{ question.image }}">
                     {% if question.image %}
                         {% set questionImageSrc = versioned_image_url(question.image, question.quiz) %}
-                        <img src="{{ questionImageSrc }}" alt="Fragebild" class="img-fluid rounded mt-2" style="max-height: 160px; width: auto; object-fit: contain;">
+                        <img src="{{ questionImageSrc }}" alt="Fragebild" class="dashboard-question-preview-image img-fluid rounded mt-2">
                     {% endif %}
                 </div>
                 {% for answer in question.getAnswers %}
@@ -44,7 +44,7 @@
                         <input class="form-control form-control-sm quiz__image-link-input" type="url" id="answer{{ index }}-image" name="answer{{ index }}-image" maxlength="2048" placeholder="https://cdn.example.com/answer-{{ index }}.jpg" value="{{ answer.image }}">
                         {% if answer.image %}
                             {% set imageSrc = versioned_image_url(answer.image, question.quiz) %}
-                            <img src="{{ imageSrc }}" alt="Antwortbild {{ index }}" class="img-fluid rounded mt-2" style="max-height: 120px;">
+                            <img src="{{ imageSrc }}" alt="Antwortbild {{ index }}" class="dashboard-answer-preview-image img-fluid rounded mt-2">
                         {% endif %}
                     </div>
                 {% endfor %}

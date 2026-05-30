@@ -58,7 +58,7 @@
                         </p>
                         {% if question.image %}
                             {% set questionImageSrc = versioned_image_url(question.image, quiz) %}
-                            <img src="{{ questionImageSrc }}" alt="Fragebild {{ loop.index }}" class="img-fluid rounded mb-2" style="max-height: 140px; width: auto; object-fit: contain;">
+                            <img src="{{ questionImageSrc }}" alt="Fragebild {{ loop.index }}" class="dashboard-question-preview-image img-fluid rounded mb-2">
                         {% endif %}
                         <div class="row">
                             <div class="col-12 col-md-8">
@@ -68,7 +68,7 @@
                                             {{ answer.text }}
                                             {% if answer.image %}
                                                 {% set imageSrc = versioned_image_url(answer.image, quiz) %}
-                                                <img src="{{ imageSrc }}" alt="Antwortbild" class="img-fluid rounded" style="max-height: 120px;">
+                                                <img src="{{ imageSrc }}" alt="Antwortbild" class="dashboard-answer-preview-image img-fluid rounded">
                                             {% endif %}
                                         </li>
                                     {% endfor %}
